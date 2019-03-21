@@ -69,7 +69,7 @@
     },
     {
         "ParameterKey": "HANAInstallMedia",
-        "ParameterValue": "s3://sap-sw/hana20-s03-r33/"
+        "ParameterValue": "s3://howard-sap-sw/hana20-s03-r33/"
     },
     {
         "ParameterKey": "HostedZoneName",
@@ -145,7 +145,7 @@
     },
     {
         "ParameterKey": "SAPInstallMediaBucket",
-        "ParameterValue": "sap-sw"
+        "ParameterValue": "howard-sap-sw"
     },
     {
         "ParameterKey": "SAPInstallMediaKeyPrefix",
