@@ -4,14 +4,14 @@ global:
   qsname: quickstart-sap-s4-hana
   regions:
     - ap-northeast-1
+    - ap-southeast-1
     - eu-west-1
-    - us-east-1
-    - us-west-1
+    - eu-west-2
   reporting: true
 tests:
   develop:
     regions:
-      - us-east-1
-      - us-west-1
+      - eu-west-1
+      - eu-west-2
     template_file: sap-s4hana-new-vpc.template
     parameter_input: sap-s4hana-new.json
