@@ -145,7 +145,7 @@
     },
     {
         "ParameterKey": "SAPInstallMediaBucket",
-        "ParameterValue": "sap-sw"
+        "ParameterValue": "asap-sw"
     },
     {
         "ParameterKey": "SAPInstallMediaKeyPrefix",
