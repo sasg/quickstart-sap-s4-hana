@@ -1,27 +1,20 @@
 global:
   marketplace-ami: false
-  owner: quickstart-eng@amazon.com
+  owner: howlee@amazon.com
   qsname: quickstart-sap-s4-hana
   regions:
     - ap-northeast-1
-    - ap-northeast-2
-    - ap-south-1
-    - ap-southeast-1
-    - ap-southeast-2
-    - ca-central-1
-    - eu-central-1
     - eu-west-1
-    - sa-east-1
     - us-east-1
-    - us-east-2
     - us-west-1
-    - us-west-2
   reporting: true
- 
 tests:
-  quickstart-sap-s4-hanat1:
-    parameter_input: quickstart-sap-s4-hana-example-params1.json
-    template_file: quickstart-sap-s4-hana-example1.template
-  quickstart-sap-s4-hanat2:
-    parameter_input: quickstart-sap-s4-hana-example-params2.json
-    template_file: quickstart-sap-s4-hana-example2.template
+  sap-s4-new-vpc-t1:
+    parameter_input: sap-s4hana-new.json
+    template_file: sap-s4hana-new-vpc.template
+  sap-s4-exg-vpc-t2:
+    parameter_input: sap-s4hana-exg.json
+    template_file: sap-s4hana-exg-vpc.template
+  sap-s4-std-t3:
+    parameter_input: sap-s4hana-std.json
+    template_file: sap-s4hana-standard.template
