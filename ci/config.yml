@@ -9,9 +9,8 @@ global:
     - eu-west-2
   reporting: true
 tests:
-  develop:
+  newvpc:
     regions:
-      - eu-west-1
       - eu-west-2
     template_file: sap-s4hana-new-vpc.template
     parameter_input: sap-s4hana-new.json
