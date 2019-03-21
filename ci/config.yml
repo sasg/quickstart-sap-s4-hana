@@ -15,4 +15,4 @@ tests:
     regions:
       - us-west-1
     template_file: sap-s4hana-new-vpc.template
-    parameter_input: sap-s4hana-new.json
+    parameter_input: s4hana-new.json
