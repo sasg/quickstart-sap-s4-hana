@@ -11,7 +11,7 @@ global:
 tests:
   new-vpc-t1:
      regions:
-     - us-east-1
-     - us-west-1
-    parameter_input: sap-s4hana-new.json
+       - us-east-1
+       - us-west-1
     template_file: sap-s4hana-new-vpc.template
+    parameter_input: sap-s4hana-new.json
