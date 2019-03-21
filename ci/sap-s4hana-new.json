@@ -65,11 +65,11 @@
     },
     {
         "ParameterKey": "KeyName",
-        "ParameterValue": "howard-s4-tc"
+        "ParameterValue": "$[taskcat_getkeypair]"
     },
     {
         "ParameterKey": "HANAInstallMedia",
-        "ParameterValue": "s3://howard-sap-sw/hana20-s03-r33/"
+        "ParameterValue": "s3://$[taskcat_getmediabucket]/hana20-s03-r33/"
     },
     {
         "ParameterKey": "HostedZoneName",
@@ -145,7 +145,7 @@
     },
     {
         "ParameterKey": "SAPInstallMediaBucket",
-        "ParameterValue": "howard-sap-sw"
+        "ParameterValue": "$[taskcat_getmediabucket]"
     },
     {
         "ParameterKey": "SAPInstallMediaKeyPrefix",
