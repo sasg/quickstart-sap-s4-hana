@@ -145,11 +145,11 @@
     },
     {
         "ParameterKey": "SAPInstallMediaBucket",
-        "ParameterValue": "$[taskcat_getmediabucket]"
+        "ParameterValue": "sap-sw"
     },
     {
         "ParameterKey": "SAPInstallMediaKeyPrefix",
-        "ParameterValue": "s4hana-1809/s4-1809/"
+        "ParameterValue": "s4hana-1809/"
     },
     {
         "ParameterKey": "InstallSAPAAS",
