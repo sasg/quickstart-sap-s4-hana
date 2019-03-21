@@ -65,7 +65,7 @@
     },
     {
         "ParameterKey": "KeyName",
-        "ParameterValue": "$[taskcat_getkeypair]"
+        "ParameterValue": "howard-s4-tc"
     },
     {
         "ParameterKey": "HANAInstallMedia",
