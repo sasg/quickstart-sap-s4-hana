@@ -1,6 +1,6 @@
 global:
   marketplace-ami: false
-  owner: howlee@amazon.com
+  owner: howlee
   qsname: quickstart-sap-s4-hana
   regions:
     - ap-northeast-1
