@@ -65,7 +65,7 @@
     },
     {
         "ParameterKey": "KeyName",
-        "ParameterValue": "ci-key]"
+        "ParameterValue": "ci-key"
     },
     {
         "ParameterKey": "HANAInstallMedia",
