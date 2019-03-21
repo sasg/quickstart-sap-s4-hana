@@ -179,10 +179,7 @@
         "ParameterKey": "BASTIONInstanceType",
         "ParameterValue": "m4.large"
     },
-    {
-        "ParameterKey":"QSS3BucketName",
-        "ParameterValue":"$[taskcat_autobucket]"
-    }
+
     
     
    
