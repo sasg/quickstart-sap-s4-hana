@@ -4,136 +4,56 @@
         "ParameterValue": "$[taskcat_getaz_2]"
     },
     {
-        "ParameterKey": "AutoRecoveryAAS",
-        "ParameterValue": "Yes"
-    },
-    {
-        "ParameterKey": "AutoRecoveryPAS",
-        "ParameterValue": "Yes"
-    },
-    {
-        "ParameterKey": "AASMyInstanceType",
-        "ParameterValue": "r4.large"
-    },
-    {
-        "ParameterKey": "BASTIONInstanceType",
-        "ParameterValue": "m4.large"
-    },
-    {
-        "ParameterKey": "DistributedInstall",
-        "ParameterValue": "No"
-    },
-    {
-        "ParameterKey": "EFSSapmnt",
-        "ParameterValue": "No"
-    },
-    {
-        "ParameterKey": "Encryption",
-        "ParameterValue": "No"
-    },
-    {
-        "ParameterKey": "HostedZoneName",
-        "ParameterValue": "$[taskcat_genuuid].local"
-    },
-    {
-        "ParameterKey": "SAPInstallMediaBucket",
-        "ParameterValue": "$[taskcat_getmediabucket]"
-    },
-    {
-        "ParameterKey": "SAPInstallMediaKeyPrefix",
-        "ParameterValue": "sap/netweaver/abap/750/"
-    },
-    {
-        "ParameterKey": "HANAInstallMedia",
-        "ParameterValue": "s3://$[taskcat_getmediabucket]/sap/hana/sps12/"
-    },
-    {
-        "ParameterKey": "HANAMasterPass",
-        "ParameterValue": "SAP9nineaws"
-    },
-    {
-        "ParameterKey": "InstallSAP",
-        "ParameterValue": "Yes"
-    },
-    {
-        "ParameterKey": "InstallSAPVersion",
-        "ParameterValue": "SAP-NetWeaver-7.5"
-    },
-    {
-        "ParameterKey": "InstallSAPAAS",
-        "ParameterValue": "Yes"
-    },
-    {
-        "ParameterKey": "InstallRDPAndBastionInstance",
-        "ParameterValue": "Yes"
-    },
-    {
-        "ParameterKey": "KeyName",
-        "ParameterValue": "$[taskcat_getkeypair]"
-    },
-    {
-        "ParameterKey": "HANAInstanceType",
-        "ParameterValue": "r4.2xlarge"
-    },
-    {
-        "ParameterKey": "MyOS",
-        "ParameterValue": "SuSE-Linux-12-SP3-HVM"
-    },
-    {
-        "ParameterKey": "MyOSHANA",
-        "ParameterValue": "SuSE-Linux-12-SP3-HVM"
+        "ParameterKey": "VPCCIDR",
+        "ParameterValue": "10.90.0.0/16"
     },
     {
         "ParameterKey": "PrivateSubnet1CIDR",
-        "ParameterValue": "10.0.0.0/19"
+        "ParameterValue": "10.90.0.0/19"
     },
     {
         "ParameterKey": "PrivateSubnet2CIDR",
-        "ParameterValue": "10.0.32.0/19"
+        "ParameterValue": "10.90.32.0/19"
     },
     {
         "ParameterKey": "PublicSubnet1CIDR",
-        "ParameterValue": "10.0.128.0/20"
+        "ParameterValue": "10.90.128.0/20"
     },
     {
         "ParameterKey": "PublicSubnet2CIDR",
-        "ParameterValue": "10.0.144.0/20"
-    },
-    {
-        "ParameterKey": "RDPInstanceType",
-        "ParameterValue": "m4.large"
+        "ParameterValue": "10.90.144.0/20"
     },
     {
         "ParameterKey": "RemoteAccessCIDR",
         "ParameterValue": "10.0.0.0/16"
     },
     {
-        "ParameterKey": "SAPInstanceNum",
-        "ParameterValue": "00"
-    },
-    {
-        "ParameterKey": "SAPAASHostname",
-        "ParameterValue": "sapaas00"
+        "ParameterKey": "MyOSHANA",
+        "ParameterValue": "SuSE-Linux-12-SP3-For-SAP-HVM"
     },
     {
         "ParameterKey": "SAPHANAHostname",
-        "ParameterValue": "saphanaqs"
+        "ParameterValue": "siddbmas"
     },
     {
-        "ParameterKey": "SAPPASHostname",
-        "ParameterValue": "sappas00"
+        "ParameterKey": "HANAInstanceType",
+        "ParameterValue": "r4.4xlarge"
     },
     {
-        "ParameterKey": "SAPTZ",
-        "ParameterValue": "UC"
+        "ParameterKey": "HANAHostCount",
+        "ParameterValue": "1"
     },
     {
         "ParameterKey": "SID",
-        "ParameterValue": "HDB"
+        "ParameterValue": "SDB"
     },
     {
-        "ParameterKey": "SIDadmUID",
-        "ParameterValue": "2001"
+        "ParameterKey": "HANAMasterPass",
+        "ParameterValue": "Whyme123"
+    },
+    {
+        "ParameterKey": "Encryption",
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "VolumeTypeHanaData",
@@ -144,11 +64,142 @@
         "ParameterValue": "gp2"
     },
     {
-        "ParameterKey": "VPCCIDR",
-        "ParameterValue": "10.0.0.0/16"
+        "ParameterKey": "KeyName",
+        "ParameterValue": "howard-s4-tc"
     },
     {
-        "ParameterKey":"QSS3BucketName",
-        "ParameterValue":"$[taskcat_autobucket]"
-    }
+        "ParameterKey": "HANAInstallMedia",
+        "ParameterValue": "s3://sap-sw/hana20-s03-r33/"
+    },
+    {
+        "ParameterKey": "HostedZoneName",
+        "ParameterValue": "$[taskcat_genuuid].local"
+    },
+    {
+        "ParameterKey": "StandardInstall",
+        "ParameterValue": "Yes"
+    },
+    {
+        "ParameterKey": "DistributedInstall",
+        "ParameterValue": "No"
+    },
+    {
+        "ParameterKey": "MyOS",
+        "ParameterValue": "SuSE-Linux-12-SP3-For-SAP-HVM"
+    },
+    {
+        "ParameterKey": "EFSSapmnt",
+        "ParameterValue": "No"
+    },
+    {
+        "ParameterKey": "SAPASCSHostname",
+        "ParameterValue": "sidpas00"
+    },
+    {
+        "ParameterKey": "StbySAPASCS",
+        "ParameterValue": "No"
+    },
+    {
+        "ParameterKey": "SAPPASHostname",
+        "ParameterValue": "sidpas00"
+    },
+    {
+        "ParameterKey": "MyInstanceType",
+        "ParameterValue": "r4.large"
+    },
+    {
+        "ParameterKey": "ASCSMyInstanceType",
+        "ParameterValue": "r4.large"
+    },
+    {
+        "ParameterKey": "AutoRecoveryPAS",
+        "ParameterValue": "Yes"
+    },
+    {
+        "ParameterKey": "InstallSAP",
+        "ParameterValue": "Yes"
+    },
+    {
+        "ParameterKey": "InstallSAPVersion",
+        "ParameterValue": "S/4HANA-1809"
+    },
+    {
+        "ParameterKey": "SAPSchemaName",
+        "ParameterValue": "SAPHANADB"
+    },
+    {
+        "ParameterKey": "SAPSID",
+        "ParameterValue": "S4H"
+    },
+    {
+        "ParameterKey": "SAPInstanceNum",
+        "ParameterValue": "02"
+    },
+    {
+        "ParameterKey": "SIDadmUID",
+        "ParameterValue": "2001"
+    },
+    {
+        "ParameterKey": "SAPTZ",
+        "ParameterValue": "UC"
+    },
+    {
+        "ParameterKey": "SAPInstallMediaBucket",
+        "ParameterValue": "sap-sw"
+    },
+    {
+        "ParameterKey": "SAPInstallMediaKeyPrefix",
+        "ParameterValue": "s4hana-1809/s4-1809/"
+    },
+    {
+        "ParameterKey": "InstallSAPAAS",
+        "ParameterValue": "Yes"
+    },
+    {
+        "ParameterKey": "SAPAASHostname",
+        "ParameterValue": "sidapp00"
+    },
+    {
+        "ParameterKey": "AASMyInstanceType",
+        "ParameterValue": "r4.large"
+    },
+    {
+        "ParameterKey": "AutoRecoveryAAS",
+        "ParameterValue": "Yes"
+    },
+    {
+        "ParameterKey": "InstallRDPAndBastionInstance",
+        "ParameterValue": "No"
+    },
+    {
+        "ParameterKey": "RDPInstanceType",
+        "ParameterValue": "m4.large"
+    },
+    {
+        "ParameterKey": "BASTIONInstanceType",
+        "ParameterValue": "m4.large"
+    },
+
+    
+    
+   
+   
+   
+   
+    
+    
+    
+    
+    
+    
+   
+   
+    
+    
+    
+    
+   
+    
+    
+        
 ]

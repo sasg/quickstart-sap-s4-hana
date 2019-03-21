@@ -12,5 +12,5 @@ tests:
   newvpc:
     regions:
       - eu-west-2
-    template_file: sap-s4hana-new-vpc.template
-    parameter_input: sap-s4hana-new.json
+    template_file: sap-s4hana-standard.template
+    parameter_input: sap-s4hana-std.json
