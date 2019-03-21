@@ -65,7 +65,7 @@
     },
     {
         "ParameterKey": "KeyName",
-        "ParameterValue": "$[taskcat_getkeypair]"
+        "ParameterValue": "ci-key]"
     },
     {
         "ParameterKey": "HANAInstallMedia",
