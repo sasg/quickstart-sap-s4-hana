@@ -65,7 +65,7 @@
     },
     {
         "ParameterKey": "KeyName",
-        "ParameterValue": "howard-s4-tc"
+        "ParameterValue": "howard_NoCal"
     },
     {
         "ParameterKey": "HANAInstallMedia",
