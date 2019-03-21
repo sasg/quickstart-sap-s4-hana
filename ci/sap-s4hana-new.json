@@ -121,7 +121,7 @@
     },
     {
         "ParameterKey": "InstallSAPVersion",
-        "ParameterValue": "S4HANA-1809"
+        "ParameterValue": "S/4HANA-1809"
     },
     {
         "ParameterKey": "SAPSchemaName",
