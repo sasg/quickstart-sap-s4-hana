@@ -9,9 +9,9 @@ global:
     - us-west-1
   reporting: true
 tests:
-  new-vpc-t1:
-     regions:
-       - us-east-1
-       - us-west-1
+  develop:
+    regions:
+      - us-east-1
+      - us-west-1
     template_file: sap-s4hana-new-vpc.template
     parameter_input: sap-s4hana-new.json
