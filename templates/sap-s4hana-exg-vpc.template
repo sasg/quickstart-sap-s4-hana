@@ -48,7 +48,7 @@
                 },
                 {
                     "Label": {
-                        "default": "SAP S/4HANA Cluster setup and configuration"
+                        "default": "SAP S/4HANA ABAP Cluster setup and configuration"
                     },
                     "Description": {
                         "default": ""
@@ -147,10 +147,10 @@
                     "default": "S3 bucket for HANA s/w."
                 },
                 "HANAInstanceType": {
-                    "default": "SAP HANA Server "
+                    "default": "SAP HANA Server"
                 },
                 "HANAMasterPass": {
-                    "default": "SAP HANA DB & S/4HANA ABAP passwor"
+                    "default": "SAP HANA DB & S/4HANA ABAP password"
                 },
                 "HostedZoneName": {
                     "default": "R53 private hosted zone"
@@ -2846,6 +2846,7 @@
                                 "us-west-2",
                                 "eu-west-1",
                                 "eu-central-1",
+                                "ap-southeast-1",
                                 "ap-southeast-2"
                             ],
                             {

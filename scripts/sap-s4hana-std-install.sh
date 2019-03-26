@@ -94,30 +94,6 @@ SAP_SCHEMA_NAME="SAPABAP1"
 #TODO as parameters#
 EFS="No"
 
-#if [ "$INSTALL_SAP_VERSION" == "SAP-NetWeaver-7.4" ]
-#then
-#    PAS_INI_FILE="/sapmnt/SWPM/PASX_D00_Linux_HDB.params"
-#    DB_INI_FILE="/sapmnt/SWPM/DB_00_Linux_HDB.params"
-#    ASCS_PRODUCT="NW_ABAP_ASCS:NW740SR2.HDB.PIHA"
-#    DB_PRODUCT="NW_ABAP_DB:NW740SR2.HDB.PI"
-#    PAS_PRODUCT="NW_ABAP_CI:NW740SR2.HDB.PIHA"
-#    SW_TARGET="/sapmnt/SWPM"
-#    SRC_INI_DIR="/root/install"
-#    SAPINST="/sapmnt/SWPM/sapinst"
-#else
-#    PAS_INI_FILE="/sapmnt/SWPM/NW75/PASX_D00_Linux_HDB.params"
-#    DB_INI_FILE="/sapmnt/SWPM/NW75/DB_00_Linux_HDB.params"
-#    ASCS_PRODUCT="NW_ABAP_ASCS:NW750.HDB.ABAPHA"
-#    DB_PRODUCT="NW_ABAP_DB:NW750.HDB.ABAPHA"
-#    PAS_PRODUCT="NW_ABAP_CI:NW750.HDB.ABAPHA"
-#    SW_TARGET="/sapmnt/SWPM/NW75"
-#    SRC_INI_DIR="/root/install/NW75"
-#    SAPINST="/sapmnt/SWPM/NW75/sapinst"
-#fi
-
-#
-###  Variables below need to be CUSTOMIZED for your environment  ###
-
 
 ###Functions###
 set_tz() {
@@ -227,6 +203,8 @@ set_stdinifile() {
     sed -i  "/archives.downloadBasket/ c\archives.downloadBasket = ${SW_TARGET}/s4-1809" $STD_INI_FILE
     sed -i  "/nwUsers.sidadmPasswod/ c\nwUsers.sidadmPassword = ${MP}" $STD_INI_FILE
     sed -i  "/storageBasedCopy.hdb.systemPassword/ c\storageBasedCopy.hdb.systemPassword = ${MP}" $STD_INI_FILE
+    sed -i  "/NW_HDB_getDBInfo.instanceNumber/ c\NW_HDB_getDBInfo.instanceNumber = ${SAPInstanceNum}" $STD_INI_FILE
+    sed -i  "/storageBasedCopy.hdb.instanceNumber/ c\storageBasedCopy.hdb.instanceNumber = ${SAPInstanceNum}" $STD_INI_FILE
     echo "NW_HDB_DB.abapSchemaName = ${SAP_SCHEMA_NAME}" >> $STD_INI_FILE
     echo "NW_HDB_DB.abapSchemaPassword = ${MP}" >> $STD_INI_FILE
 }
@@ -294,10 +272,7 @@ set_dbinifile() {
 
     #set the db server hostname
     sed -i  "/NW_HDB_getDBInfo.dbhost/ c\NW_HDB_getDBInfo.dbhost = ${DBHOSTNAME}" $DB_INI_FILE
-    
-    # Remove - This is set to "true" in S4/HANA db.params file
-    #sed -i  "/hdb.create.dbacockpit.user/ c\hdb.create.dbacockpit.user = false" $DB_INI_FILE
-
+        
     #set the password from the SSM parameter store
     sed -i  "/NW_HDB_getDBInfo.systemPassword/ c\NW_HDB_getDBInfo.systemPassword = ${MP}" $DB_INI_FILE
     sed -i  "/storageBasedCopy.hdb.systemPassword/ c\storageBasedCopy.hdb.systemPassword = ${MP}" $DB_INI_FILE
@@ -305,8 +280,7 @@ set_dbinifile() {
     sed -i  "/NW_GetMasterPassword.masterPwd/ c\NW_GetMasterPassword.masterPwd = ${MP}" $DB_INI_FILE
     sed -i  "/NW_HDB_DB.abapSchemaPassword/ c\NW_HDB_DB.abapSchemaPassword = ${MP}" $DB_INI_FILE
     sed -i  "/NW_HDB_getDBInfo.systemDbPassword/ c\NW_HDB_getDBInfo.systemDbPassword = ${MP}" $DB_INI_FILE
-    
-    # Add - This is set in S4/HANA db.params file
+       
     sed -i  "/NW_Recovery_Install_HDB.sidAdmPassword/ c\NW_Recovery_Install_HDB.sidAdmPassword = ${MP}" $DB_INI_FILE
 
     #set the SID and Schema
@@ -314,41 +288,27 @@ set_dbinifile() {
     sed -i  "/NW_readProfileDir.profileDir/ c\NW_readProfileDir.profileDir = /sapmnt/${SAP_SID}/profile" $DB_INI_FILE
     sed -i  "/NW_HDB_DB.abapSchemaName/ c\NW_HDB_DB.abapSchemaName = ${SAP_SCHEMA_NAME}" $DB_INI_FILE
     
-    # Remove - This is commented out in S4/HANA db.params file
-    #sed -i  "/HDB_Schema_Check_Dialogs.schemaName/ c\HDB_Schema_Check_Dialogs.schemaName = ${SAP_SCHEMA_NAME}" $DB_INI_FILE
-
     #set the UID and GID
     sed -i  "/nwUsers.sidAdmUID/ c\nwUsers.sidAdmUID = ${SIDadmUID}" $DB_INI_FILE
     sed -i  "/nwUsers.sapsysGID/ c\nwUsers.sapsysGID = ${SAPsysGID}" $DB_INI_FILE
-
-    # Remove - These are set through parameter "archives.downloadBasket" in S4/HANA db.params file
-    #set the CD location based on $SW_TARGET
-    #sed -i  "/SAPINST.CD.PACKAGE.KERNEL/ c\SAPINST.CD.PACKAGE.KERNEL = ${SW_TARGET}/KERN_CD" $DB_INI_FILE
-    #sed -i  "/SAPINST.CD.PACKAGE.RDBMS/ c\SAPINST.CD.PACKAGE.RDBMS = ${SW_TARGET}/HDB_CLNTCD" $DB_INI_FILE
-    #sed -i  "/SAPINST.CD.PACKAGE.LOAD/ c\SAPINST.CD.PACKAGE.LOAD = ${SW_TARGET}/EXP_CD" $DB_INI_FILE
-
-    # Add - These 3 are set in S4/HANA db.params file
+       
     sed -i  "/archives.downloadBasket/ c\archives.downloadBasket = ${SW_TARGET}/s4-1809" $DB_INI_FILE
     sed -i  "/NW_Recovery_Install_HDB.extractLocation/ c\NW_Recovery_Install_HDB.extractLocation = /backup/data/${SAP_SID}" $DB_INI_FILE
     sed -i  "/NW_Recovery_Install_HDB.sidAdmName/ c\NW_Recovery_Install_HDB.sidAdmName = ${SIDADM}" $DB_INI_FILE
+    sed -i  "/storageBasedCopy.hdb.instanceNumber/ c\storageBasedCopy.hdb.instanceNumber = ${SAPInstanceNum}" $DB_INI_FILE
+    sed -i  "/NW_HDB_getDBInfo.instanceNumber/ c\NW_HDB_getDBInfo.instanceNumber = ${SAPInstanceNum}" $DB_INI_FILE
 }
 
 set_pasinifile() {
 #set the vname of the database server in the INI file
-
-    # Remove - "true" is the default value for S4/HANA in pas.params file
-    #sed -i  "/hdb.create.dbacockpit.user/ c\hdb.create.dbacockpit.user = true" $PAS_INI_FILE
-
+    
     #set the password from the SSM parameter store
     sed -i  "/NW_GetMasterPassword.masterPwd/ c\NW_GetMasterPassword.masterPwd = ${MP}" $PAS_INI_FILE
-    # Remove - This is not in S4/HANA pas.params file
-    #sed -i  "/NW_HDB_getDBInfo.systemPassword/ c\NW_HDB_getDBInfo.systemPassword = ${MP}" $PAS_INI_FILE
     sed -i  "/storageBasedCopy.hdb.systemPassword/ c\storageBasedCopy.hdb.systemPassword = ${MP}" $PAS_INI_FILE
     sed -i  "/storageBasedCopy.abapSchemaPassword/ c\storageBasedCopy.abapSchemaPassword = ${MP}" $PAS_INI_FILE
     sed -i  "/HDB_Schema_Check_Dialogs.schemaPassword/ c\HDB_Schema_Check_Dialogs.schemaPassword = ${MP}" $PAS_INI_FILE
     sed -i  "/NW_HDB_getDBInfo.systemDbPassword/ c\NW_HDB_getDBInfo.systemDbPassword = ${MP}" $PAS_INI_FILE
-
-    # Add - These 2 are set in S4/HANA pas.params file
+    
     sed -i  "/nwUsers.sidadmPasswod/ c\nwUsers.sidadmPassword = ${MP}" $PAS_INI_FILE
     sed -i  "/hostAgent.sapAdmPassword/ c\hostAgent.sapAdmPassword = ${MP}" $PAS_INI_FILE
 
@@ -362,15 +322,11 @@ set_pasinifile() {
     sed -i  "/nwUsers.sidAdmUID/ c\nwUsers.sidAdmUID = ${SIDadmUID}" $PAS_INI_FILE
     sed -i  "/nwUsers.sapsysGID/ c\nwUsers.sapsysGID = ${SAPsysGID}" $PAS_INI_FILE
 
-    #set the CD location based on $SW_TARGET
-    #sed -i  "/SAPINST.CD.PACKAGE.KERNEL/ c\SAPINST.CD.PACKAGE.KERNEL = ${SW_TARGET}/KERN_CD" $PAS_INI_FILE
-    #sed -i  "/SAPINST.CD.PACKAGE.RDBMS/ c\SAPINST.CD.PACKAGE.RDBMS = ${SW_TARGET}/HDB_CLNTCD" $PAS_INI_FILE
-    #sed -i  "/SAPINST.CD.PACKAGE.LOAD/ c\SAPINST.CD.PACKAGE.LOAD = ${SW_TARGET}/EXP_CD" $PAS_INI_FILE
-
     sed -i  "/archives.downloadBasket/ c\archives.downloadBasket = ${SW_TARGET}/s4-1809" $PAS_INI_FILE
     sed -i  "/NW_getFQDN.FQDN/ c\NW_getFQDN.FQDN = ${HOSTED_ZONE}" $PAS_INI_FILE
     sed -i  "/NW_CI_Instance.ciVirtualHostname/ c\NW_CI_Instance.ciVirtualHostname = ${HOSTNAME}" $PAS_INI_FILE
-    sed -i  "/NW_CI_Instance.ascsVirtualHostname/ c\NW_CI_Instance.ascsVirtualHostname = ${HOSTNAME}" $PAS_INI_FILE    
+    sed -i  "/NW_CI_Instance.ascsVirtualHostname/ c\NW_CI_Instance.ascsVirtualHostname = ${HOSTNAME}" $PAS_INI_FILE   
+    sed -i  "/storageBasedCopy.hdb.instanceNumber/ c\storageBasedCopy.hdb.instanceNumber = ${SAPInstanceNum}" $PAS_INI_FILE 
 }
 
 set_cleanup_inifiles() {
@@ -380,9 +336,7 @@ set_cleanup_inifiles() {
     sed -i  "/nwUsers.sidadmPasswod/ c\nwUsers.sidadmPassword = ${MP}" $PAS_INI_FILE
 
     sed -i  "/NW_GetMasterPassword.masterPwd/ c\NW_GetMasterPassword.masterPwd = ${MP}" $PAS_INI_FILE
-    # Remove - This is not in S4/HANA pas.params file
-    #sed -i  "/NW_HDB_getDBInfo.systemPassword/ c\NW_HDB_getDBInfo.systemPassword = ${MP}" $PAS_INI_FILE
-    sed -i  "/storageBasedCopy.hdb.systemPassword/ c\storageBasedCopy.hdb.systemPassword = ${MP}" $PAS_INI_FILE
+        sed -i  "/storageBasedCopy.hdb.systemPassword/ c\storageBasedCopy.hdb.systemPassword = ${MP}" $PAS_INI_FILE
     sed -i  "/storageBasedCopy.abapSchemaPassword/ c\storageBasedCopy.abapSchemaPassword = ${MP}" $PAS_INI_FILE
     sed -i  "/HDB_Schema_Check_Dialogs.schemaPassword/ c\HDB_Schema_Check_Dialogs.schemaPassword = ${MP}" $PAS_INI_FILE
     sed -i  "/NW_HDB_getDBInfo.systemPassword/ c\NW_HDB_getDBInfo.systemPassword = ${MP}" $DB_INI_FILE

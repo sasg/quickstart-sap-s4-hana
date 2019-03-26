@@ -4,6 +4,10 @@
         "ParameterValue": "$[taskcat_getaz_2]"
     },
     {
+        "ParameterKey": "QSS3BucketName",
+        "ParameterValue": "$[taskcat_autobucket]"
+    },
+    {
         "ParameterKey": "VPCCIDR",
         "ParameterValue": "10.90.0.0/16"
     },
@@ -25,7 +29,7 @@
     },
     {
         "ParameterKey": "RemoteAccessCIDR",
-        "ParameterValue": "0.0.0.0/0"
+        "ParameterValue": "10.0.0.0/16"
     },
     {
         "ParameterKey": "MyOSHANA",
@@ -65,11 +69,11 @@
     },
     {
         "ParameterKey": "KeyName",
-        "ParameterValue": "howard_NoCal"
+        "ParameterValue": "howard-s4-tc"
     },
     {
         "ParameterKey": "HANAInstallMedia",
-        "ParameterValue": "s3://asap-sw/hana20-s03-r33/"
+        "ParameterValue": "s3://howard-s4-sw/hana20-s03-r33/"
     },
     {
         "ParameterKey": "HostedZoneName",
@@ -81,7 +85,7 @@
     },
     {
         "ParameterKey": "DistributedInstall",
-        "ParameterValue": "No"
+        "ParameterValue": "Yes"
     },
     {
         "ParameterKey": "MyOS",
@@ -93,11 +97,11 @@
     },
     {
         "ParameterKey": "SAPASCSHostname",
-        "ParameterValue": "sidpas00"
+        "ParameterValue": "sidasc00"
     },
     {
         "ParameterKey": "StbySAPASCS",
-        "ParameterValue": "No"
+        "ParameterValue": "Yes"
     },
     {
         "ParameterKey": "SAPPASHostname",
@@ -145,7 +149,7 @@
     },
     {
         "ParameterKey": "SAPInstallMediaBucket",
-        "ParameterValue": "asap-sw"
+        "ParameterValue": "howard-s4-sw"
     },
     {
         "ParameterKey": "SAPInstallMediaKeyPrefix",

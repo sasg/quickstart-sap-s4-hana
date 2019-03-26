@@ -1,0 +1,186 @@
+[
+    {
+        "ParameterKey": "AvailabilityZones",
+        "ParameterValue": "$[taskcat_getaz_2]"
+    },
+    {
+        "ParameterKey": "QSS3BucketName",
+        "ParameterValue": "$[taskcat_autobucket]"
+    },
+    {
+        "ParameterKey": "VPCCIDR",
+        "ParameterValue": "10.90.0.0/16"
+    },
+    {
+        "ParameterKey": "PrivateSubnet1CIDR",
+        "ParameterValue": "10.90.0.0/19"
+    },
+    {
+        "ParameterKey": "PrivateSubnet2CIDR",
+        "ParameterValue": "10.90.32.0/19"
+    },
+    {
+        "ParameterKey": "PublicSubnet1CIDR",
+        "ParameterValue": "10.90.128.0/20"
+    },
+    {
+        "ParameterKey": "PublicSubnet2CIDR",
+        "ParameterValue": "10.90.144.0/20"
+    },
+    {
+        "ParameterKey": "RemoteAccessCIDR",
+        "ParameterValue": "10.0.0.0/16"
+    },
+    {
+        "ParameterKey": "MyOSHANA",
+        "ParameterValue": "SuSE-Linux-12-SP3-For-SAP-HVM"
+    },
+    {
+        "ParameterKey": "SAPHANAHostname",
+        "ParameterValue": "siddbmas"
+    },
+    {
+        "ParameterKey": "HANAInstanceType",
+        "ParameterValue": "r4.4xlarge"
+    },
+    {
+        "ParameterKey": "HANAHostCount",
+        "ParameterValue": "1"
+    },
+    {
+        "ParameterKey": "SID",
+        "ParameterValue": "SDB"
+    },
+    {
+        "ParameterKey": "HANAMasterPass",
+        "ParameterValue": "Whyme123"
+    },
+    {
+        "ParameterKey": "Encryption",
+        "ParameterValue": "No"
+    },
+    {
+        "ParameterKey": "VolumeTypeHanaData",
+        "ParameterValue": "gp2"
+    },
+    {
+        "ParameterKey": "VolumeTypeHanaLog",
+        "ParameterValue": "gp2"
+    },
+    {
+        "ParameterKey": "KeyName",
+        "ParameterValue": "howard-s4-tc"
+    },
+    {
+        "ParameterKey": "HANAInstallMedia",
+        "ParameterValue": "s3://howard-s4-sw/hana20-s03-r33/"
+    },
+    {
+        "ParameterKey": "HostedZoneName",
+        "ParameterValue": "$[taskcat_genuuid].local"
+    },
+    {
+        "ParameterKey": "StandardInstall",
+        "ParameterValue": "Yes"
+    },
+    {
+        "ParameterKey": "DistributedInstall",
+        "ParameterValue": "No"
+    },
+    {
+        "ParameterKey": "MyOS",
+        "ParameterValue": "SuSE-Linux-12-SP3-For-SAP-HVM"
+    },
+    {
+        "ParameterKey": "EFSSapmnt",
+        "ParameterValue": "No"
+    },
+    {
+        "ParameterKey": "SAPASCSHostname",
+        "ParameterValue": "sidasc00"
+    },
+    {
+        "ParameterKey": "StbySAPASCS",
+        "ParameterValue": "Yes"
+    },
+    {
+        "ParameterKey": "SAPPASHostname",
+        "ParameterValue": "sidpas00"
+    },
+    {
+        "ParameterKey": "MyInstanceType",
+        "ParameterValue": "r4.large"
+    },
+    {
+        "ParameterKey": "ASCSMyInstanceType",
+        "ParameterValue": "r4.large"
+    },
+    {
+        "ParameterKey": "AutoRecoveryPAS",
+        "ParameterValue": "Yes"
+    },
+    {
+        "ParameterKey": "InstallSAP",
+        "ParameterValue": "Yes"
+    },
+    {
+        "ParameterKey": "InstallSAPVersion",
+        "ParameterValue": "S/4HANA-1809"
+    },
+    {
+        "ParameterKey": "SAPSchemaName",
+        "ParameterValue": "SAPHANADB"
+    },
+    {
+        "ParameterKey": "SAPSID",
+        "ParameterValue": "S4H"
+    },
+    {
+        "ParameterKey": "SAPInstanceNum",
+        "ParameterValue": "02"
+    },
+    {
+        "ParameterKey": "SIDadmUID",
+        "ParameterValue": "2001"
+    },
+    {
+        "ParameterKey": "SAPTZ",
+        "ParameterValue": "UC"
+    },
+    {
+        "ParameterKey": "SAPInstallMediaBucket",
+        "ParameterValue": "howard-s4-sw"
+    },
+    {
+        "ParameterKey": "SAPInstallMediaKeyPrefix",
+        "ParameterValue": "s4hana-1809/"
+    },
+    {
+        "ParameterKey": "InstallSAPAAS",
+        "ParameterValue": "No"
+    },
+    {
+        "ParameterKey": "SAPAASHostname",
+        "ParameterValue": "sidapp00"
+    },
+    {
+        "ParameterKey": "AASMyInstanceType",
+        "ParameterValue": "r4.large"
+    },
+    {
+        "ParameterKey": "AutoRecoveryAAS",
+        "ParameterValue": "Yes"
+    },
+    {
+        "ParameterKey": "InstallRDPAndBastionInstance",
+        "ParameterValue": "No"
+    },
+    {
+        "ParameterKey": "RDPInstanceType",
+        "ParameterValue": "m4.large"
+    },
+    {
+        "ParameterKey": "BASTIONInstanceType",
+        "ParameterValue": "m4.large"
+    }
+]
