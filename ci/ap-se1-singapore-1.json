@@ -93,7 +93,7 @@
     },
     {
         "ParameterKey": "EFSSapmnt",
-        "ParameterValue": "No"
+        "ParameterValue": "Yes"
     },
     {
         "ParameterKey": "SAPASCSHostname",

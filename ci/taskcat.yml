@@ -26,11 +26,11 @@ tests:
       - us-west-1
     template_file: sap-s4hana-new-vpc.template
     parameter_input: us-west1-california.json
-  4-split-Ne-Ya:
+  4-split-Ye-Ya:
     regions:
       - us-west-1
     template_file: sap-s4hana-new-vpc.template
-    parameter_input: us-west1-california.json
+    parameter_input: us-west1-california-1.json
   7-split-Ne-ya:
     regions:
       - eu-west-1
@@ -40,7 +40,7 @@ tests:
     regions:
       - us-west-1
     template_file: sap-s4hana-new-vpc.template
-    parameter_input: us-west1-california.json
+    parameter_input: us-west1-california-2.json
   8-Nsplit-Ne-Ya:
     regions:
       - ap-southeast-1
@@ -50,9 +50,9 @@ tests:
     regions:
       - ap-southeast-1
     template_file: sap-s4hana-new-vpc.template
-    parameter_input: ap-se1-singapore.json 
+    parameter_input: ap-se1-singapore-1.json 
   9-Nsplit-Ne-Na:
     regions:
       - eu-west-1
     template_file: sap-s4hana-new-vpc.template
-    parameter_input: eu-ew1-ireland.json
+    parameter_input: eu-ew1-ireland-1.json

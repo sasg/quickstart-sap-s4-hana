@@ -29,7 +29,7 @@
     },
     {
         "ParameterKey": "RemoteAccessCIDR",
-        "ParameterValue": "10.0.0.0/16"
+        "ParameterValue": "0.0.0.0/0"
     },
     {
         "ParameterKey": "MyOSHANA",
@@ -101,7 +101,7 @@
     },
     {
         "ParameterKey": "StbySAPASCS",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "SAPPASHostname",
@@ -117,7 +117,7 @@
     },
     {
         "ParameterKey": "AutoRecoveryPAS",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "InstallSAP",
@@ -137,7 +137,7 @@
     },
     {
         "ParameterKey": "SAPInstanceNum",
-        "ParameterValue": "02"
+        "ParameterValue": "00"
     },
     {
         "ParameterKey": "SIDadmUID",
@@ -157,7 +157,7 @@
     },
     {
         "ParameterKey": "InstallSAPAAS",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "SAPAASHostname",
@@ -169,7 +169,7 @@
     },
     {
         "ParameterKey": "AutoRecoveryAAS",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "InstallRDPAndBastionInstance",

@@ -9,23 +9,23 @@
     },
     {
         "ParameterKey": "VPCCIDR",
-        "ParameterValue": "10.90.0.0/16"
+        "ParameterValue": "10.30.0.0/16"
     },
     {
         "ParameterKey": "PrivateSubnet1CIDR",
-        "ParameterValue": "10.90.0.0/19"
+        "ParameterValue": "10.30.0.0/19"
     },
     {
         "ParameterKey": "PrivateSubnet2CIDR",
-        "ParameterValue": "10.90.32.0/19"
+        "ParameterValue": "10.30.32.0/19"
     },
     {
         "ParameterKey": "PublicSubnet1CIDR",
-        "ParameterValue": "10.90.128.0/20"
+        "ParameterValue": "10.30.128.0/20"
     },
     {
         "ParameterKey": "PublicSubnet2CIDR",
-        "ParameterValue": "10.90.144.0/20"
+        "ParameterValue": "10.30.144.0/20"
     },
     {
         "ParameterKey": "RemoteAccessCIDR",
@@ -81,11 +81,11 @@
     },
     {
         "ParameterKey": "StandardInstall",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "DistributedInstall",
-        "ParameterValue": "No"
+        "ParameterValue": "Yes"
     },
     {
         "ParameterKey": "MyOS",
@@ -117,7 +117,7 @@
     },
     {
         "ParameterKey": "AutoRecoveryPAS",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "InstallSAP",
@@ -169,7 +169,7 @@
     },
     {
         "ParameterKey": "AutoRecoveryAAS",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "InstallRDPAndBastionInstance",
