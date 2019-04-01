@@ -573,7 +573,7 @@
             }, {
                 "Condition": "UseEFS" 
             }]
-        },
+        }
     },
     "Mappings": {
         "SAPHANAOSNameMap": {
