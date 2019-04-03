@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "Deploy SAP S/4HANA ABAP Cluster (ASCS, PAS & DB instance) + AAS",
+    "Description": "Deploy SAP S/4HANA ABAP Cluster (ASCS, PAS & DB instance) + AAS (qs-1pfasf6sr)",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [{

@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "Deploy SAP HANA + App Server Cluster (ASCS, PAS & DB instance) + Additional App Server",
+    "Description": "Deploy SAP HANA + App Server Cluster (ASCS, PAS & DB instance) + Additional App Server (qs-1pfasf6t3)",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
