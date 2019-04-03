@@ -114,13 +114,13 @@
             ],
             "ParameterLabels": {
                 "AASMyInstanceType": {
-                    "default": "SAP Additional App Server instance type"
+                    "default": "SAP additional app server instance type"
                 },
                 "ApplicationCIDR": {
                     "default": "2nd Private Subnet ID"
                 },
                 "AutoRecoveryPAS": {
-                    "default": "EC2 Auto Recovery"
+                    "default": "EC2 auto recovery"
                 },
                 "CloudTrailS3Bucket": {
                     "default": "S3 bucket for AWS CloudTrail & AWS Config logs"
@@ -129,7 +129,7 @@
                     "default": "Use EFS for /sapmnt"
                 },
                 "StandardInstall": {
-                    "default": "ASCS, PAS, DB in one host (Standard installation)"
+                    "default": "ASCS, PAS, DB in one host (standard installation)"
                 },
                 "EFSFSName": {
                     "default": "Existing EFS fs name"
@@ -147,7 +147,7 @@
                     "default": "S3 bucket for HANA s/w."
                 },
                 "HANAInstanceType": {
-                    "default": "SAP HANA Server"
+                    "default": "SAP HANA server"
                 },
                 "HANAMasterPass": {
                     "default": "SAP HANA DB & S/4HANA ABAP password"
@@ -165,19 +165,19 @@
                     "default": "SAP S/4HANA version"
                 },
                 "InstallSAPAAS": {
-                    "default": "Install SAP Additional App Server"
+                    "default": "Install SAP additional app server"
                 },
                 "KeyName": {
                     "default": "SSH key pair"
                 },
                 "MyInstanceType": {
-                    "default": "SAP Primary App Server"
+                    "default": "SAP primary app server"
                 },
                 "MyOS": {
-                    "default": "O.S. version for SAP Servers (SLES only)"
+                    "default": "O.S. version for SAP servers (SLES only)"
                 },
                 "MyOSHANA": {
-                    "default": "O.S. version for SAP HANA Servers"
+                    "default": "O.S. version for SAP HANA servers"
                 },
                 "PrivateSubnetID": {
                     "default": "AAS Private Subnet ID"
@@ -207,16 +207,16 @@
                     "default": "S3 key prefix for the Quick Start assets"
                 },
                 "RDPInstanceType": {
-                    "default": "RDP Instance type"
+                    "default": "RDP instance type"
                 },
                 "SAPPASHostname": {
-                    "default": "SAP PAS Server host name (i.e. sidpas00)"
+                    "default": "SAP PAS server host name (i.e. sidpas00)"
                 },
                 "SAPAASHostname": {
-                    "default": "SAP AAS Server host name (i.e. sidapp00)"
+                    "default": "SAP AAS server host name (i.e. sidapp00)"
                 },
                 "SAPHANAHostname": {
-                    "default": "SAP HANA Server host name (i.e. siddbmas)"
+                    "default": "SAP HANA server host name (i.e. siddbmas)"
                 },
                 "SAPInstallMediaBucket": {
                     "default": "S3 bucket for SAP s/w"
@@ -240,16 +240,16 @@
                     "default": "SIDadm user id"
                 },
                 "SAPTZ": {
-                    "default": "SAP Server timezone"
+                    "default": "SAP server timezone"
                 },
                 "SLESBYOSRegCode": {
-                    "default": "Enter SUSE BYOS Registration Code"
+                    "default": "Enter SUSE BYOS registration code"
                 },
                 "VolumeTypeHanaData": {
-                    "default": "Choose storage volume type for SAP HANA Data"
+                    "default": "Choose storage volume type for SAP HANA data"
                 },
                 "VolumeTypeHanaLog": {
-                    "default": "Choose storage volume type for SAP HANA Log"
+                    "default": "Choose storage volume type for SAP HANA log"
                 },
                 "VPCID": {
                     "default": "VPC ID"

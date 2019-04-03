@@ -116,7 +116,7 @@
             ],
             "ParameterLabels": {
                 "AASMyInstanceType": {
-                    "default": "SAP Additional App Server instance type"
+                    "default": "SAP additional app server instance type"
                 },
                 "ASCSMyInstanceType": {
                     "default": "SAP ASCS instance type"
@@ -125,10 +125,10 @@
                     "default": "Availability Zones"
                 },
                 "AutoRecoveryAAS": {
-                    "default": "AAS EC2 Auto Recovery"
+                    "default": "AAS EC2 auto recovery"
                 },
                 "AutoRecoveryPAS": {
-                    "default": "PAS EC2 Auto Recovery"
+                    "default": "PAS EC2 auto recovery"
                 },
                 "BASTIONInstanceType": {
                     "default": "Bastion host"
@@ -137,10 +137,10 @@
                     "default": "S3 bucket for AWS CloudTrail & AWS Config logs"
                 },
                 "DistributedInstall": {
-                    "default": "Split the ASCS and PAS (Distributed installation)"
+                    "default": "Split the ASCS and PAS (distributed installation)"
                 },
                 "StandardInstall": {
-                    "default": "ASCS, PAS and DB in one host (Standard installation)"
+                    "default": "ASCS, PAS and DB in one host (standard installation)"
                 },
                 "EFSSapmnt": {
                     "default": "Use EFS for /sapmnt"
@@ -158,7 +158,7 @@
                     "default": "S3 bucket for HANA DB s/w."
                 },
                 "HANAInstanceType": {
-                    "default": "SAP HANA Server "
+                    "default": "SAP HANA server "
                 },
                 "HANAMasterPass": {
                     "default": "SAP HANA DB & S/4HANA ABAP password"
@@ -167,7 +167,7 @@
                     "default": "R53 private hosted zone"
                 },
                 "InstallRDPAndBastionInstance": {
-                    "default": "Install RDP and Bastion"
+                    "default": "Install RDP and bastion"
                 },
                 "InstallSAP": {
                     "default": "Install SAP software"
@@ -176,16 +176,16 @@
                     "default": "S/4HANA version"
                 },
                 "InstallSAPAAS": {
-                    "default": "Install SAP Additional App Server"
+                    "default": "Install SAP additional app server"
                 },
                 "KeyName": {
                     "default": "SSH key pair"
                 },
                 "MyInstanceType": {
-                    "default": "SAP PAS Server instance type"
+                    "default": "SAP PAS server instance type"
                 },
                 "MyOS": {
-                    "default": "O.S. version for S/4HANA Servers (SLES only)"
+                    "default": "O.S. version for S/4HANA servers (SLES only)"
                 },
                 "MyOSHANA": {
                     "default": "Operating system version for HANA (RHEL or SLES)"
@@ -212,19 +212,19 @@
                     "default": "RDP instance"
                 },
                 "RemoteAccessCIDR": {
-                    "default": "CIDR block for RDP & Bastion access"
+                    "default": "CIDR block for RDP & bastion access"
                 },
                 "SAPAASHostname": {
-                    "default": "SAP AAS Server host name (i.e. sidapp00)"
+                    "default": "SAP AAS server host name (i.e. sidapp00)"
                 },
                 "SAPASCSHostname": {
-                    "default": "SAP ASCS Server virtual name (i.e. sidasc00)"
+                    "default": "SAP ASCS server virtual name (i.e. sidasc00)"
                 },
                 "StbySAPASCS": {
-                    "default": "Standby ASCS Server in a different Availability Zone"
+                    "default": "Standby ASCS server in a different Availability Zone"
                 },
                 "SAPHANAHostname": {
-                    "default": "SAP HANA Server host name (i.e. siddbmas)"
+                    "default": "SAP HANA server host name (i.e. siddbmas)"
                 },
                 "SAPInstallMediaBucket": {
                     "default": "S3 bucket for SAP S/4HANA s/w."
@@ -236,10 +236,10 @@
                     "default": "SAP instance number"
                 },
                 "SAPPASHostname": {
-                    "default": "SAP PAS Server host name (i.e. sidpas00)"
+                    "default": "SAP PAS server host name (i.e. sidpas00)"
                 },
                 "SAPTZ": {
-                    "default": "SAP Server timezone"
+                    "default": "SAP server timezone"
                 },
                 "SAPSchemaName": {
                     "default": "SAP database schema"
@@ -254,16 +254,16 @@
                     "default": "SIDadm user id"
                 },
                 "SLESBYOSRegCode": {
-                    "default": "Enter SUSE BYOS Registration Code"
+                    "default": "Enter SUSE BYOS registration code"
                 },
                 "VPCCIDR": {
                     "default": "VPC CIDR"
                 },
                 "VolumeTypeHanaData": {
-                    "default": "Choose storage volume type for SAP HANA Data"
+                    "default": "Choose storage volume type for SAP HANA data"
                 },
                 "VolumeTypeHanaLog": {
-                    "default": "Choose storage volume type for SAP HANA Log"
+                    "default": "Choose storage volume type for SAP HANA log"
                 },
                 "VolumeType": {
                     "default": "EBS storage volume type"
