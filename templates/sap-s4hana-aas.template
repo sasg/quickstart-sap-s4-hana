@@ -2,6 +2,15 @@
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "Deploy SAP Additional Application Server (qs-1no61sjl2)",
     "Metadata": {
+        "AWSAMIRegionMap":{
+            "Filters":{
+                "RHEL73SAPHVM":{
+                    "name":"SAP-7.3_HVM-????????-x86_64-?-Hourly2-GP2-b676039c-a4f8-4be7-9866-c804b1ade684-*",
+                    "owner-alias":"aws-marketplace",
+                    "product-code.type":"marketplace"
+                }
+            }
+        },
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
                 {
