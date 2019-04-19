@@ -89,7 +89,7 @@
     },
     {
         "ParameterKey": "DistributedInstall",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "MyOS",
@@ -97,7 +97,7 @@
     },
     {
         "ParameterKey": "EFSSapmnt",
-        "ParameterValue": "No"
+        "ParameterValue": "Yes"
     },
     {
         "ParameterKey": "SAPASCSHostname",
@@ -105,7 +105,7 @@
     },
     {
         "ParameterKey": "StbySAPASCS",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "SAPPASHostname",
@@ -161,7 +161,7 @@
     },
     {
         "ParameterKey": "InstallSAPAAS",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "SAPAASHostname",

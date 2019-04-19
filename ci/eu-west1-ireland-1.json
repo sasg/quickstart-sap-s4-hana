@@ -89,7 +89,7 @@
     },
     {
         "ParameterKey": "DistributedInstall",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "MyOS",
@@ -161,7 +161,7 @@
     },
     {
         "ParameterKey": "InstallSAPAAS",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "SAPAASHostname",

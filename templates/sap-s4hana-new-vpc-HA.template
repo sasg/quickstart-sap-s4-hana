@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "Deploy SAP S/4HANA ABAP Cluster (ASCS, PAS & DB instance) + AAS (qs-1pfasf6sr)",
+    "Description": "Deploy SAP S/4HANA ABAP Cluster (ASCS, PAS & DB HA instances) + AAS (qs-1pfasf6sr)",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [{
@@ -28,7 +28,6 @@
                         "default": ""
                     },
                     "Parameters": [
-                        "hanaHA",
                         "MyOSHANA",
                         "SLESBYOSRegCode",
                         "SAPHANAHostname",
@@ -189,9 +188,6 @@
                 "MyOS": {
                     "default": "O.S. version for S/4HANA servers (SLES only)"
                 },
-                "hanaHA": {
-                    "default": "Implement HANA for High Availability"
-                },
                 "MyOSHANA": {
                     "default": "Operating system version for HANA (RHEL or SLES)"
                 },
@@ -232,7 +228,7 @@
                     "default": "SAP HANA server host name (i.e. siddbmas)"
                 },
                 "HANAHostnameSecondary": {
-                    "default": "SAP HANA HA server host name for Secondary node (i.e. siddbsec)"
+                    "default": "SAP HANA server host name for Secondary node (i.e. siddbsec)"
                 },
                 "SAPInstallMediaBucket": {
                     "default": "S3 bucket for SAP S/4HANA s/w."
@@ -515,15 +511,6 @@
             "Description": "Instance type for S/4HANA App Server.",
             "Type": "String"
         },
-        "hanaHA": {
-            "AllowedValues": [
-                "Yes",
-                "No"
-            ],
-            "Default": "No",
-            "Description": "Implement (Yes) or don't implement (No) HANA High Availability.",
-            "Type": "String"
-        },
         "MyOS": {
             "AllowedValues": [
                 "SuSE-Linux-11-SP4-HVM",
@@ -544,11 +531,8 @@
         "MyOSHANA": {
             "Type": "String",
             "Description": "Operating system version for HANA DB servers.",
-            "Default": "SuSE-Linux-12-SP3-HVM",
+            "Default": "SuSE-Linux-12-SP3-For-SAP-HVM",
             "AllowedValues": [
-                "Red-Hat-Enterprise-Linux-7.3-For-SAP-HVM",
-                "SuSE-Linux-12-SP1-HVM",
-                "SuSE-Linux-12-SP3-HVM",
                 "SuSE-Linux-12-SP1-For-SAP-HVM",
                 "SuSE-Linux-12-SP2-For-SAP-HVM",
                 "SuSE-Linux-12-SP3-For-SAP-HVM",
@@ -645,7 +629,7 @@
         },
         "HANAHostnameSecondary": {
             "Default": "siddbsec",
-            "Description": "Host name to use for SAP HANA Secondary DB server node (For HANA HA only).",
+            "Description": "Host name to use for SAP HANA Secondary DB server node.",
             "Type": "String"
         },
         "SAPInstallMediaBucket": {
@@ -767,22 +751,6 @@
                 "No"
             ]
         },
-        "UseHA": {
-            "Fn::Equals": [
-                {
-                    "Ref": "hanaHA"
-                },
-                "Yes"
-            ]
-        },
-        "NoHA": {
-            "Fn::Equals": [
-                {
-                    "Ref": "hanaHA"
-                },
-                "No"
-            ]
-        },
         "NoSplitASCS": {
             "Fn::Equals": [{
                     "Ref": "DistributedInstall"
@@ -804,20 +772,11 @@
                 "No"
             ]
         },
-        "InstRDPAndBastNoHA": {
-            "Fn::And": [{
-                "Condition": "InstallRDPAndBastion"
-            }, {
-                "Condition": "NoHA"                       
-            }]
-        },
         "SplitandEFS": {
             "Fn::And": [{
                 "Condition": "SplitASCS"
             }, {
                 "Condition": "NoUseStandard" 
-            }, {
-                "Condition": "NoHA" 
             }, {
                 "Condition": "UseEFS"
             }]
@@ -828,8 +787,6 @@
             }, {
                 "Condition": "NoUseStandard" 
             }, {
-                "Condition": "NoHA" 
-            }, {
                 "Condition": "NoUseEFS"
             }]
         },
@@ -838,8 +795,6 @@
                 "Condition": "NoSplitASCS"
             }, {
                 "Condition": "NoUseStandard" 
-            }, {
-                "Condition": "NoHA" 
             }, {
                 "Condition": "UseEFS"
             }]
@@ -850,8 +805,6 @@
             }, {
                 "Condition": "NoUseStandard" 
             }, {
-                "Condition": "NoHA" 
-            }, {
                 "Condition": "NoUseEFS"
             }]
         },
@@ -861,8 +814,6 @@
             }, {
                 "Condition": "NoUseEFS" 
             }, {
-                "Condition": "NoHA" 
-            }, {
                 "Condition": "UseStandard" 
             }]
         }
@@ -871,7 +822,6 @@
     "Resources": {
         "VPCStack": {
             "Type": "AWS::CloudFormation::Stack",
-            "Condition": "NoHA",
             "Properties": {
                 "TemplateURL": {
                     "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template"
@@ -884,7 +834,7 @@
                                 "Ref": "AvailabilityZones"
                             }
                         ]
-                    },
+                    }, 
                     "KeyPairName": {
                         "Ref": "KeyName"
                     },
@@ -907,10 +857,18 @@
                 }
             }
         },
+        "SingleRTAssociation": {
+            "DependsOn": "VPCStack",
+            "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties" : {
+                "RouteTableId": {"Fn::GetAtt": ["VPCStack", "Outputs.PrivateSubnet1ARouteTable"]},
+                "SubnetId": {"Fn::GetAtt": ["VPCStack", "Outputs.PrivateSubnet2AID"]}
+            }
+        },   
         "LinuxBastionStack": {
             "DependsOn": "VPCStack",
             "Type": "AWS::CloudFormation::Stack",
-            "Condition": "InstRDPAndBastNoHA",
+            "Condition": "InstallRDPAndBastion",
             "Properties": {
                 "TemplateURL": {
                     "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-linux-bastion/templates/linux-bastion.template"
@@ -953,12 +911,11 @@
             }
         },
         "SAPASCSStackSplitandEFS": {
-            "DependsOn": "VPCStack",
             "Type": "AWS::CloudFormation::Stack",
             "Condition": "SplitandEFS",
             "Properties": {
                 "TemplateURL": {
-                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/sap-s4hana-ascs.template"
+                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/sap-s4hana-ascs-HA.template"
                 },
                 "Parameters": {
                     "EFSSapmnt": {
@@ -993,6 +950,9 @@
                     },
                     "MyOS": {
                         "Ref": "MyOS"
+                    },
+                    "MyOSHANA": {
+                        "Ref": "MyOSHANA"
                     },
                     "ApplicationCIDR": {
                         "Fn::GetAtt": [
@@ -1088,12 +1048,11 @@
             }
         },
         "SAPASCSStackSplitNoEFS": {
-            "DependsOn": "VPCStack",
             "Type": "AWS::CloudFormation::Stack",
             "Condition": "SplitandNoEFS",
             "Properties": {
                 "TemplateURL": {
-                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/sap-s4hana-ascs.template"
+                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/sap-s4hana-ascs-HA.template"
                 },
                 "Parameters": {
                     "EFSSapmnt": {
@@ -1128,6 +1087,9 @@
                     },
                     "MyOS": {
                         "Ref": "MyOS"
+                    },
+                    "MyOSHANA": {
+                        "Ref": "MyOSHANA"
                     },
                     "ApplicationCIDR": {
                         "Fn::GetAtt": [
@@ -1585,7 +1547,7 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
-                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/sap-s4hana-exg-vpc.template"
+                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/sap-s4hana-exg-vpc-HA.template"
                 },
                 "Parameters": {
                     "AutoRecoveryAAS": {
@@ -1756,7 +1718,7 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
-                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/sap-s4hana-exg-vpc.template"
+                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/sap-s4hana-exg-vpc-HA.template"
                 },
                 "Parameters": {
                     "AutoRecoveryAAS": {
@@ -2103,186 +2065,17 @@
                     }
                 }
             }
-        },
-        "S4NewVPCHA": {
-            "Type": "AWS::CloudFormation::Stack",
-            "Condition": "UseHA",
-            "Properties": {
-                "TemplateURL": {
-                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/sap-s4hana-new-vpc-HA.template"
-                },
-                "Parameters": {
-                    "AASMyInstanceType": {
-                        "Ref": "AASMyInstanceType"
-                    },
-                    "ASCSMyInstanceType": {
-                        "Ref": "ASCSMyInstanceType"
-                    },
-                    "AutoRecoveryAAS": {
-                        "Ref": "AutoRecoveryAAS"
-                    },
-                    "AutoRecoveryPAS": {
-                        "Ref": "AutoRecoveryPAS"
-                    },
-                    "AvailabilityZones": {
-                        "Fn::Join": [
-                            ",",
-                            {
-                                "Ref": "AvailabilityZones"
-                            }
-                        ]
-                    },
-                    "BASTIONInstanceType": {
-                        "Ref": "BASTIONInstanceType"
-                    },
-                    "CloudTrailS3Bucket": {
-                        "Ref": "CloudTrailS3Bucket"
-                    },
-                    "DistributedInstall": {
-                        "Ref": "DistributedInstall"
-                    },
-                    "EFSSapmnt": {
-                        "Ref": "EFSSapmnt"
-                    },
-                    "EnableLogging": {
-                        "Ref": "EnableLogging"
-                    },
-                    "Encryption": {
-                        "Ref": "Encryption"
-                    },
-                    "HANAHostCount": {
-                        "Ref": "HANAHostCount"
-                    },
-                    "HANAHostnameSecondary": {
-                        "Ref": "HANAHostnameSecondary"
-                    },
-                    "HANAInstallMedia": {
-                        "Ref": "HANAInstallMedia"
-                    },
-                    "HANAInstanceType": {
-                        "Ref": "HANAInstanceType"
-                    },
-                    "HANAMasterPass": {
-                        "Ref": "HANAMasterPass"
-                    },
-                    "HostedZoneName": {
-                        "Ref": "HostedZoneName"
-                    },
-                    "InstallRDPAndBastionInstance": {
-                        "Ref": "InstallRDPAndBastionInstance"
-                    },
-                    "InstallSAP": {
-                        "Ref": "InstallSAP"
-                    },
-                    "InstallSAPAAS": {
-                        "Ref": "InstallSAPAAS"
-                    },
-                    "InstallSAPVersion": {
-                        "Ref": "InstallSAPVersion"
-                    },
-                    "KeyName": {
-                        "Ref": "KeyName"
-                    },
-                    "MyInstanceType": {
-                        "Ref": "MyInstanceType"
-                    },
-                    "MyOS": {
-                        "Ref": "MyOS"
-                    },
-                    "MyOSHANA": {
-                        "Ref": "MyOSHANA"
-                    },
-                    "PrivateSubnet1CIDR": {
-                        "Ref": "PrivateSubnet1CIDR"
-                    },
-                    "PrivateSubnet2CIDR": {
-                        "Ref": "PrivateSubnet2CIDR"
-                    },
-                    "PublicSubnet1CIDR": {
-                        "Ref": "PublicSubnet1CIDR"
-                    },
-                    "PublicSubnet2CIDR": {
-                        "Ref": "PublicSubnet2CIDR"
-                    },
-                    "QSS3BucketName": {
-                        "Ref": "QSS3BucketName"
-                    },
-                    "QSS3KeyPrefix": {
-                        "Ref": "QSS3KeyPrefix"
-                    },
-                    "RDPInstanceType": {
-                        "Ref": "RDPInstanceType"
-                    },
-                    "RemoteAccessCIDR": {
-                        "Ref": "RemoteAccessCIDR"
-                    },
-                    "SAPAASHostname": {
-                        "Ref": "SAPAASHostname"
-                    },
-                    "SAPASCSHostname": {
-                        "Ref": "SAPASCSHostname"
-                    },
-                    "SAPHANAHostname": {
-                        "Ref": "SAPHANAHostname"
-                    },
-                    "SAPInstallMediaBucket": {
-                        "Ref": "SAPInstallMediaBucket"
-                    },
-                    "SAPInstallMediaKeyPrefix": {
-                        "Ref": "SAPInstallMediaKeyPrefix"
-                    },
-                    "SAPInstanceNum": {
-                        "Ref": "SAPInstanceNum"
-                    },
-                    "SAPPASHostname": {
-                        "Ref": "SAPPASHostname"
-                    },
-                    "SAPSchemaName": {
-                        "Ref": "SAPSchemaName"
-                    },
-                    "SAPSID": {
-                        "Ref": "SAPSID"
-                    },
-                    "SAPTZ": {
-                        "Ref": "SAPTZ"
-                    },
-                    "SID": {
-                        "Ref": "SID"
-                    },
-                    "SIDadmUID": {
-                        "Ref": "SIDadmUID"
-                    },
-                    "SLESBYOSRegCode": {
-                        "Ref": "SLESBYOSRegCode"
-                    },
-                    "StandardInstall": {
-                        "Ref": "StandardInstall"
-                    },
-                    "StbySAPASCS": {
-                        "Ref": "StbySAPASCS"
-                    },
-                    "VolumeTypeHanaData": {
-                        "Ref": "VolumeTypeHanaData"
-                    },
-                    "VolumeTypeHanaLog": {
-                        "Ref": "VolumeTypeHanaLog"
-                    },
-                    "VPCCIDR": {
-                        "Ref": "VPCCIDR"
-                    }
-                }
-            }
-        }         
+        }
     },
-    "Rules": {
-        "EFSSupport": {
-            "RuleCondition" : {
-                "Fn::Equals": [{
+  "Rules": {
+    "EFSSupport": {
+        "RuleCondition" : {
+            "Fn::Equals": [{
                     "Ref": "EFSSapmnt"
                 },
                 "Yes"
-                ]
-            },
+            ]
+        },
         "Assertions": [{
             "Assert": {
                 "Fn::Contains": [

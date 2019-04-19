@@ -32,6 +32,10 @@
         "ParameterValue": "10.0.0.0/16"
     },
     {
+        "ParameterKey": "hanaHA",
+        "ParameterValue": "Yes"
+    },
+    {
         "ParameterKey": "MyOSHANA",
         "ParameterValue": "SuSE-Linux-12-SP3-For-SAP-HVM"
     },
@@ -69,7 +73,7 @@
     },
     {
         "ParameterKey": "KeyName",
-        "ParameterValue": "howard-s4-tc"
+        "ParameterValue": "s4-tc"
     },
     {
         "ParameterKey": "HANAInstallMedia",
@@ -85,7 +89,7 @@
     },
     {
         "ParameterKey": "DistributedInstall",
-        "ParameterValue": "No"
+        "ParameterValue": "Yes"
     },
     {
         "ParameterKey": "MyOS",
@@ -93,7 +97,7 @@
     },
     {
         "ParameterKey": "EFSSapmnt",
-        "ParameterValue": "No"
+        "ParameterValue": "Yes"
     },
     {
         "ParameterKey": "SAPASCSHostname",

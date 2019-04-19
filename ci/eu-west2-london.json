@@ -29,7 +29,11 @@
     },
     {
         "ParameterKey": "RemoteAccessCIDR",
-        "ParameterValue": "0.0.0.0/0"
+        "ParameterValue": "10.0.0.0/16"
+    },
+    {
+        "ParameterKey": "hanaHA",
+        "ParameterValue": "Yes"
     },
     {
         "ParameterKey": "MyOSHANA",
@@ -41,7 +45,7 @@
     },
     {
         "ParameterKey": "HANAInstanceType",
-        "ParameterValue": "r4.16xlarge"
+        "ParameterValue": "r4.4xlarge"
     },
     {
         "ParameterKey": "HANAHostCount",
@@ -69,7 +73,7 @@
     },
     {
         "ParameterKey": "KeyName",
-        "ParameterValue": "howard-s4-tc"
+        "ParameterValue": "s4-tc"
     },
     {
         "ParameterKey": "HANAInstallMedia",
@@ -81,7 +85,7 @@
     },
     {
         "ParameterKey": "StandardInstall",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "DistributedInstall",

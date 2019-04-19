@@ -29,7 +29,11 @@
     },
     {
         "ParameterKey": "RemoteAccessCIDR",
-        "ParameterValue": "0.0.0.0/0"
+        "ParameterValue": "10.0.0.0/16"
+    },
+    {
+        "ParameterKey": "hanaHA",
+        "ParameterValue": "Yes"
     },
     {
         "ParameterKey": "MyOSHANA",
@@ -69,7 +73,7 @@
     },
     {
         "ParameterKey": "KeyName",
-        "ParameterValue": "howard-s4-tc"
+        "ParameterValue": "s4-tc"
     },
     {
         "ParameterKey": "HANAInstallMedia",
@@ -85,7 +89,7 @@
     },
     {
         "ParameterKey": "DistributedInstall",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "MyOS",
@@ -93,7 +97,7 @@
     },
     {
         "ParameterKey": "EFSSapmnt",
-        "ParameterValue": "No"
+        "ParameterValue": "Yes"
     },
     {
         "ParameterKey": "SAPASCSHostname",
@@ -117,7 +121,7 @@
     },
     {
         "ParameterKey": "AutoRecoveryPAS",
-        "ParameterValue": "No"
+        "ParameterValue": "Yes"
     },
     {
         "ParameterKey": "InstallSAP",
@@ -137,7 +141,7 @@
     },
     {
         "ParameterKey": "SAPInstanceNum",
-        "ParameterValue": "00"
+        "ParameterValue": "02"
     },
     {
         "ParameterKey": "SIDadmUID",
@@ -169,7 +173,7 @@
     },
     {
         "ParameterKey": "AutoRecoveryAAS",
-        "ParameterValue": "No"
+        "ParameterValue": "Yes"
     },
     {
         "ParameterKey": "InstallRDPAndBastionInstance",

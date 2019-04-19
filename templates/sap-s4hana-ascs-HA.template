@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "Deploy SAP HANA + App Server Cluster (ASCS, PAS & DB instance) + Additional App Server (qs-1pfasf6t3)",
+    "Description": "Deploy SAP ASCS Instance",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
@@ -17,26 +17,24 @@
                         "PrivateSubnet2CIDR",
                         "PublicSubnet1CIDR",
                         "PublicSubnet2CIDR",
-                        "PrivateSubnet1AID",
-                        "ApplicationCIDR",
-                        "PublicSubnet1ID"
+                        "PrivateSubnetID",
+                        "ApplicationCIDR"
                     ]
                 },
                 {
                     "Label": {
-                        "default": "HANA Server and storage configuration"
+                        "default": "HANA DB Server and storage configuration"
                     },
                     "Description": {
                         "default": ""
                     },
                     "Parameters": [
-                        "hanaHA",
                         "MyOSHANA",
                         "SLESBYOSRegCode",
                         "SAPHANAHostname",
+                        "HANAHostnameSecondary",
                         "HANAInstanceType",
                         "HANAHostCount",
-                        "SID",
                         "HANAMasterPass",
                         "Encryption",
                         "VolumeTypeHanaData",
@@ -49,55 +47,40 @@
                 },
                 {
                     "Label": {
-                        "default": "SAP S/4HANA ABAP Cluster setup and configuration"
+                        "default": "Server and storage configuration"
+                    },
+                    "Description": {
+                        "default": ""
+                    },
+                    "Parameters": [
+                        "KeyName"
+                    ]
+                },
+                {
+                    "Label": {
+                        "default": "SAP ASCS setup and configuration"
                     },
                     "Description": {
                         "default": ""
                     },
                     "Parameters": [
                         "HostedZoneName",
-                        "StandardInstall",
-                        "MyOS",
                         "EFSSapmnt",
-                        "SAPPASHostname",
-                        "MyInstanceType",
-                        "AutoRecoveryPAS",
-                        "InstallSAP",
-                        "InstallSAPVersion",
+                        "SAPASCSHostname",
+                        "StbySAPASCS",
+                        "SID",
                         "SAPSchemaName",
-                        "SAPSID",
                         "SAPInstanceNum",
+                        "SAPNetWeaverPass",
                         "SIDadmUID",
                         "SAPTZ",
+                        "MyOS",
+                        "SLESBYOSRegCode",
+                        "MyInstanceType",
                         "SAPInstallMediaBucket",
-                        "SAPInstallMediaKeyPrefix"
-                    ]
-                },
-                {
-                    "Label": {
-                        "default": "SAP S/4HANA Additional App Server setup and configuration"
-                    },
-                    "Description": {
-                        "default": ""
-                    },
-                    "Parameters": [
-                        "InstallSAPAAS",
-                        "SAPAASHostname",
-                        "AASMyInstanceType",
-                        "PrivateSubnetID",
-                        "AutoRecoveryAAS"
-                    ]
-                },
-                {
-                    "Label": {
-                        "default": "Optional configuration"
-                    },
-                    "Description": {
-                        "default": ""
-                    },
-                    "Parameters": [
-                        "InstallRDPInstance",
-                        "RDPInstanceType"
+                        "SAPInstallMediaKeyPrefix",
+                        "InstallSAP",
+                        "InstallSAPVersion"
                     ]
                 },
                 {
@@ -114,47 +97,29 @@
                 }
             ],
             "ParameterLabels": {
-                "AASMyInstanceType": {
-                    "default": "SAP additional app server instance type"
-                },
                 "ApplicationCIDR": {
                     "default": "2nd Private Subnet ID"
                 },
-                "AutoRecoveryPAS": {
-                    "default": "EC2 auto recovery"
-                },
-                "CloudTrailS3Bucket": {
-                    "default": "S3 bucket for AWS CloudTrail & AWS Config logs"
-                },
                 "EFSSapmnt": {
                     "default": "Use EFS for /sapmnt"
-                },
-                "StandardInstall": {
-                    "default": "ASCS, PAS, DB in one host (standard installation)"
-                },
-                "EFSFSName": {
-                    "default": "Existing EFS fs name"
-                },
-                "EnableLogging": {
-                    "default": "Enable AWS CloudTrail & AWS Config logs"
                 },
                 "Encryption": {
                     "default": "Enable encryption"
                 },
                 "HANAHostCount": {
-                    "default": "SAP HANA host count"
+                    "default": "SAP HANA DB host count"
                 },
                 "HANAInstallMedia": {
                     "default": "S3 bucket for HANA s/w."
                 },
                 "HANAInstanceType": {
-                    "default": "SAP HANA server"
+                    "default": "SAP HANA DB Server "
                 },
                 "HANAMasterPass": {
-                    "default": "SAP HANA DB & S/4HANA ABAP password"
+                    "default": "SAP HANA & S/4HANA ABAP password"
                 },
                 "HostedZoneName": {
-                    "default": "R53 private hosted zone"
+                    "default": "R53 private hosted zone name"
                 },
                 "InstallRDPInstance": {
                     "default": "Install RDP"
@@ -163,46 +128,37 @@
                     "default": "Install SAP software"
                 },
                 "InstallSAPVersion": {
-                    "default": "SAP S/4HANA version"
-                },
-                "InstallSAPAAS": {
-                    "default": "Install SAP additional app server"
+                    "default": "S/4HANA version"
                 },
                 "KeyName": {
                     "default": "SSH key pair"
                 },
                 "MyInstanceType": {
-                    "default": "SAP primary app server"
+                    "default": "Choose instance type"
                 },
                 "MyOS": {
-                    "default": "O.S. version for SAP servers (SLES only)"
-                },
-                "hanaHA": {
-                    "default": "Implement HANA for High Availability"
+                    "default": "O.S. version for SAP Servers (SLES only)"
                 },
                 "MyOSHANA": {
-                    "default": "O.S. version for SAP HANA servers"
+                    "default": "O.S. version for SAP HANA Servers"
                 },
                 "PrivateSubnetID": {
-                    "default": "AAS Private Subnet ID"
-                },
-                "PrivateSubnet2CIDR": {
-                    "default": "2nd Private Subnet CIDR"
-                },
-                "PrivateSubnet1CIDR": {
-                    "default": "1st Private Subnet CIDR"
+                    "default": "Private Subnet ID"
                 },
                 "PrivateSubnet1AID": {
                     "default": "1st Private Subnet ID"
                 },
-                "PublicSubnet1ID": {
-                    "default": "1st Public Subnet ID"
+                "PrivateSubnet1CIDR": {
+                    "default": "Private Subnet 1 CIDR"
                 },
-                "PublicSubnet2CIDR": {
-                    "default": "2nd Public Subnet CIDR"
+                "PrivateSubnet2CIDR": {
+                    "default": "Private Subnet 2 CIDR"
                 },
                 "PublicSubnet1CIDR": {
-                    "default": "1st Public Subnet CIDR"
+                    "default": "Public Subnet 1 CIDR"
+                },
+                "PublicSubnet2CIDR": {
+                    "default": "Public Subnet 2 CIDR"
                 },
                 "QSS3BucketName": {
                     "default": "S3 bucket name for the Quick Start assets."
@@ -211,16 +167,22 @@
                     "default": "S3 key prefix for the Quick Start assets"
                 },
                 "RDPInstanceType": {
-                    "default": "RDP instance type"
+                    "default": "RDP Instance type"
                 },
-                "SAPPASHostname": {
-                    "default": "SAP PAS server host name (i.e. sidpas00)"
-                },
-                "SAPAASHostname": {
-                    "default": "SAP AAS server host name (i.e. sidapp00)"
+                "SAPASCSHostname": {
+                    "default": "SAP ASCS Server Virtual hostname"
                 },
                 "SAPHANAHostname": {
-                    "default": "SAP HANA server host name (i.e. siddbmas)"
+                    "default": "SAP HANA DB Server host name (i.e. siddbmas)"
+                },
+                "HANAHostnameSecondary": {
+                    "default": "SAP HANA server host name for Secondary node (i.e. siddbsec)"
+                },
+                "StbySAPASCS": {
+                    "default": "Standby ASCS Server in a different Availability Zone"
+                },
+                "SAPInstanceNum": {
+                    "default": "SAP instance number"
                 },
                 "SAPInstallMediaBucket": {
                     "default": "S3 bucket for SAP s/w"
@@ -228,35 +190,32 @@
                 "SAPInstallMediaKeyPrefix": {
                     "default": "S3 Key Prefix for SAP s/w"
                 },
+                "SAPNetWeaverPass": {
+                    "default": "SAP NetWeaver password"
+                },
+                "SAPTZ": {
+                    "default": "SAP Server timezone"
+                },
                 "SAPSchemaName": {
                     "default": "SAP database schema"
                 },
                 "SID": {
-                    "default": "HANA database system ID"
-                },
-                "SAPSID": {
                     "default": "SAP system ID"
-                },
-                "SAPInstanceNum": {
-                    "default": "SAP instance number"
                 },
                 "SIDadmUID": {
                     "default": "SIDadm user id"
                 },
-                "SAPTZ": {
-                    "default": "SAP server timezone"
-                },
                 "SLESBYOSRegCode": {
-                    "default": "Enter SUSE BYOS registration code"
+                    "default": "Enter SUSE BYOS Registration Code"
                 },
                 "VolumeTypeHanaData": {
-                    "default": "Choose storage volume type for SAP HANA data"
+                    "default": "Choose storage volume type for SAP HANA Data"
                 },
                 "VolumeTypeHanaLog": {
-                    "default": "Choose storage volume type for SAP HANA log"
+                    "default": "Choose storage volume type for SAP HANA Log"
                 },
                 "VPCID": {
-                    "default": "VPC ID"
+                    "default": "Choose VPC ID"
                 }
             }
         }
@@ -265,57 +224,6 @@
         "ApplicationCIDR": {
             "Description": "The existing private subnet #2 in your VPC where you want to deploy SAP App Server Cluster.",
             "Type": "AWS::EC2::Subnet::Id"
-        },
-        "AutoRecoveryAAS": {
-            "Type": "String",
-            "Description": "EC2 Automatic recovery feature",
-            "Default": "Yes",
-            "AllowedValues": [
-                "Yes",
-                "No"
-            ]
-        },
-        "AutoRecoveryPAS": {
-            "Type": "String",
-            "Description": "EC2 Automatic recovery feature",
-            "Default": "Yes",
-            "AllowedValues": [
-                "Yes",
-                "No"
-            ]
-        },
-        "AASMyInstanceType": {
-            "AllowedValues": [
-                "r4.4xlarge",
-                "r4.2xlarge",
-                "r4.xlarge",
-                "r4.large",
-                "m4.4xlarge",
-                "m4.2xlarge",
-                "m4.xlarge",
-                "m4.large",
-                "c4.4xlarge",
-                "c4.2xlarge",
-                "c4.xlarge",
-                "c4.large"
-            ],
-            "Default": "r4.xlarge",
-            "Description": "Instance type for SAP AAS Servers.",
-            "Type": "String"
-        },
-        "StandardInstall": {
-            "Description": "ASCS, PAS and DB in one EC2 Instance (System ID <SID> for HANA DB and S/4HANA must be different).",
-            "Default": "No",
-            "Type": "String",
-            "AllowedValues": [
-                "Yes",
-                "No"
-            ]
-        },
-        "CloudTrailS3Bucket": {
-            "Description": "Name of Amazon S3 bucket where AWS CloudTrail Trail and AWS Config logs can be stored (e.g. mycloudtrail).",
-            "Default": "",
-            "Type": "String"
         },
         "EFSSapmnt": {
             "AllowedValues": [
@@ -326,15 +234,6 @@
             "Description": "Enable (Yes) or disable (No) EFS for /sapmnt.",
             "Type": "String"
         },
-        "EnableLogging": {
-            "Description": "Enable (Yes) or disable (No) logging with AWS CloudTrail and AWS Config",
-            "Default": "No",
-            "Type": "String",
-            "AllowedValues": [
-                "Yes",
-                "No"
-            ]
-        },
         "Encryption": {
             "AllowedValues": [
                 "Yes",
@@ -343,6 +242,14 @@
             "Default": "No",
             "Description": "Enable (Yes) or disable (No) encryption on EBS volumes.",
             "Type": "String"
+        },
+        "HostedZoneName": {
+            "Description": "An *existing* R53 privated hosted zone name e.g. mycompany.local. Hint: See name in Zone Id.",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "64",
+            "AllowedPattern": "(?!-)[a-zA-Z0-9-.]*(?<!-)",
+            "ConstraintDescription": "must be a valid fully-qualified domain name."
         },
         "HANAHostCount": {
             "Default": "1",
@@ -386,18 +293,10 @@
         "HANAMasterPass": {
             "AllowedPattern": "^(?=.*?[a-z])(?=.*?[A-Z])(?=.*[0-9]).*",
             "ConstraintDescription": "This must be at least 8 characters, including uppercase, lowercase, and numeric values.",
-            "Description": "SAP HANA DB and S/4HANA password to use during installations.",
+            "Description": "SAP HANA and S/4HANA ABAP password to use during installation.",
             "MinLength": "8",
             "NoEcho": "true",
             "Type": "String"
-        },
-        "HostedZoneName": {
-            "Description": "A *new* R53 private hosted zone will be created. Use a fully-qualified domain name e.g. mycompany.local",
-            "Type": "String",
-            "MinLength": "1",
-            "MaxLength": "64",
-            "AllowedPattern": "(?!-)[a-zA-Z0-9-.]*(?<!-)",
-            "ConstraintDescription": "must be a valid fully-qualified domain name."
         },
         "InstallRDPInstance": {
             "AllowedValues": [
@@ -414,7 +313,7 @@
                 "No"
             ],
             "Default": "Yes",
-            "Description": "Install (Yes) or don't install (No) SAP App Server. When set to No, *only* AWS infrastructure is provisioned.",
+            "Description": "Install (Yes) or don't install (No) SAP Autoscaling App Servers. When set to No, *only* AWS infrastructure is provisioned.",
             "Type": "String"
         },
         "InstallSAPVersion": {
@@ -425,17 +324,8 @@
                 "S/4HANA-1809"
             ]
         },
-        "InstallSAPAAS": {
-            "AllowedValues": [
-                "Yes",
-                "No"
-            ],
-            "Default": "No",
-            "Description": "Install (Yes) or (No) don't install SAP Additional App Servers. When No, *only* the SAP ASCS, DB & PAS are installed.",
-            "Type": "String"
-        },
         "KeyName": {
-            "Description": "Name of an existing Amazon EC2 key pair. All instances will launch with this key pair.",
+            "Description": "Name of an existing Amazon EC2 key pair. All instances will launched with this key pair.",
             "Type": "AWS::EC2::KeyPair::KeyName"
         },
         "MyInstanceType": {
@@ -453,17 +343,8 @@
                 "c4.xlarge",
                 "c4.large"
             ],
-            "Default": "r4.xlarge",
+            "Default": "r4.large",
             "Description": "Instance type for SAP Servers.",
-            "Type": "String"
-        },
-        "hanaHA": {
-            "AllowedValues": [
-                "Yes",
-                "No"
-            ],
-            "Default": "No",
-            "Description": "Implement (Yes) or don't implement (No) HANA High Availability.",
             "Type": "String"
         },
         "MyOS": {
@@ -486,11 +367,8 @@
         "MyOSHANA": {
             "Type": "String",
             "Description": "Operating system version for HANA servers.",
-            "Default": "SuSE-Linux-12-SP3-HVM",
+            "Default": "SuSE-Linux-12-SP3-For-SAP-HVM",
             "AllowedValues": [
-                "Red-Hat-Enterprise-Linux-7.3-For-SAP-HVM",
-                "SuSE-Linux-12-SP1-HVM",
-                "SuSE-Linux-12-SP3-HVM",
                 "SuSE-Linux-12-SP1-For-SAP-HVM",
                 "SuSE-Linux-12-SP2-For-SAP-HVM",
                 "SuSE-Linux-12-SP3-For-SAP-HVM",
@@ -521,16 +399,16 @@
             "Description": "CIDR block for private subnet 2 located in Availability Zone 2",
             "Type": "String"
         },
+        "PublicSubnet1ID": {
+            "Description": "The existing public subnet #1 in your VPC where your linux bastion and RDP are deployed.",
+            "Type": "AWS::EC2::Subnet::Id"
+        },
         "PublicSubnet1CIDR": {
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28",
             "Default": "10.0.128.0/20",
             "Description": "CIDR block for the public (DMZ) subnet 1 located in Availability Zone 1",
             "Type": "String"
-        },
-        "PublicSubnet1ID": {
-            "Description": "The existing public subnet #1 in your VPC where your linux bastion and RDP are deployed.",
-            "Type": "AWS::EC2::Subnet::Id"
         },
         "PublicSubnet2CIDR": {
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
@@ -564,14 +442,34 @@
             "Description": "Instance type for Windows RDP instance.",
             "Type": "String"
         },
-        "SAPAASHostname": {
-            "Default": "sidapp00",
-            "Description": "Host name to use for SAP AAS Server.",
+        "SAPASCSHostname": {
+            "Default": "sidasc00",
+            "Description": "Virtual Hostname to use for SAP ASCS Server.",
             "Type": "String"
         },
         "SAPHANAHostname": {
             "Default": "siddbmas",
             "Description": "Host name to use for SAP HANA database (SAP App server must be able to access HANA server).",
+            "Type": "String"
+        },
+        "HANAHostnameSecondary": {
+            "Default": "siddbsec",
+            "Description": "Host name to use for SAP HANA Secondary DB server node.",
+            "Type": "String"
+        },
+        "StbySAPASCS": {
+            "AllowedValues": [
+                "Yes",
+                "No"
+            ],
+            "Default": "No",
+            "Description": "Enable (Yes) or disable (No) Standby ASCS instance.",
+            "Type": "String"
+        },
+        "SAPInstanceNum": {
+            "AllowedPattern": "([0-8]{1}[0-9]{1}|[9]{1}[0-7]{1})",
+            "Default": "00",
+            "Description": "SAP instance number to use for installation and setup, and to open ports for security groups.",
             "Type": "String"
         },
         "SAPInstallMediaBucket": {
@@ -584,15 +482,11 @@
             "Description": "Name of your S3 Key Prefix for your SAP NetWeaver s/w. Leave blank if you do not use a Key Prefix",
             "Type": "String"
         },
-        "SAPInstanceNum": {
-            "AllowedPattern": "([0-8]{1}[0-9]{1}|[9]{1}[0-7]{1})",
-            "Default": "00",
-            "Description": "SAP instance number to use for installation and setup, and to open ports for security groups.",
-            "Type": "String"
-        },
-        "SAPPASHostname": {
-            "Default": "sidpas00",
-            "Description": "Host name to use for SAP PAS Server (DNS short name).",
+        "SAPNetWeaverPass": {
+            "ConstraintDescription": "required SAP master password.",
+            "Description": "**Your SAP S/4HANA ABAP password**. **For now this is the same password as your SAP HANA password**",
+            "MinLength": "1",
+            "NoEcho": "true",
             "Type": "String"
         },
         "SAPTZ": {
@@ -607,23 +501,11 @@
             "Description": "The TimeZone of your SAP Server (PT, CT, ET, or UTC)",
             "Type": "String"
         },
-        "SAPSchemaName": {
-            "Default": "SAPHANADB",
-            "Description": "SAP ABAP Schema name for HANA database.",
-            "Type": "String"
-        },
         "SID": {
             "AllowedPattern": "([A-Z]{1}[0-9A-Z]{2})",
             "ConstraintDescription": "This value must consist of 3 characters.",
             "Default": "HDB",
-            "Description": "HANA DB system ID for installation and setup.",
-            "Type": "String"
-        },
-        "SAPSID": {
-            "AllowedPattern": "([A-Z]{1}[0-9A-Z]{2})",
-            "ConstraintDescription": "This value must consist of 3 characters.",
-            "Default": "S4H",
-            "Description": "S/4HANA ABAP system ID for installation and setup (Must be different than the DB SID for Standard installation).",
+            "Description": "SAP system ID for installation and setup.",
             "Type": "String"
         },
         "SIDadmUID": {
@@ -660,30 +542,12 @@
         }
     },
     "Conditions": {
-        "AutoRecoveryMaster": {
-            "Fn::Equals": [
-                {
-                    "Ref": "AutoRecoveryPAS"
-                },
-                "Yes"
-            ]
-        },
         "UseEFS": {
             "Fn::Equals": [
                 {
                     "Ref": "EFSSapmnt"
                 },
                 "Yes"
-            ]
-        },
-        "UseEFSNoHA": {
-             "Fn::And": [
-                {
-                    "Condition": "UseEFS"
-                },
-                {
-                    "Condition": "NoHA"
-                }
             ]
         },
         "NoUseEFS": {
@@ -694,119 +558,31 @@
                 "No"
             ]
         },
-        "InstallRDP": {
+        "UseStandby": {
             "Fn::Equals": [
                 {
-                    "Ref": "InstallRDPInstance"
+                    "Ref": "StbySAPASCS"
                 },
                 "Yes"
             ]
         },
-        "InstallSAPAASCond": {
-            "Fn::Equals": [
-                {
-                    "Ref": "InstallSAPAAS"
-                },
-                "Yes"
-            ]
-        },
-        "UseStandard": {
-            "Fn::Equals": [
-                {
-                    "Ref": "StandardInstall"
-                },
-                "Yes"
-            ]
-        },
-        "NoUseStandard": {
-            "Fn::Equals": [
-                {
-                    "Ref": "StandardInstall"
-                },
-                "No"
-            ]
-        },
-        "UseHA": {
-            "Fn::Equals": [
-                {
-                    "Ref": "hanaHA"
-                },
-                "Yes"
-            ]
-        },
-        "NoHA": {
-            "Fn::Equals": [
-                {
-                    "Ref": "hanaHA"
-                },
-                "No"
-            ]
-        },
-        "NoUseStandardNoHA": {
+        "UseStandbyNoEFS": {
             "Fn::And": [
                 {
-                    "Condition": "NoUseStandard"
-                },
-                {
-                    "Condition": "NoHA"
-                }
-            ]
-        },
-        "NoUseStandardNoUseEFS": {
-            "Fn::And": [
-                {
-                    "Condition": "NoUseStandard"
-                },
-                {
-                    "Condition": "NoHA"
+                    "Condition": "UseStandby"
                 },
                 {
                     "Condition": "NoUseEFS"
                 }
             ]
         },
-        "NoUseStandardNoUseEFSAAS": {
+        "UseStandbyEFS": {
             "Fn::And": [
                 {
-                    "Condition": "NoUseStandard"
-                },
-                {
-                    "Condition": "NoUseEFS"
-                },
-                {
-                    "Condition": "NoHA"
-                },
-                {
-                    "Condition": "InstallSAPAASCond"
-                }
-            ]
-        },
-        "NoUseStandardUseEFS": {
-            "Fn::And": [
-                {
-                    "Condition": "NoUseStandard"
-                },
-                {
-                    "Condition": "NoHA"
+                    "Condition": "UseStandby"
                 },
                 {
                     "Condition": "UseEFS"
-                }
-            ]
-        },
-        "NoUseStandardUseEFSAAS": {
-            "Fn::And": [
-                {
-                    "Condition": "NoUseStandard"
-                },
-                {
-                    "Condition": "UseEFS"
-                },
-                {
-                    "Condition": "NoHA"
-                },
-                {
-                    "Condition": "InstallSAPAASCond"
                 }
             ]
         }
@@ -1108,91 +884,65 @@
             }
         }
     },
+    "Outputs": {
+        "EFSFSName": {
+            "Description": "EFS file system name",
+            "Condition": "UseEFS",
+            "Value": {
+                "Ref": "EFSFileSystem"
+            }
+        },
+        "EFSSapmnt": {
+            "Description": "Use EFS for /sapmnt",
+            "Value": {
+                "Ref": "EFSSapmnt"
+            }
+        },
+        "HostedZoneID": {
+            "Description": "Id. of an *existing* R53 privated hosted zone",
+            "Value": {
+                "Ref": "HostedZone"
+            }
+        },
+        "HostedZoneName": {
+            "Description": "Name of an *existing* R53 privated hosted zone",
+            "Value": {
+                "Ref": "HostedZoneName"
+            }
+        },
+        "R53HANAHostname": {
+            "Description": "SAP HANA Hostname",
+            "Value": {
+                "Ref": "SAPHANAHostname"
+            }
+        },
+        "SAPNetWeaverPassSSMParam": {
+            "Description": "EC2 SSM parameter store for encrypted SAP master password",
+            "Value": {
+                "Ref": "SAPNetWeaverPassSSMParam"
+            }
+        },
+        "SAPASCSSecurityGroup": {
+            "Description": "Security Group created for the SAP ASCS Server",
+            "Value": {
+                "Fn::GetAtt": [
+                    "SAPASCSSecurityGroup",
+                    "GroupId"
+                ]
+            }
+        }
+    },
     "Resources": {
-        "AutoRecoverAlarmMaster": {
-            "Type": "AWS::CloudWatch::Alarm",
-            "DependsOn": "SAPPASInstance",
-            "Condition": "NoUseStandardUseEFS",
-            "Properties": {
-                "AlarmDescription": "Trigger a recovery when instance status check fails for 2 consecutive minutes.",
-                "Namespace": "AWS/EC2",
-                "MetricName": "StatusCheckFailed_System",
-                "Statistic": "Minimum",
-                "Period": "60",
-                "EvaluationPeriods": "2",
-                "ComparisonOperator": "GreaterThanThreshold",
-                "Threshold": "0",
-                "AlarmActions": [
-                    {
-                        "Fn::Join": [
-                            "",
-                            [
-                                "arn:aws:automate:",
-                                {
-                                    "Ref": "AWS::Region"
-                                },
-                                ":ec2:recover"
-                            ]
-                        ]
-                    }
-                ],
-                "Dimensions": [
-                    {
-                        "Name": "InstanceId",
-                        "Value": {
-                            "Ref": "SAPPASInstance"
-                        }
-                    }
-                ]
-            }
-        },
-        "AutoRecoverAlarmMasterNoEFS": {
-            "Type": "AWS::CloudWatch::Alarm",
-            "DependsOn": "SAPPASInstanceNoEFS",
-            "Condition": "NoUseStandardNoUseEFS",
-            "Properties": {
-                "AlarmDescription": "Trigger a recovery when instance status check fails for 2 consecutive minutes.",
-                "Namespace": "AWS/EC2",
-                "MetricName": "StatusCheckFailed_System",
-                "Statistic": "Minimum",
-                "Period": "60",
-                "EvaluationPeriods": "2",
-                "ComparisonOperator": "GreaterThanThreshold",
-                "Threshold": "0",
-                "AlarmActions": [
-                    {
-                        "Fn::Join": [
-                            "",
-                            [
-                                "arn:aws:automate:",
-                                {
-                                    "Ref": "AWS::Region"
-                                },
-                                ":ec2:recover"
-                            ]
-                        ]
-                    }
-                ],
-                "Dimensions": [
-                    {
-                        "Name": "InstanceId",
-                        "Value": {
-                            "Ref": "SAPPASInstanceNoEFS"
-                        }
-                    }
-                ]
-            }
-        },
         "EFSFileSystem": {
             "Type": "AWS::EFS::FileSystem",
-            "Condition": "NoUseStandardUseEFS",
+            "Condition": "UseEFS",
             "Properties": {
                 "PerformanceMode": "generalPurpose",
                 "FileSystemTags": [
                     {
                         "Key": "Name",
                         "Value": {
-                            "Ref": "SAPPASHostname"
+                            "Ref": "SAPASCSHostname"
                         }
                     }
                 ]
@@ -1200,7 +950,7 @@
         },
         "EFSMountTarget1": {
             "Type": "AWS::EFS::MountTarget",
-            "Condition": "NoUseStandardUseEFS",
+            "Condition": "UseEFS",
             "Properties": {
                 "FileSystemId": {
                     "Ref": "EFSFileSystem"
@@ -1210,14 +960,14 @@
                 },
                 "SecurityGroups": [
                     {
-                        "Ref": "SAPPASSecurityGroup"
+                        "Ref": "SAPASCSSecurityGroup"
                     }
                 ]
             }
         },
         "EFSMountTarget2": {
             "Type": "AWS::EFS::MountTarget",
-            "Condition": "NoUseStandardUseEFS",
+            "Condition": "UseEFS",
             "Properties": {
                 "FileSystemId": {
                     "Ref": "EFSFileSystem"
@@ -1227,148 +977,29 @@
                 },
                 "SecurityGroups": [
                     {
-                        "Ref": "SAPPASSecurityGroup"
+                        "Ref": "SAPASCSSecurityGroup"
                     }
                 ]
             }
         },
-        "S4HANAStack": {
-            "Type": "AWS::CloudFormation::Stack",
-            "Condition": "UseStandard",
-            "Properties": {
-                "TemplateURL": {
-                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/sap-s4hana-standard.template"
-                },
-                "Parameters": {
-                    "PrivSubCIDR": {
-                        "Ref": "PrivateSubnet1CIDR"
-                    },
-                    "DMZCIDR": {
-                        "Ref": "PublicSubnet1CIDR"
-                    },
-                    "VPCID": {
-                        "Ref": "VPCID"
-                    },
-                    "HANASubnet": {
-                        "Ref": "PrivateSubnet1AID"
-                    },
-                    "DMZSubnet": {
-                        "Ref": "PublicSubnet1ID"
-                    },
-                    "DomainName": {
-                        "Ref": "HostedZoneName"
-                    },
-                    "RemoteAccessCIDR": "0.0.0.0/0",
-                    "ApplicationCIDR": "0.0.0.0/0",
-                    "HANAMasterHostname": {
-                        "Ref": "SAPHANAHostname"
-                    },
-                    "HANAWorkerHostname": "imdbworker",
-                    "PlacementGroupName": "",
-                    "Proxy": "",
-                    "KeyName": {
-                        "Ref": "KeyName"
-                    },
-                    "MyOS": {
-                        "Ref": "MyOS"
-                    },
-                    "MyInstanceType": {
-                        "Ref": "HANAInstanceType"
-                    },
-                    "DedicatedHostId": "",
-                    "RDPInstanceType": {
-                        "Ref": "RDPInstanceType"
-                    },
-                    "InstallRDPInstance": "No",
-                    "QSS3BucketName": {
-                        "Ref": "QSS3BucketName"
-                    },
-                    "QSS3KeyPrefix": {
-                        "Ref": "QSS3KeyPrefix"
-                    },
-                    "InstallHANA": {
-                        "Ref": "InstallSAP"
-                    },
-                    "Encryption": {
-                        "Ref": "Encryption"
-                    },
-                    "VolumeTypeHanaData": {
-                        "Ref": "VolumeTypeHanaData"
-                    },
-                    "VolumeTypeHanaLog": {
-                        "Ref": "VolumeTypeHanaLog"
-                    },
-                    "HostCount": {
-                        "Ref": "HANAHostCount"
-                    },
-                    "SID": {
-                        "Ref": "SID"
-                    },
-                    "SAPSID": {
-                        "Ref": "SAPSID"
-                    },
-                    "SAPInstanceNum": {
-                        "Ref": "SAPInstanceNum"
-                    },
-                    "HANAMasterPass": {
-                        "Ref": "HANAMasterPass"
-                    },
-                    "HANAInstallMedia": {
-                        "Ref": "HANAInstallMedia"
-                    },
-                    "SAPInstallMediaBucket": {
-                        "Ref": "SAPInstallMediaBucket"
-                    },
-                    "SAPInstallMediaKeyPrefix": {
-                        "Ref": "SAPInstallMediaKeyPrefix"
-                    },
-                    "AutoRecovery": "Yes",
-                    "CloudTrailS3Bucket": {
-                        "Ref": "CloudTrailS3Bucket"
-                    },
-                    "EnableLogging": {
-                        "Ref": "EnableLogging"
-                    },
-                    "SAPTZ": {
-                        "Ref": "SAPTZ"
-                    },
-                    "SLESBYOSRegCode": {
-                        "Ref": "SLESBYOSRegCode"
-                    }
-                }
-            }
-        },
         "HANAStack": {
             "Type": "AWS::CloudFormation::Stack",
-            "Condition": "NoUseStandardNoHA",
             "Properties": {
                 "TemplateURL": {
-                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-sap-hana/templates/SAP-HANA-BaseNodes.template"
+                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-sap-hana-ha/templates/SAP_HANA_HA_Master_Existing_VPC.yaml"
                 },
                 "Parameters": {
-                    "DMZCIDR": {
-                        "Ref": "PublicSubnet1CIDR"
-                    },
-                    "DMZSubnet": {
-                        "Ref": "PublicSubnet1ID"
-                    },
                     "Encryption": {
                         "Ref": "Encryption"
+                    },
+                    "HANAHostnamePrimary": {
+                        "Ref": "SAPHANAHostname"
                     },
                     "HANAInstallMedia": {
                         "Ref": "HANAInstallMedia"
                     },
-                    "HANAMasterHostname": {
-                        "Ref": "SAPHANAHostname"
-                    },
                     "HANAMasterPass": {
                         "Ref": "HANAMasterPass"
-                    },
-                    "HANASubnet": {
-                        "Ref": "PrivateSubnet1AID"
-                    },
-                    "HostCount": {
-                        "Ref": "HANAHostCount"
                     },
                     "InstallHANA": {
                         "Ref": "InstallSAP"
@@ -1394,8 +1025,23 @@
                     "ApplicationCIDR": {
                         "Ref": "PrivateSubnet2CIDR"
                     },
-                    "PrivSubCIDR": {
+                    "PrivateSubnet1ID": {
+                        "Ref": "PrivateSubnet1AID"
+                    },
+                    "PublicSubnet1ID": {
+                        "Ref": "PublicSubnet1ID"
+                    },
+                    "PrivateSubnet2ID": {
+                        "Ref": "ApplicationCIDR"
+                    },
+                    "PrivateSubnet1CIDR": {
                         "Ref": "PrivateSubnet1CIDR"
+                    },
+                    "PrivateSubnet2CIDR": {
+                        "Ref": "PrivateSubnet2CIDR"
+                    },
+                    "PublicSubnet1CIDR": {
+                        "Ref": "PublicSubnet1CIDR"
                     },
                     "RDPInstanceType": {
                         "Ref": "RDPInstanceType"
@@ -1426,7 +1072,6 @@
         },
         "HostedZone": {
             "Type": "AWS::Route53::HostedZone",
-            "Condition": "NoUseStandardNoHA",
             "Properties": {
                 "HostedZoneConfig": {
                     "Comment": "R53 private hosted zone"
@@ -1454,42 +1099,52 @@
                 ]
             }
         },
-        "SAPNetWeaverPassSSMParam": {
-            "Type": "AWS::SSM::Parameter",
-            "Condition": "NoUseStandardNoHA",
+        "SAPHANAR53Record": {
+            "Type": "AWS::Route53::RecordSet",
+            "DependsOn": "HANAStack",
             "Properties": {
-                "Description": "Encrypted parameter store for master SAP password",
-                "Type": "String",
-                "Value": {
-                    "Ref": "HANAMasterPass"
-                }
-            }
-        },
-        "SAPPASInterface": {
-            "Type": "AWS::EC2::NetworkInterface",
-            "Condition": "NoUseStandardNoHA",
-            "Properties": {
-                "Description": "Network Interface for SAP PAS server",
-                "SubnetId": {
-                    "Ref": "PrivateSubnet1AID"
+                "HostedZoneId": {
+                    "Ref": "HostedZone"
                 },
-                "GroupSet": [
+                "Name": {
+                    "Fn::Sub": "${SAPHANAHostname}.${HostedZoneName}"
+                },
+                "Type": "A",
+                "TTL": "30",
+                "ResourceRecords": [
                     {
-                        "Ref": "SAPPASSecurityGroup"
-                    }
-                ],
-                "SourceDestCheck": "true",
-                "Tags": [
-                    {
-                        "Key": "Network",
-                        "Value": "Private"
+                        "Fn::GetAtt": [
+                            "HANAStack",
+                            "Outputs.PrimaryIP"
+                        ]
                     }
                 ]
             }
         },
-        "SAPPASSecurityGroup": {
+        "SAPASCSR53Record": {
+            "Type": "AWS::Route53::RecordSet",
+            "DependsOn": "SAPASCSInterface",
+            "Properties": {
+                "HostedZoneId": {
+                    "Ref": "HostedZone"
+                },
+                "Name": {
+                    "Fn::Sub": "${SAPASCSHostname}.${HostedZoneName}"
+                },
+                "Type": "A",
+                "TTL": "30",
+                "ResourceRecords": [
+                    {
+                        "Fn::GetAtt": [
+                            "SAPASCSInterface",
+                            "PrimaryPrivateIpAddress"
+                        ]
+                    }
+                ]
+            }
+        },
+        "SAPASCSSecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
-            "Condition": "NoUseStandardNoHA",
             "Properties": {
                 "GroupDescription": "Enable access to the SAP Servers",
                 "VpcId": {
@@ -1505,36 +1160,12 @@
                         "ToPort": "111"
                     },
                     {
-                        "IpProtocol": "udp",
-                        "CidrIp": {
-                            "Ref": "PrivateSubnet1CIDR"
-                        },
-                        "FromPort": "2049",
-                        "ToPort": "2049"
-                    },
-                    {
                         "IpProtocol": "tcp",
                         "CidrIp": {
                             "Ref": "PrivateSubnet1CIDR"
                         },
                         "FromPort": "2049",
                         "ToPort": "2049"
-                    },
-                    {
-                        "IpProtocol": "tcp",
-                        "CidrIp": {
-                            "Ref": "PrivateSubnet1CIDR"
-                        },
-                        "FromPort": "20048",
-                        "ToPort": "20048"
-                    },
-                    {
-                        "IpProtocol": "udp",
-                        "CidrIp": {
-                            "Ref": "PrivateSubnet1CIDR"
-                        },
-                        "FromPort": "20048",
-                        "ToPort": "20048"
                     },
                     {
                         "IpProtocol": "icmp",
@@ -1565,7 +1196,7 @@
                             "Fn::Join": [
                                 "",
                                 [
-                                    "33",
+                                    "39",
                                     {
                                         "Ref": "SAPInstanceNum"
                                     },
@@ -1596,36 +1227,6 @@
                                 "",
                                 [
                                     "36",
-                                    {
-                                        "Ref": "SAPInstanceNum"
-                                    },
-                                    ""
-                                ]
-                            ]
-                        }
-                    },
-                    {
-                        "IpProtocol": "tcp",
-                        "CidrIp": {
-                            "Ref": "PrivateSubnet1CIDR"
-                        },
-                        "FromPort": {
-                            "Fn::Join": [
-                                "",
-                                [
-                                    "39",
-                                    {
-                                        "Ref": "SAPInstanceNum"
-                                    },
-                                    ""
-                                ]
-                            ]
-                        },
-                        "ToPort": {
-                            "Fn::Join": [
-                                "",
-                                [
-                                    "39",
                                     {
                                         "Ref": "SAPInstanceNum"
                                     },
@@ -1659,36 +1260,12 @@
                         "ToPort": "111"
                     },
                     {
-                        "IpProtocol": "udp",
-                        "CidrIp": {
-                            "Ref": "PrivateSubnet2CIDR"
-                        },
-                        "FromPort": "2049",
-                        "ToPort": "2049"
-                    },
-                    {
                         "IpProtocol": "tcp",
                         "CidrIp": {
                             "Ref": "PrivateSubnet2CIDR"
                         },
                         "FromPort": "2049",
                         "ToPort": "2049"
-                    },
-                    {
-                        "IpProtocol": "tcp",
-                        "CidrIp": {
-                            "Ref": "PrivateSubnet2CIDR"
-                        },
-                        "FromPort": "20048",
-                        "ToPort": "20048"
-                    },
-                    {
-                        "IpProtocol": "udp",
-                        "CidrIp": {
-                            "Ref": "PrivateSubnet2CIDR"
-                        },
-                        "FromPort": "20048",
-                        "ToPort": "20048"
                     },
                     {
                         "IpProtocol": "icmp",
@@ -1719,7 +1296,7 @@
                             "Fn::Join": [
                                 "",
                                 [
-                                    "33",
+                                    "39",
                                     {
                                         "Ref": "SAPInstanceNum"
                                     },
@@ -1750,36 +1327,6 @@
                                 "",
                                 [
                                     "36",
-                                    {
-                                        "Ref": "SAPInstanceNum"
-                                    },
-                                    ""
-                                ]
-                            ]
-                        }
-                    },
-                    {
-                        "IpProtocol": "tcp",
-                        "CidrIp": {
-                            "Ref": "PrivateSubnet2CIDR"
-                        },
-                        "FromPort": {
-                            "Fn::Join": [
-                                "",
-                                [
-                                    "39",
-                                    {
-                                        "Ref": "SAPInstanceNum"
-                                    },
-                                    ""
-                                ]
-                            ]
-                        },
-                        "ToPort": {
-                            "Fn::Join": [
-                                "",
-                                [
-                                    "39",
                                     {
                                         "Ref": "SAPInstanceNum"
                                     },
@@ -1807,7 +1354,7 @@
                     {
                         "IpProtocol": "tcp",
                         "CidrIp": {
-                            "Ref": "PrivateSubnet1CIDR"
+                            "Ref": "PrivateSubnet2CIDR"
                         },
                         "FromPort": "22",
                         "ToPort": "22"
@@ -1847,9 +1394,8 @@
                 ]
             }
         },
-        "SAPPASIAMRole": {
+        "SAPASCSIAMRole": {
             "Type": "AWS::IAM::Role",
-            "Condition": "NoUseStandardNoHA",
             "Properties": {
                 "AssumeRolePolicyDocument": {
                     "Statement": [
@@ -1869,7 +1415,7 @@
                 "Path": "/",
                 "Policies": [
                     {
-                        "PolicyName": "SAP-PAS-Role",
+                        "PolicyName": "SAP-ASCS",
                         "PolicyDocument": {
                             "Statement": [
                                 {
@@ -1922,16 +1468,16 @@
                                 },
                                 {
                                     "Effect": "Allow",
-                                    "Action": "ssm:*",
+                                    "Action": "ssm:ListCommandInvocations",
                                     "Resource": {
-                                        "Fn::Sub": "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SAPNetWeaverPassSSMParam}"
+                                        "Fn::Sub": "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:*"
                                     }
                                 },
                                 {
                                     "Effect": "Allow",
-                                    "Action": "ssm:ListCommandInvocations",
+                                    "Action": "ssm:*",
                                     "Resource": {
-                                        "Fn::Sub": "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:*"
+                                        "Fn::Sub": "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SAPNetWeaverPassSSMParam}"
                                     }
                                 },
                                 {
@@ -1955,89 +1501,93 @@
                 ]
             }
         },
+        "SAPASCSInterface": {
+            "Type": "AWS::EC2::NetworkInterface",
+            "Properties": {
+                "Description": "Network Interface for SAP ASCS server",
+                "SubnetId": {
+                    "Ref": "PrivateSubnetID"
+                },
+                "GroupSet": [
+                    {
+                        "Ref": "SAPASCSSecurityGroup"
+                    }
+                ],
+                "SourceDestCheck": "true",
+                "Tags": [
+                    {
+                        "Key": "Network",
+                        "Value": "Private"
+                    }
+                ]
+            }
+        },
+        "StbySAPASCSInterface": {
+            "Type": "AWS::EC2::NetworkInterface",
+            "Condition": "UseStandby",
+            "Properties": {
+                "Description": "Network Interface for Standby SAP ASCS server",
+                "SubnetId": {
+                    "Ref": "ApplicationCIDR"
+                },
+                "GroupSet": [
+                    {
+                        "Ref": "SAPASCSSecurityGroup"
+                    }
+                ],
+                "SourceDestCheck": "true",
+                "Tags": [
+                    {
+                        "Key": "Network",
+                        "Value": "Private"
+                    }
+                ]
+            }
+        },
         "SAPIAMProfile": {
             "Type": "AWS::IAM::InstanceProfile",
-            "Condition": "NoUseStandardNoHA",
             "Properties": {
                 "Path": "/",
                 "Roles": [
                     {
-                        "Ref": "SAPPASIAMRole"
+                        "Ref": "SAPASCSIAMRole"
                     }
                 ]
             }
         },
-        "SAPHANAR53Record": {
-            "Type": "AWS::Route53::RecordSet",
-            "Condition": "NoUseStandardNoHA",
-            "DependsOn": "HANAStack",
+        "SAPNetWeaverPassSSMParam": {
+            "Type": "AWS::SSM::Parameter",
             "Properties": {
-                "HostedZoneId": {
-                    "Ref": "HostedZone"
-                },
-                "Name": {
-                    "Fn::Sub": "${SAPHANAHostname}.${HostedZoneName}"
-                },
-                "Type": "A",
-                "TTL": "30",
-                "ResourceRecords": [
-                    {
-                        "Fn::GetAtt": [
-                            "HANAStack",
-                            "Outputs.HANAMasterInstanceIP"
-                        ]
-                    }
-                ]
-            }
-        },
-        "SAPPASR53Record": {
-            "Type": "AWS::Route53::RecordSet",
-            "Condition": "NoUseStandardNoHA",
-            "DependsOn": "SAPPASInterface",
-            "Properties": {
-                "HostedZoneId": {
-                    "Ref": "HostedZone"
-                },
-                "Name": {
-                    "Fn::Sub": "${SAPPASHostname}.${HostedZoneName}"
-                },
-                "Type": "A",
-                "TTL": "30",
-                "ResourceRecords": [
-                    {
-                        "Fn::GetAtt": [
-                            "SAPPASInterface",
-                            "PrimaryPrivateIpAddress"
-                        ]
-                    }
-                ]
+                "Description": "Encrypted parameter store for master SAP password",
+                "Type": "String",
+                "Value": {
+                    "Ref": "SAPNetWeaverPass"
+                }
             }
         },
         "WaitForSAPInstall": {
             "Type": "AWS::CloudFormation::WaitCondition",
-            "Condition": "NoUseStandardNoHA",
             "Properties": {
                 "Handle": {
                     "Ref": "WaitForSAPInstallWaitHandle"
                 },
-                "Timeout": "14400"
+                "Timeout": "9600"
             }
         },
         "WaitForSAPInstallWaitHandle": {
             "Type": "AWS::CloudFormation::WaitConditionHandle",
-            "Condition": "NoUseStandardNoHA",
             "Properties": {}
         },
-        "SAPPASInstance": {
-            "Condition": "NoUseStandardUseEFS",
-            "DependsOn": "HANAStack",
+        "SAPASCSInstance": {
             "Type": "AWS::EC2::Instance",
+            "Condition": "UseEFS",
+            "DependsOn": "HANAStack",
             "Metadata": {
                 "AWS::CloudFormation::Authentication": {
                     "S3AccessCreds": {
                         "type": "S3",
                         "roleName": {
-                            "Ref": "SAPPASIAMRole"
+                            "Ref": "SAPASCSIAMRole"
                         },
                         "buckets": [
                             {
@@ -2089,11 +1639,6 @@
                                                 "Ref": "SAPInstallMediaKeyPrefix"
                                             },
                                             "\n",
-                                            "export SAP_SCHEMA_NAME=",
-                                            {
-                                                "Ref": "SAPSchemaName"
-                                            },
-                                            "\n",
                                             "export SAP_SID=",
                                             {
                                                 "Ref": "SID"
@@ -2114,17 +1659,18 @@
                                                 "Ref": "SAPHANAHostname"
                                             },
                                             "\n",
-                                            "export SAPPAS_HOSTNAME=",
-                                            {
-                                                "Ref": "SAPPASHostname"
-                                            },
                                             "\n",
                                             "export DBIP=",
                                             {
                                                 "Fn::GetAtt": [
                                                     "HANAStack",
-                                                    "Outputs.HANAMasterInstanceIP"
+                                                    "Outputs.PrimaryIP"
                                                 ]
+                                            },
+                                            "\n",
+                                            "export INSTALL_SAP=",
+                                            {
+                                                "Ref": "InstallSAP"
                                             },
                                             "\n",
                                             "export MyOS=",
@@ -2135,6 +1681,16 @@
                                             "export SLESBYOSRegCode=",
                                             {
                                                 "Ref": "SLESBYOSRegCode"
+                                            },
+                                            "\n",
+                                            "export HOSTNAME=",
+                                            {
+                                                "Ref": "SAPASCSHostname"
+                                            },
+                                            "\n",
+                                            "export NAME=",
+                                            {
+                                                "Ref": "SAPASCSHostname"
                                             },
                                             "\n",
                                             "export SAPInstanceNum=",
@@ -2162,7 +1718,7 @@
                                         ]
                                     ]
                                 },
-                                "mode": "000500",
+                                "mode": "000400",
                                 "owner": "root",
                                 "group": "root"
                             },
@@ -2202,15 +1758,6 @@
                                 "group": "root",
                                 "authentication": "S3AccessCreds"
                             },
-                            "/root/install/download-sapapp.sh": {
-                                "source": {
-                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/download-sapapp.sh"
-                                },
-                                "mode": "000500",
-                                "owner": "root",
-                                "group": "root",
-                                "authentication": "S3AccessCreds"
-                            },
                             "/root/install/signalFinalStatus.sh": {
                                 "source": {
                                     "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/signalFinalStatus.sh"
@@ -2220,9 +1767,18 @@
                                 "group": "root",
                                 "authentication": "S3AccessCreds"
                             },
-                            "/root/install/sap-s4hana-pas-inst-single-host.sh": {
+                            "/root/install/sap-s4hana-ascs-inst-dnl.sh": {
                                 "source": {
-                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/sap-s4hana-pas-inst-single-host.sh"
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/sap-s4hana-ascs-inst-dnl.sh"
+                                },
+                                "mode": "000500",
+                                "owner": "root",
+                                "group": "root",
+                                "authentication": "S3AccessCreds"
+                            },
+                            "/root/install/sap-s4hana-ascs-inst.sh": {
+                                "source": {
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/sap-s4hana-ascs-inst.sh"
                                 },
                                 "mode": "000500",
                                 "owner": "root",
@@ -2232,7 +1788,7 @@
                         },
                         "commands": {
                             "startinstall": {
-                                "command": "bash -xv /root/install/download-sapapp.sh"
+                                "command": "bash -xv /root/install/sap-s4hana-ascs-inst-dnl.sh"
                             }
                         }
                     }
@@ -2273,8 +1829,11 @@
                         }
                     }
                 ],
-                "IamInstanceProfile": {
-                    "Ref": "SAPIAMProfile"
+                "InstanceType": {
+                    "Ref": "MyInstanceType"
+                },
+                "KeyName": {
+                    "Ref": "KeyName"
                 },
                 "ImageId": {
                     "Fn::FindInMap": [
@@ -2293,16 +1852,13 @@
                         }
                     ]
                 },
-                "InstanceType": {
-                    "Ref": "MyInstanceType"
-                },
-                "KeyName": {
-                    "Ref": "KeyName"
+                "IamInstanceProfile": {
+                    "Ref": "SAPIAMProfile"
                 },
                 "NetworkInterfaces": [
                     {
                         "NetworkInterfaceId": {
-                            "Ref": "SAPPASInterface"
+                            "Ref": "SAPASCSInterface"
                         },
                         "DeviceIndex": "0"
                     }
@@ -2311,7 +1867,7 @@
                     {
                         "Key": "Name",
                         "Value": {
-                            "Ref": "SAPPASHostname"
+                            "Ref": "SAPASCSHostname"
                         }
                     }
                 ],
@@ -2321,11 +1877,10 @@
                             "",
                             [
                                 "#!/bin/bash\n",
-                                "export PATH=$PATH:/usr/local/bin\n",
                                 "mkdir -p /root/install\n",
                                 "hostname ",
                                 {
-                                    "Ref": "SAPPASHostname"
+                                    "Ref": "SAPASCSHostname"
                                 },
                                 "\n",
                                 "echo ",
@@ -2334,12 +1889,13 @@
                                         ".",
                                         [
                                             {
-                                                "Ref": "SAPPASHostname"
+                                                "Ref": "SAPASCSHostname"
                                             }
                                         ]
                                     ]
                                 },
                                 " > /etc/HOSTNAME\n",
+                                "export PATH=$PATH:/usr/local/bin\n",
                                 "       cd /tmp\n",
                                 "       wget https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz\n",
                                 "       gzip -df aws-cfn-bootstrap-latest.tar.gz\n",
@@ -2362,7 +1918,7 @@
                                 {
                                     "Ref": "AWS::StackName"
                                 },
-                                "         --resource SAPPASInstance ",
+                                "         --resource SAPASCSInstance ",
                                 "         --region ",
                                 {
                                     "Ref": "AWS::Region"
@@ -2374,16 +1930,16 @@
                 }
             }
         },
-        "SAPPASInstanceNoEFS": {
-            "Condition": "NoUseStandardNoUseEFS",
-            "DependsOn": "HANAStack",
+        "StbySAPASCSInstance": {
             "Type": "AWS::EC2::Instance",
+            "Condition": "UseStandbyEFS",
+            "DependsOn": "SAPASCSInstance",
             "Metadata": {
                 "AWS::CloudFormation::Authentication": {
                     "S3AccessCreds": {
                         "type": "S3",
                         "roleName": {
-                            "Ref": "SAPPASIAMRole"
+                            "Ref": "SAPASCSIAMRole"
                         },
                         "buckets": [
                             {
@@ -2403,6 +1959,11 @@
                                             "export EFS=",
                                             {
                                                 "Ref": "EFSSapmnt"
+                                            },
+                                            "\n",
+                                            "export EFS_MT=",
+                                            {
+                                                "Ref": "EFSFileSystem"
                                             },
                                             "\n",
                                             "export HOSTED_ZONE=",
@@ -2430,11 +1991,6 @@
                                                 "Ref": "SAPInstallMediaKeyPrefix"
                                             },
                                             "\n",
-                                            "export SAP_SCHEMA_NAME=",
-                                            {
-                                                "Ref": "SAPSchemaName"
-                                            },
-                                            "\n",
                                             "export SAP_SID=",
                                             {
                                                 "Ref": "SID"
@@ -2450,22 +2006,9 @@
                                                 "Ref": "SAPTZ"
                                             },
                                             "\n",
-                                            "export DBHOSTNAME=",
+                                            "export INSTALL_SAP=",
                                             {
-                                                "Ref": "SAPHANAHostname"
-                                            },
-                                            "\n",
-                                            "export SAPPAS_HOSTNAME=",
-                                            {
-                                                "Ref": "SAPPASHostname"
-                                            },
-                                            "\n",
-                                            "export DBIP=",
-                                            {
-                                                "Fn::GetAtt": [
-                                                    "HANAStack",
-                                                    "Outputs.HANAMasterInstanceIP"
-                                                ]
+                                                "Ref": "InstallSAP"
                                             },
                                             "\n",
                                             "export MyOS=",
@@ -2476,6 +2019,16 @@
                                             "export SLESBYOSRegCode=",
                                             {
                                                 "Ref": "SLESBYOSRegCode"
+                                            },
+                                            "\n",
+                                            "export HOSTNAME=",
+                                            {
+                                                "Ref": "SAPASCSHostname"
+                                            },
+                                            "\n",
+                                            "export NAME=",
+                                            {
+                                                "Ref": "SAPASCSHostname"
                                             },
                                             "\n",
                                             "export SAPInstanceNum=",
@@ -2499,11 +2052,13 @@
                                             {
                                                 "Ref": "AWS::Region"
                                             },
+                                            "\n",
+                                            "export SbyASCSInst=1",
                                             "\n"
                                         ]
                                     ]
                                 },
-                                "mode": "000500",
+                                "mode": "000400",
                                 "owner": "root",
                                 "group": "root"
                             },
@@ -2543,15 +2098,6 @@
                                 "group": "root",
                                 "authentication": "S3AccessCreds"
                             },
-                            "/root/install/download-sapapp.sh": {
-                                "source": {
-                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/download-sapapp.sh"
-                                },
-                                "mode": "000500",
-                                "owner": "root",
-                                "group": "root",
-                                "authentication": "S3AccessCreds"
-                            },
                             "/root/install/signalFinalStatus.sh": {
                                 "source": {
                                     "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/signalFinalStatus.sh"
@@ -2561,9 +2107,18 @@
                                 "group": "root",
                                 "authentication": "S3AccessCreds"
                             },
-                            "/root/install/sap-s4hana-pas-inst-single-host.sh": {
+                            "/root/install/sap-s4hana-ascs-inst-dnl.sh": {
                                 "source": {
-                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/sap-s4hana-pas-inst-single-host.sh"
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/sap-s4hana-ascs-inst-dnl.sh"
+                                },
+                                "mode": "000500",
+                                "owner": "root",
+                                "group": "root",
+                                "authentication": "S3AccessCreds"
+                            },
+                            "/root/install/sap-s4hana-ascs-inst.sh": {
+                                "source": {
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/sap-s4hana-ascs-inst.sh"
                                 },
                                 "mode": "000500",
                                 "owner": "root",
@@ -2573,7 +2128,7 @@
                         },
                         "commands": {
                             "startinstall": {
-                                "command": "bash -xv /root/install/download-sapapp.sh"
+                                "command": "bash -xv /root/install/sap-s4hana-ascs-inst-dnl.sh"
                             }
                         }
                     }
@@ -2614,8 +2169,11 @@
                         }
                     }
                 ],
-                "IamInstanceProfile": {
-                    "Ref": "SAPIAMProfile"
+                "InstanceType": {
+                    "Ref": "MyInstanceType"
+                },
+                "KeyName": {
+                    "Ref": "KeyName"
                 },
                 "ImageId": {
                     "Fn::FindInMap": [
@@ -2634,16 +2192,13 @@
                         }
                     ]
                 },
-                "InstanceType": {
-                    "Ref": "MyInstanceType"
-                },
-                "KeyName": {
-                    "Ref": "KeyName"
+                "IamInstanceProfile": {
+                    "Ref": "SAPIAMProfile"
                 },
                 "NetworkInterfaces": [
                     {
                         "NetworkInterfaceId": {
-                            "Ref": "SAPPASInterface"
+                            "Ref": "StbySAPASCSInterface"
                         },
                         "DeviceIndex": "0"
                     }
@@ -2651,7 +2206,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "SAP PAS Server-Quick Start"
+                        "Value": "StbySAPASCS"
                     }
                 ],
                 "UserData": {
@@ -2660,11 +2215,10 @@
                             "",
                             [
                                 "#!/bin/bash\n",
-                                "export PATH=$PATH:/usr/local/bin\n",
                                 "mkdir -p /root/install\n",
                                 "hostname ",
                                 {
-                                    "Ref": "SAPPASHostname"
+                                    "Ref": "SAPASCSHostname"
                                 },
                                 "\n",
                                 "echo ",
@@ -2673,12 +2227,13 @@
                                         ".",
                                         [
                                             {
-                                                "Ref": "SAPPASHostname"
+                                                "Ref": "SAPASCSHostname"
                                             }
                                         ]
                                     ]
                                 },
                                 " > /etc/HOSTNAME\n",
+                                "export PATH=$PATH:/usr/local/bin\n",
                                 "       cd /tmp\n",
                                 "       wget https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz\n",
                                 "       gzip -df aws-cfn-bootstrap-latest.tar.gz\n",
@@ -2701,7 +2256,7 @@
                                 {
                                     "Ref": "AWS::StackName"
                                 },
-                                "         --resource SAPPASInstanceNoEFS ",
+                                "         --resource StbySAPASCSInstance ",
                                 "         --region ",
                                 {
                                     "Ref": "AWS::Region"
@@ -2713,340 +2268,666 @@
                 }
             }
         },
-        "SAPAASStack": {
-            "Condition": "NoUseStandardUseEFSAAS",
-            "DependsOn": "WaitForSAPInstall",
-            "Type": "AWS::CloudFormation::Stack",
-            "Properties": {
-                "TemplateURL": {
-                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/sap-s4hana-aas.template"
+        "SAPASCSInstanceNoEFS": {
+            "Type": "AWS::EC2::Instance",
+            "Condition": "NoUseEFS",
+            "DependsOn": "HANAStack",
+            "Metadata": {
+                "AWS::CloudFormation::Authentication": {
+                    "S3AccessCreds": {
+                        "type": "S3",
+                        "roleName": {
+                            "Ref": "SAPASCSIAMRole"
+                        },
+                        "buckets": [
+                            {
+                                "Ref": "QSS3BucketName"
+                            }
+                        ]
+                    }
                 },
-                "Parameters": {
-                    "AutoRecovery": {
-                        "Ref": "AutoRecoveryAAS"
+                "AWS::CloudFormation::Init": {
+                    "config": {
+                        "files": {
+                            "/root/install/config.sh": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "export EFS=",
+                                            {
+                                                "Ref": "EFSSapmnt"
+                                            },
+                                            "\n",
+                                            "export HOSTED_ZONE=",
+                                            {
+                                                "Ref": "HostedZoneName"
+                                            },
+                                            "\n",
+                                            "export INSTALL_SAP=",
+                                            "\n",
+                                            {
+                                                "Ref": "InstallSAP"
+                                            },
+                                            "export INSTALL_SAP_VERSION=",
+                                            {
+                                                "Ref": "InstallSAPVersion"
+                                            },
+                                            "\n",
+                                            "export S3_BUCKET=",
+                                            {
+                                                "Ref": "SAPInstallMediaBucket"
+                                            },
+                                            "\n",
+                                            "export S3_BUCKET_KP=",
+                                            {
+                                                "Ref": "SAPInstallMediaKeyPrefix"
+                                            },
+                                            "\n",
+                                            "export SAP_SID=",
+                                            {
+                                                "Ref": "SID"
+                                            },
+                                            "\n",
+                                            "export SSM_PARAM_STORE=",
+                                            {
+                                                "Ref": "SAPNetWeaverPassSSMParam"
+                                            },
+                                            "\n",
+                                            "export TZ_INPUT_PARAM=",
+                                            {
+                                                "Ref": "SAPTZ"
+                                            },
+                                            "\n",
+                                            "export INSTALL_SAP=",
+                                            {
+                                                "Ref": "InstallSAP"
+                                            },
+                                            "\n",
+                                            "export MyOS=",
+                                            {
+                                                "Ref": "MyOS"
+                                            },
+                                            "\n",
+                                            "export SLESBYOSRegCode=",
+                                            {
+                                                "Ref": "SLESBYOSRegCode"
+                                            },
+                                            "\n",
+                                            "export HOSTNAME=",
+                                            {
+                                                "Ref": "SAPASCSHostname"
+                                            },
+                                            "\n",
+                                            "export NAME=",
+                                            {
+                                                "Ref": "SAPASCSHostname"
+                                            },
+                                            "\n",
+                                            "export SAPInstanceNum=",
+                                            {
+                                                "Ref": "SAPInstanceNum"
+                                            },
+                                            "\n",
+                                            "export WaitForSAPInstallWaitHandle=",
+                                            "\"",
+                                            {
+                                                "Ref": "WaitForSAPInstallWaitHandle"
+                                            },
+                                            "\"",
+                                            "\n",
+                                            "export SIDadmUID=",
+                                            {
+                                                "Ref": "SIDadmUID"
+                                            },
+                                            "\n",
+                                            "export REGION=",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "\n"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000400",
+                                "owner": "root",
+                                "group": "root"
+                            },
+                            "/root/install/s4-aas.params": {
+                                "source": {
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/s4-aas.params"
+                                },
+                                "mode": "000500",
+                                "owner": "root",
+                                "group": "root",
+                                "authentication": "S3AccessCreds"
+                            },
+                            "/root/install/s4-ascs.params": {
+                                "source": {
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/s4-ascs.params"
+                                },
+                                "mode": "000500",
+                                "owner": "root",
+                                "group": "root",
+                                "authentication": "S3AccessCreds"
+                            },
+                            "/root/install/s4-db.params": {
+                                "source": {
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/s4-db.params"
+                                },
+                                "mode": "000500",
+                                "owner": "root",
+                                "group": "root",
+                                "authentication": "S3AccessCreds"
+                            },
+                            "/root/install/s4-pas.params": {
+                                "source": {
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/s4-pas.params"
+                                },
+                                "mode": "000500",
+                                "owner": "root",
+                                "group": "root",
+                                "authentication": "S3AccessCreds"
+                            },
+                            "/root/install/signalFinalStatus.sh": {
+                                "source": {
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/signalFinalStatus.sh"
+                                },
+                                "mode": "000500",
+                                "owner": "root",
+                                "group": "root",
+                                "authentication": "S3AccessCreds"
+                            },
+                            "/root/install/sap-s4hana-ascs-inst-dnl.sh": {
+                                "source": {
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/sap-s4hana-ascs-inst-dnl.sh"
+                                },
+                                "mode": "000500",
+                                "owner": "root",
+                                "group": "root",
+                                "authentication": "S3AccessCreds"
+                            },
+                            "/root/install/sap-s4hana-ascs-inst.sh": {
+                                "source": {
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/sap-s4hana-ascs-inst.sh"
+                                },
+                                "mode": "000500",
+                                "owner": "root",
+                                "group": "root",
+                                "authentication": "S3AccessCreds"
+                            }
+                        },
+                        "commands": {
+                            "startinstall": {
+                                "command": "bash -xv /root/install/sap-s4hana-ascs-inst-dnl.sh"
+                            }
+                        }
+                    }
+                }
+            },
+            "Properties": {
+                "BlockDeviceMappings": [
+                    {
+                        "DeviceName": "/dev/sda1",
+                        "Ebs": {
+                            "DeleteOnTermination": "True",
+                            "VolumeSize": "50",
+                            "VolumeType": "gp2"
+                        }
                     },
-                    "EFSSapmnt": {
-                        "Ref": "EFSSapmnt"
+                    {
+                        "DeviceName": "/dev/xvdb",
+                        "Ebs": {
+                            "DeleteOnTermination": "True",
+                            "VolumeSize": "50",
+                            "VolumeType": "gp2"
+                        }
                     },
-                    "EFSFSName": {
-                        "Ref": "EFSFileSystem"
+                    {
+                        "DeviceName": "/dev/xvdc",
+                        "Ebs": {
+                            "DeleteOnTermination": "True",
+                            "VolumeSize": "50",
+                            "VolumeType": "gp2"
+                        }
                     },
-                    "HostedZoneID": {
-                        "Ref": "HostedZone"
-                    },
-                    "HostedZoneName": {
-                        "Ref": "HostedZoneName"
-                    },
-                    "InstallSAP": {
-                        "Ref": "InstallSAP"
-                    },
-                    "InstallSAPVersion": {
-                        "Ref": "InstallSAPVersion"
-                    },
-                    "KeyName": {
-                        "Ref": "KeyName"
-                    },
-                    "MyInstanceType": {
-                        "Ref": "AASMyInstanceType"
-                    },
-                    "MyOS": {
-                        "Ref": "MyOS"
-                    },
-                    "PrivateSubnet1CIDR": {
-                        "Ref": "PrivateSubnet1CIDR"
-                    },
-                    "PrivateSubnetID": {
-                        "Ref": "PrivateSubnetID"
-                    },
-                    "PrivateSubnet2CIDR": {
-                        "Ref": "PrivateSubnet2CIDR"
-                    },
-                    "PublicSubnet1CIDR": {
-                        "Ref": "PublicSubnet1CIDR"
-                    },
-                    "PublicSubnet2CIDR": {
-                        "Ref": "PublicSubnet2CIDR"
-                    },
-                    "QSS3BucketName": {
-                        "Ref": "QSS3BucketName"
-                    },
-                    "QSS3KeyPrefix": {
-                        "Ref": "QSS3KeyPrefix"
-                    },
-                    "SAPAASHostname": {
-                        "Ref": "SAPAASHostname"
-                    },
-                    "SAPHANAHostname": {
-                        "Ref": "SAPHANAHostname"
-                    },
-                    "SAPInstanceNum": {
-                        "Ref": "SAPInstanceNum"
-                    },
-                    "SAPNetWeaverPassSSMParamName": {
-                        "Ref": "SAPNetWeaverPassSSMParam"
-                    },
-                    "SAPPASHostname": {
-                        "Ref": "SAPPASHostname"
-                    },
-                    "SAPSchemaName": {
-                        "Ref": "SAPSchemaName"
-                    },
-                    "SAPTZ": {
-                        "Ref": "SAPTZ"
-                    },
-                    "SID": {
-                        "Ref": "SID"
-                    },
-                    "SIDadmUID": {
-                        "Ref": "SIDadmUID"
-                    },
-                    "SLESBYOSRegCode": {
-                        "Ref": "SLESBYOSRegCode"
-                    },
-                    "VPCID": {
-                        "Ref": "VPCID"
+                    {
+                        "DeviceName": "/dev/xvdd",
+                        "Ebs": {
+                            "DeleteOnTermination": "True",
+                            "VolumeSize": "50",
+                            "VolumeType": "gp2"
+                        }
+                    }
+                ],
+                "InstanceType": {
+                    "Ref": "MyInstanceType"
+                },
+                "KeyName": {
+                    "Ref": "KeyName"
+                },
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "AWSAMIRegionMap",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        {
+                            "Fn::FindInMap": [
+                                "SAPAMINameMap",
+                                {
+                                    "Ref": "MyOS"
+                                },
+                                "Code"
+                            ]
+                        }
+                    ]
+                },
+                "IamInstanceProfile": {
+                    "Ref": "SAPIAMProfile"
+                },
+                "NetworkInterfaces": [
+                    {
+                        "NetworkInterfaceId": {
+                            "Ref": "SAPASCSInterface"
+                        },
+                        "DeviceIndex": "0"
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Ref": "SAPASCSHostname"
+                        }
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!/bin/bash\n",
+                                "mkdir -p /root/install\n",
+                                "hostname ",
+                                {
+                                    "Ref": "SAPASCSHostname"
+                                },
+                                "\n",
+                                "echo ",
+                                {
+                                    "Fn::Join": [
+                                        ".",
+                                        [
+                                            {
+                                                "Ref": "SAPASCSHostname"
+                                            }
+                                        ]
+                                    ]
+                                },
+                                " > /etc/HOSTNAME\n",
+                                "export PATH=$PATH:/usr/local/bin\n",
+                                "       cd /tmp\n",
+                                "       wget https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz\n",
+                                "       gzip -df aws-cfn-bootstrap-latest.tar.gz\n",
+                                "       tar -xvf aws-cfn-bootstrap-latest.tar\n",
+                                "       #ln -s /tmp/aws-cfn-bootstrap-1.4 /opt/aws\n",
+                                "       chmod -R 755 /tmp/aws-cfn-bootstrap-1.4\n",
+                                "       which pip &> /dev/null\n",
+                                "       if [ $? -ne 0 ] ;then\n",
+                                "           echo \"PIP NOT INSTALLED\"\n",
+                                "           [ `which yum` ] && $(yum install -y epel-release; yum install -y python-pip) && echo \"PIP INSTALLED\"\n",
+                                "           [ `which apt-get` ] && apt-get -y update && apt-get -y install python-pip && echo \"PIP INSTALLED\"\n",
+                                "           [ `which zypper` ] && zypper -n install python-pip && echo \"PIP INSTALLED\"\n",
+                                "       fi\n",
+                                "       pip install --upgrade pip\n",
+                                "       pip install --upgrade setuptools\n",
+                                "       pip install awscli --ignore-installed six &> /dev/null\n",
+                                "       export PYTHONPATH=/tmp/aws-cfn-bootstrap-1.4:$PYTHONPATH\n",
+                                "       /tmp/aws-cfn-bootstrap-1.4/bin/cfn-init -v ",
+                                "         --stack ",
+                                {
+                                    "Ref": "AWS::StackName"
+                                },
+                                "         --resource SAPASCSInstanceNoEFS ",
+                                "         --region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "\n"
+                            ]
+                        ]
                     }
                 }
             }
         },
-        "SAPAASStackNoEFS": {
-            "Condition": "NoUseStandardNoUseEFSAAS",
-            "DependsOn": "WaitForSAPInstall",
-            "Type": "AWS::CloudFormation::Stack",
-            "Properties": {
-                "TemplateURL": {
-                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/sap-s4hana-aas.template"
+        "StbySAPASCSInstanceNoEFS": {
+            "Type": "AWS::EC2::Instance",
+            "Condition": "UseStandbyNoEFS",
+            "DependsOn": "SAPASCSInstanceNoEFS",
+            "Metadata": {
+                "AWS::CloudFormation::Authentication": {
+                    "S3AccessCreds": {
+                        "type": "S3",
+                        "roleName": {
+                            "Ref": "SAPASCSIAMRole"
+                        },
+                        "buckets": [
+                            {
+                                "Ref": "QSS3BucketName"
+                            }
+                        ]
+                    }
                 },
-                "Parameters": {
-                    "AutoRecovery": {
-                        "Ref": "AutoRecoveryAAS"
-                    },
-                    "HostedZoneID": {
-                        "Ref": "HostedZone"
-                    },
-                    "HostedZoneName": {
-                        "Ref": "HostedZoneName"
-                    },
-                    "InstallSAP": {
-                        "Ref": "InstallSAP"
-                    },
-                    "InstallSAPVersion": {
-                        "Ref": "InstallSAPVersion"
-                    },
-                    "KeyName": {
-                        "Ref": "KeyName"
-                    },
-                    "MyInstanceType": {
-                        "Ref": "AASMyInstanceType"
-                    },
-                    "MyOS": {
-                        "Ref": "MyOS"
-                    },
-                    "PrivateSubnet1CIDR": {
-                        "Ref": "PrivateSubnet1CIDR"
-                    },
-                    "PrivateSubnetID": {
-                        "Ref": "PrivateSubnetID"
-                    },
-                    "PrivateSubnet2CIDR": {
-                        "Ref": "PrivateSubnet2CIDR"
-                    },
-                    "PublicSubnet1CIDR": {
-                        "Ref": "PublicSubnet1CIDR"
-                    },
-                    "PublicSubnet2CIDR": {
-                        "Ref": "PublicSubnet2CIDR"
-                    },
-                    "QSS3BucketName": {
-                        "Ref": "QSS3BucketName"
-                    },
-                    "QSS3KeyPrefix": {
-                        "Ref": "QSS3KeyPrefix"
-                    },
-                    "SAPAASHostname": {
-                        "Ref": "SAPAASHostname"
-                    },
-                    "SAPHANAHostname": {
-                        "Ref": "SAPHANAHostname"
-                    },
-                    "SAPInstanceNum": {
-                        "Ref": "SAPInstanceNum"
-                    },
-                    "SAPNetWeaverPassSSMParamName": {
-                        "Ref": "SAPNetWeaverPassSSMParam"
-                    },
-                    "SAPPASHostname": {
-                        "Ref": "SAPPASHostname"
-                    },
-                    "SAPSchemaName": {
-                        "Ref": "SAPSchemaName"
-                    },
-                    "SAPTZ": {
-                        "Ref": "SAPTZ"
-                    },
-                    "SID": {
-                        "Ref": "SID"
-                    },
-                    "SIDadmUID": {
-                        "Ref": "SIDadmUID"
-                    },
-                    "SLESBYOSRegCode": {
-                        "Ref": "SLESBYOSRegCode"
-                    },
-                    "VPCID": {
-                        "Ref": "VPCID"
+                "AWS::CloudFormation::Init": {
+                    "config": {
+                        "files": {
+                            "/root/install/config.sh": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "export EFS=",
+                                            {
+                                                "Ref": "EFSSapmnt"
+                                            },
+                                            "\n",
+                                            "export HOSTED_ZONE=",
+                                            {
+                                                "Ref": "HostedZoneName"
+                                            },
+                                            "\n",
+                                            "export INSTALL_SAP=",
+                                            "\n",
+                                            {
+                                                "Ref": "InstallSAP"
+                                            },
+                                            "export INSTALL_SAP_VERSION=",
+                                            {
+                                                "Ref": "InstallSAPVersion"
+                                            },
+                                            "\n",
+                                            "export S3_BUCKET=",
+                                            {
+                                                "Ref": "SAPInstallMediaBucket"
+                                            },
+                                            "\n",
+                                            "export S3_BUCKET_KP=",
+                                            {
+                                                "Ref": "SAPInstallMediaKeyPrefix"
+                                            },
+                                            "\n",
+                                            "export SAP_SID=",
+                                            {
+                                                "Ref": "SID"
+                                            },
+                                            "\n",
+                                            "export SSM_PARAM_STORE=",
+                                            {
+                                                "Ref": "SAPNetWeaverPassSSMParam"
+                                            },
+                                            "\n",
+                                            "export TZ_INPUT_PARAM=",
+                                            {
+                                                "Ref": "SAPTZ"
+                                            },
+                                            "\n",
+                                            "export INSTALL_SAP=",
+                                            {
+                                                "Ref": "InstallSAP"
+                                            },
+                                            "\n",
+                                            "export MyOS=",
+                                            {
+                                                "Ref": "MyOS"
+                                            },
+                                            "\n",
+                                            "export SLESBYOSRegCode=",
+                                            {
+                                                "Ref": "SLESBYOSRegCode"
+                                            },
+                                            "\n",
+                                            "export HOSTNAME=",
+                                            {
+                                                "Ref": "SAPASCSHostname"
+                                            },
+                                            "\n",
+                                            "export NAME=",
+                                            {
+                                                "Ref": "SAPASCSHostname"
+                                            },
+                                            "\n",
+                                            "export SAPInstanceNum=",
+                                            {
+                                                "Ref": "SAPInstanceNum"
+                                            },
+                                            "\n",
+                                            "export WaitForSAPInstallWaitHandle=",
+                                            "\"",
+                                            {
+                                                "Ref": "WaitForSAPInstallWaitHandle"
+                                            },
+                                            "\"",
+                                            "\n",
+                                            "export SIDadmUID=",
+                                            {
+                                                "Ref": "SIDadmUID"
+                                            },
+                                            "\n",
+                                            "export REGION=",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "\n"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000400",
+                                "owner": "root",
+                                "group": "root"
+                            },
+                            "/root/install/s4-aas.params": {
+                                "source": {
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/s4-aas.params"
+                                },
+                                "mode": "000500",
+                                "owner": "root",
+                                "group": "root",
+                                "authentication": "S3AccessCreds"
+                            },
+                            "/root/install/s4-ascs.params": {
+                                "source": {
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/s4-ascs.params"
+                                },
+                                "mode": "000500",
+                                "owner": "root",
+                                "group": "root",
+                                "authentication": "S3AccessCreds"
+                            },
+                            "/root/install/s4-db.params": {
+                                "source": {
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/s4-db.params"
+                                },
+                                "mode": "000500",
+                                "owner": "root",
+                                "group": "root",
+                                "authentication": "S3AccessCreds"
+                            },
+                            "/root/install/s4-pas.params": {
+                                "source": {
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/s4-pas.params"
+                                },
+                                "mode": "000500",
+                                "owner": "root",
+                                "group": "root",
+                                "authentication": "S3AccessCreds"
+                            },
+                            "/root/install/signalFinalStatus.sh": {
+                                "source": {
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/signalFinalStatus.sh"
+                                },
+                                "mode": "000500",
+                                "owner": "root",
+                                "group": "root",
+                                "authentication": "S3AccessCreds"
+                            },
+                            "/root/install/sap-s4hana-ascs-inst-dnl.sh": {
+                                "source": {
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/sap-s4hana-ascs-inst-dnl.sh"
+                                },
+                                "mode": "000500",
+                                "owner": "root",
+                                "group": "root",
+                                "authentication": "S3AccessCreds"
+                            },
+                            "/root/install/sap-s4hana-ascs-inst.sh": {
+                                "source": {
+                                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/sap-s4hana-ascs-inst.sh"
+                                },
+                                "mode": "000500",
+                                "owner": "root",
+                                "group": "root",
+                                "authentication": "S3AccessCreds"
+                            }
+                        },
+                        "commands": {
+                            "startinstall": {
+                                "command": "bash -xv /root/install/sap-s4hana-ascs-inst-dnl.sh"
+                            }
+                        }
                     }
                 }
-            }
-        },
-        "S4ExgVPCHA": {
-            "Type": "AWS::CloudFormation::Stack",
-            "Condition": "UseHA",
+            },
             "Properties": {
-                "TemplateURL": {
-                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/sap-s4hana-exg-vpc-HA.template"
+                "BlockDeviceMappings": [
+                    {
+                        "DeviceName": "/dev/sda1",
+                        "Ebs": {
+                            "DeleteOnTermination": "True",
+                            "VolumeSize": "50",
+                            "VolumeType": "gp2"
+                        }
+                    },
+                    {
+                        "DeviceName": "/dev/xvdb",
+                        "Ebs": {
+                            "DeleteOnTermination": "True",
+                            "VolumeSize": "50",
+                            "VolumeType": "gp2"
+                        }
+                    },
+                    {
+                        "DeviceName": "/dev/xvdc",
+                        "Ebs": {
+                            "DeleteOnTermination": "True",
+                            "VolumeSize": "50",
+                            "VolumeType": "gp2"
+                        }
+                    },
+                    {
+                        "DeviceName": "/dev/xvdd",
+                        "Ebs": {
+                            "DeleteOnTermination": "True",
+                            "VolumeSize": "50",
+                            "VolumeType": "gp2"
+                        }
+                    }
+                ],
+                "InstanceType": {
+                    "Ref": "MyInstanceType"
                 },
-                "Parameters": {
-                    "AutoRecoveryAAS": {
-                        "Ref": "AutoRecoveryAAS"
-                    },
-                    "AutoRecoveryPAS": {
-                        "Ref": "AutoRecoveryPAS"
-                    },
-                    "AASMyInstanceType": {
-                        "Ref": "AASMyInstanceType"
-                    },
-                    "CloudTrailS3Bucket": {
-                        "Ref": "CloudTrailS3Bucket"
-                    },
-                    "EFSSapmnt": {
-                        "Ref": "EFSSapmnt"
-                    },
-                    "EnableLogging": {
-                        "Ref": "EnableLogging"
-                    },
-                    "Encryption": {
-                        "Ref": "Encryption"
-                    },
-                    "HANAHostCount": {
-                        "Ref": "HANAHostCount"
-                    },
-                    "HANAInstallMedia": {
-                        "Ref": "HANAInstallMedia"
-                    },
-                    "HANAInstanceType": {
-                        "Ref": "HANAInstanceType"
-                    },
-                    "HANAMasterPass": {
-                        "Ref": "HANAMasterPass"
-                    },
-                    "HostedZoneName": {
-                        "Ref": "HostedZoneName"
-                    },
-                    "InstallRDPInstance": {
-                        "Ref": "InstallRDPInstance"
-                    },
-                    "InstallSAPAAS": {
-                        "Ref": "InstallSAPAAS"
-                    },
-                    "InstallSAP": {
-                        "Ref": "InstallSAP"
-                    },
-                    "InstallSAPVersion": {
-                        "Ref": "InstallSAPVersion"
-                    },
-                    "KeyName": {
-                        "Ref": "KeyName"
-                    },
-                    "MyInstanceType": {
-                        "Ref": "MyInstanceType"
-                    },
-                    "MyOS": {
-                        "Ref": "MyOS"
-                    },
-                    "MyOSHANA": {
-                        "Ref": "MyOSHANA"
-                    },
-                    "ApplicationCIDR": {
-                        "Ref": "ApplicationCIDR"
-                    },
-                    "PrivateSubnetID": {
-                        "Ref": "PrivateSubnetID"
-                    },
-                    "PrivateSubnet1CIDR": {
-                        "Ref": "PrivateSubnet1CIDR"
-                    },
-                    "PrivateSubnet2CIDR": {
-                        "Ref": "PrivateSubnet2CIDR"
-                    },
-                    "PrivateSubnet1AID": {
-                        "Ref": "PrivateSubnet1AID"
-                    },
-                    "PublicSubnet1CIDR": {
-                        "Ref": "PublicSubnet1CIDR"
-                    },
-                    "PublicSubnet2CIDR": {
-                        "Ref": "PublicSubnet2CIDR"
-                    },
-                    "PublicSubnet1ID": {
-                        "Ref": "PublicSubnet1ID"
-                    },
-                    "QSS3BucketName": {
-                        "Ref": "QSS3BucketName"
-                    },
-                    "QSS3KeyPrefix": {
-                        "Ref": "QSS3KeyPrefix"
-                    },
-                    "RDPInstanceType": {
-                        "Ref": "RDPInstanceType"
-                    },
-                    "SAPAASHostname": {
-                        "Ref": "SAPAASHostname"
-                    },
-                    "SAPHANAHostname": {
-                        "Ref": "SAPHANAHostname"
-                    },
-                    "SAPInstallMediaBucket": {
-                        "Ref": "SAPInstallMediaBucket"
-                    },
-                    "SAPInstallMediaKeyPrefix": {
-                        "Ref": "SAPInstallMediaKeyPrefix"
-                    },
-                    "SAPPASHostname": {
-                        "Ref": "SAPPASHostname"
-                    },
-                    "SAPInstanceNum": {
-                        "Ref": "SAPInstanceNum"
-                    },
-                    "SAPTZ": {
-                        "Ref": "SAPTZ"
-                    },
-                    "SAPSchemaName": {
-                        "Ref": "SAPSchemaName"
-                    },
-                    "SID": {
-                        "Ref": "SID"
-                    },
-                    "SAPSID": {
-                        "Ref": "SAPSID"
-                    },
-                    "SIDadmUID": {
-                        "Ref": "SIDadmUID"
-                    },
-                    "StandardInstall": {
-                        "Ref": "StandardInstall"
-                    },
-                    "SLESBYOSRegCode": {
-                        "Ref": "SLESBYOSRegCode"
-                    },
-                    "VolumeTypeHanaData": {
-                        "Ref": "VolumeTypeHanaData"
-                    },
-                    "VolumeTypeHanaLog": {
-                        "Ref": "VolumeTypeHanaLog"
-                    },
-                    "VPCID": {
-                        "Ref": "VPCID"
+                "KeyName": {
+                    "Ref": "KeyName"
+                },
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "AWSAMIRegionMap",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        {
+                            "Fn::FindInMap": [
+                                "SAPAMINameMap",
+                                {
+                                    "Ref": "MyOS"
+                                },
+                                "Code"
+                            ]
+                        }
+                    ]
+                },
+                "IamInstanceProfile": {
+                    "Ref": "SAPIAMProfile"
+                },
+                "NetworkInterfaces": [
+                    {
+                        "NetworkInterfaceId": {
+                            "Ref": "StbySAPASCSInterface"
+                        },
+                        "DeviceIndex": "0"
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "StbySAPASCS"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!/bin/bash\n",
+                                "mkdir -p /root/install\n",
+                                "hostname ",
+                                {
+                                    "Ref": "SAPASCSHostname"
+                                },
+                                "\n",
+                                "echo ",
+                                {
+                                    "Fn::Join": [
+                                        ".",
+                                        [
+                                            {
+                                                "Ref": "SAPASCSHostname"
+                                            }
+                                        ]
+                                    ]
+                                },
+                                " > /etc/HOSTNAME\n",
+                                "export PATH=$PATH:/usr/local/bin\n",
+                                "       cd /tmp\n",
+                                "       wget https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz\n",
+                                "       gzip -df aws-cfn-bootstrap-latest.tar.gz\n",
+                                "       tar -xvf aws-cfn-bootstrap-latest.tar\n",
+                                "       #ln -s /tmp/aws-cfn-bootstrap-1.4 /opt/aws\n",
+                                "       chmod -R 755 /tmp/aws-cfn-bootstrap-1.4\n",
+                                "       which pip &> /dev/null\n",
+                                "       if [ $? -ne 0 ] ;then\n",
+                                "           echo \"PIP NOT INSTALLED\"\n",
+                                "           [ `which yum` ] && $(yum install -y epel-release; yum install -y python-pip) && echo \"PIP INSTALLED\"\n",
+                                "           [ `which apt-get` ] && apt-get -y update && apt-get -y install python-pip && echo \"PIP INSTALLED\"\n",
+                                "           [ `which zypper` ] && zypper -n install python-pip && echo \"PIP INSTALLED\"\n",
+                                "       fi\n",
+                                "       pip install --upgrade pip\n",
+                                "       pip install --upgrade setuptools\n",
+                                "       pip install awscli --ignore-installed six &> /dev/null\n",
+                                "       export PYTHONPATH=/tmp/aws-cfn-bootstrap-1.4:$PYTHONPATH\n",
+                                "       /tmp/aws-cfn-bootstrap-1.4/bin/cfn-init -v ",
+                                "         --stack ",
+                                {
+                                    "Ref": "AWS::StackName"
+                                },
+                                "         --resource SAPASCSInstanceNoEFS ",
+                                "         --region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "\n"
+                            ]
+                        ]
                     }
                 }
             }
@@ -3084,45 +2965,6 @@
                     "AssertDescription": "!!ALERT: This is *not* an AWS Region that supports EFS!!"
                 }
             ]
-        }
-    },
-    "Outputs": {
-        "EFSFSName": {
-            "Description": "EFS file system name",
-            "Condition": "UseEFSNoHA",
-            "Value": {
-                "Ref": "EFSFileSystem"
-            }
-        },
-        "EFSSapmnt": {
-            "Description": "Use EFS for /sapmnt",
-            "Condition": "NoUseStandardNoHA",
-            "Value": {
-                "Ref": "EFSSapmnt"
-            }
-        },
-        "SAPNetWeaverPassSSMParam": {
-            "Description": "EC2 SSM parameter store for encrypted SAP master password",
-            "Condition": "NoUseStandardNoHA",
-            "Value": {
-                "Ref": "SAPNetWeaverPassSSMParam"
-            }
-        },
-        "SIDadmUID": {
-            "Description": "SIDadm UID",
-            "Value": {
-                "Ref": "SIDadmUID"
-            }
-        },
-        "SAPPASSecurityGroup": {
-            "Description": "Security Group created for the SAP PAS Server",
-            "Condition": "NoUseStandardNoHA",
-            "Value": {
-                "Fn::GetAtt": [
-                    "SAPPASSecurityGroup",
-                    "GroupId"
-                ]
-            }
         }
     }
 }
