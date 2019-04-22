@@ -12,7 +12,7 @@
 	branch = master
 [submodule "submodules/quickstart-sap-hana-ha"]
 	path = submodules/quickstart-sap-hana-ha
-	url = git@github.com:aws-quickstart/quickstart-sap-hana-ha.git
+	url = ../../aws-quickstart/quickstart-sap-hana-ha.git
 	branch = master
 
 
