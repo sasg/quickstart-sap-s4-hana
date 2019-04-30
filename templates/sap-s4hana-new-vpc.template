@@ -509,18 +509,18 @@
         },
         "MyOS": {
             "AllowedValues": [
-                "SUSE-Linux-11-SP4-HVM",
-                "SUSE-Linux-12-SP1-HVM",
-                "SUSE-Linux-12-SP2-HVM",
-                "SUSE-Linux-12-SP3-HVM",
-                "SUSE-Linux-12-SP1-For-SAP-HVM",
-                "SUSE-Linux-12-SP2-For-SAP-HVM",
-                "SUSE-Linux-12-SP3-For-SAP-HVM",
-                "SUSE-Linux-12-SP1-For-SAP-BYOS-HVM",
-                "SUSE-Linux-12-SP2-For-SAP-BYOS-HVM",
-                "SUSE-Linux-12-SP3-For-SAP-BYOS-HVM"
+                "SuSE-Linux-11-SP4-HVM",
+                "SuSE-Linux-12-SP1-HVM",
+                "SuSE-Linux-12-SP2-HVM",
+                "SuSE-Linux-12-SP3-HVM",
+                "SuSE-Linux-12-SP1-For-SAP-HVM",
+                "SuSE-Linux-12-SP2-For-SAP-HVM",
+                "SuSE-Linux-12-SP3-For-SAP-HVM",
+                "SuSE-Linux-12-SP1-For-SAP-BYOS-HVM",
+                "SuSE-Linux-12-SP2-For-SAP-BYOS-HVM",
+                "SuSE-Linux-12-SP3-For-SAP-BYOS-HVM"
             ],
-            "Default": "SUSE-Linux-12-SP3-HVM",
+            "Default": "SuSE-Linux-12-SP3-HVM",
             "Description": "For SLES only, the operating system version for S/4HANA application servers.",
             "Type": "String"
         },
