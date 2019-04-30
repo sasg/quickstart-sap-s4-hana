@@ -5,7 +5,7 @@
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [{
                     "Label": {
-                        "default": "Network infrastructure details"
+                        "default": "VPC network configuration"
                     },
                     "Description": {
                         "default": ""
@@ -22,7 +22,7 @@
                 },
                 {
                     "Label": {
-                        "default": "HANA DB Server and storage configuration"
+                        "default": "SAP HANA database server and storage configuration"
                     },
                     "Description": {
                         "default": ""
@@ -40,15 +40,15 @@
                         "Encryption",
                         "VolumeTypeHanaData",
                         "VolumeTypeHanaLog",
-                        "KeyName",
                         "HANAInstallMedia",
                         "EnableLogging",
-                        "CloudTrailS3Bucket"
+                        "CloudTrailS3Bucket",
+                        "KeyName"
                     ]
                 },
                 {
                     "Label": {
-                        "default": "SAP S/4HANA ABAP Cluster setup and configuration"
+                        "default": "SAP S/4HANA ABAP cluster setup and configuration"
                     },
                     "Description": {
                         "default": ""
@@ -78,7 +78,7 @@
                 },
                 {
                     "Label": {
-                        "default": "SAP S/4HANA Additional App Server setup and configuration"
+                        "default": "SAP S/4HANA Additional Application Server setup and configuration"
                     },
                     "Description": {
                         "default": ""
@@ -105,7 +105,7 @@
                 },
                 {
                     "Label": {
-                        "default": "Advanced configuration (Do not modify unless directed by AWS Support)"
+                        "default": "AWS Quick Start configuration"
                     },
                     "Description": {
                         "default": ""
@@ -118,7 +118,7 @@
             ],
             "ParameterLabels": {
                 "AASMyInstanceType": {
-                    "default": "SAP additional app server instance type"
+                    "default": "SAP AAS instance type"
                 },
                 "ASCSMyInstanceType": {
                     "default": "SAP ASCS instance type"
@@ -127,73 +127,73 @@
                     "default": "Availability Zones"
                 },
                 "AutoRecoveryAAS": {
-                    "default": "AAS EC2 auto recovery"
+                    "default": "AAS EC2 automatic recovery"
                 },
                 "AutoRecoveryPAS": {
-                    "default": "PAS EC2 auto recovery"
+                    "default": "PAS EC2 automatic recovery"
                 },
                 "BASTIONInstanceType": {
                     "default": "Bastion host"
                 },
                 "CloudTrailS3Bucket": {
-                    "default": "S3 bucket for AWS CloudTrail & AWS Config logs"
+                    "default": "S3 bucket for AWS CloudTrail and AWS Config logs"
                 },
                 "DistributedInstall": {
-                    "default": "Split the ASCS and PAS (distributed installation)"
+                    "default": "Split ASCS and PAS"
                 },
                 "StandardInstall": {
-                    "default": "ASCS, PAS and DB in one host (standard installation)"
+                    "default": "ASCS, PAS, and database in one host"
                 },
                 "EFSSapmnt": {
-                    "default": "Use EFS for /sapmnt"
+                    "default": "EFS for /sapmnt"
                 },
                 "EnableLogging": {
-                    "default": "Enable AWS CloudTrail & AWS Config logs"
+                    "default": "AWS CloudTrail and AWS Config logs"
                 },
                 "Encryption": {
-                    "default": "Enable encryption"
+                    "default": "Encryption"
                 },
                 "HANAHostCount": {
-                    "default": "SAP HANA DB host count"
+                    "default": "SAP HANA database host count"
                 },
                 "HANAInstallMedia": {
-                    "default": "S3 bucket for HANA DB s/w."
+                    "default": "S3 bucket for HANA database software"
                 },
                 "HANAInstanceType": {
-                    "default": "SAP HANA server "
+                    "default": "SAP HANA server instance type"
                 },
                 "HANAMasterPass": {
                     "default": "SAP HANA DB & S/4HANA ABAP password"
                 },
                 "HostedZoneName": {
-                    "default": "R53 private hosted zone"
+                    "default": "Route 53 private hosted zone"
                 },
                 "InstallRDPAndBastionInstance": {
-                    "default": "Install RDP and bastion"
+                    "default": "RDP and bastion"
                 },
                 "InstallSAP": {
-                    "default": "Install SAP software"
+                    "default": "SAP software"
                 },
                 "InstallSAPVersion": {
                     "default": "S/4HANA version"
                 },
                 "InstallSAPAAS": {
-                    "default": "Install SAP additional app server"
+                    "default": "SAP AAS"
                 },
                 "KeyName": {
                     "default": "SSH key pair"
                 },
                 "MyInstanceType": {
-                    "default": "SAP PAS server instance type"
+                    "default": "SAP PAS instance type"
                 },
                 "MyOS": {
-                    "default": "O.S. version for S/4HANA servers (SLES only)"
+                    "default": "Operating system version for S/4HANA servers"
                 },
                 "hanaHA": {
                     "default": "Implement HANA for High Availability"
                 },
                 "MyOSHANA": {
-                    "default": "Operating system version for HANA (RHEL or SLES)"
+                    "default": "Operating system version for HANA"
                 },
                 "PrivateSubnet1CIDR": {
                     "default": "Private subnet 1 CIDR"
@@ -208,70 +208,70 @@
                     "default": "Public subnet 2 CIDR"
                 },
                 "QSS3BucketName": {
-                    "default": "S3 bucket name for the Quick Start assets."
+                    "default": "Quick Start S3 bucket name"
                 },
                 "QSS3KeyPrefix": {
-                    "default": "S3 key prefix for the Quick Start assets"
+                    "default": "Quick Start S3 key prefix"
                 },
                 "RDPInstanceType": {
-                    "default": "RDP instance"
+                    "default": "RDP instance type"
                 },
                 "RemoteAccessCIDR": {
-                    "default": "CIDR block for RDP & bastion access"
+                    "default": "CIDR block for RDP and bastion access"
                 },
                 "SAPAASHostname": {
-                    "default": "SAP AAS server host name (i.e. sidapp00)"
+                    "default": "SAP AAS server host name"
                 },
                 "SAPASCSHostname": {
-                    "default": "SAP ASCS server virtual name (i.e. sidasc00)"
+                    "default": "SAP ASCS server virtual name"
                 },
                 "StbySAPASCS": {
                     "default": "Standby ASCS server in a different Availability Zone"
                 },
                 "SAPHANAHostname": {
-                    "default": "SAP HANA server host name (i.e. siddbmas)"
+                    "default": "SAP HANA server host name"
                 },
                 "HANAHostnameSecondary": {
                     "default": "SAP HANA HA server host name for Secondary node (i.e. siddbsec)"
                 },
                 "SAPInstallMediaBucket": {
-                    "default": "S3 bucket for SAP S/4HANA s/w."
+                    "default": "S3 bucket for SAP S/4HANA software"
                 },
                 "SAPInstallMediaKeyPrefix": {
-                    "default": "S3 Key Prefix for SAP S/4HANA s/w."
+                    "default": "S3 key prefix for SAP S/4HANA software"
                 },
                 "SAPInstanceNum": {
                     "default": "SAP instance number"
                 },
                 "SAPPASHostname": {
-                    "default": "SAP PAS server host name (i.e. sidpas00)"
+                    "default": "SAP PAS server host name"
                 },
                 "SAPTZ": {
-                    "default": "SAP server timezone"
+                    "default": "SAP server time zone"
                 },
                 "SAPSchemaName": {
                     "default": "SAP database schema"
                 },
                 "SID": {
-                    "default": "HANA DB system ID"
+                    "default": "HANA database system ID"
                 },
                 "SAPSID": {
                     "default": "S/4HANA ABAP system ID"
                 },
                 "SIDadmUID": {
-                    "default": "SIDadm user id"
+                    "default": "SIDadm user ID"
                 },
                 "SLESBYOSRegCode": {
-                    "default": "Enter SUSE BYOS registration code"
+                    "default": "SUSE BYOS code"
                 },
                 "VPCCIDR": {
                     "default": "VPC CIDR"
                 },
                 "VolumeTypeHanaData": {
-                    "default": "Choose storage volume type for SAP HANA data"
+                    "default": "Storage volume type for SAP HANA data"
                 },
                 "VolumeTypeHanaLog": {
-                    "default": "Choose storage volume type for SAP HANA log"
+                    "default": "Storage volume type for SAP HANA log"
                 },
                 "VolumeType": {
                     "default": "EBS storage volume type"
@@ -282,7 +282,7 @@
     "Parameters": {
         "AutoRecoveryAAS": {
             "Type": "String",
-            "Description": "EC2 Automatic recovery feature",
+            "Description": "Selecting No turns off the Amazon EC2 automatic recovery feature.",
             "Default": "Yes",
             "AllowedValues": [
                 "Yes",
@@ -291,7 +291,7 @@
         },
         "AutoRecoveryPAS": {
             "Type": "String",
-            "Description": "EC2 Automatic recovery feature",
+            "Description": "Selecting No turns off the Amazon EC2 automatic recovery feature.",
             "Default": "Yes",
             "AllowedValues": [
                 "Yes",
@@ -314,7 +314,7 @@
                 "c4.large"
             ],
             "Default": "r4.xlarge",
-            "Description": "Instance type for SAP Additional App Servers.",
+            "Description": "Amazon EC2 instance type for SAP AAS.",
             "Type": "String"
         },
         "ASCSMyInstanceType": {
@@ -333,7 +333,7 @@
                 "c4.large"
             ],
             "Default": "r4.large",
-            "Description": "Instance type for SAP ASCS Server.",
+            "Description": "Instance type for the SAP ASCS server.",
             "Type": "String"
         },
         "AvailabilityZones": {
@@ -353,12 +353,12 @@
             "Type": "String"
         },
         "CloudTrailS3Bucket": {
-            "Description": "Name of Amazon S3 bucket where AWS CloudTrail Trail and AWS Config logs can be stored (e.g. mycloudtrail).",
+            "Description": "Name of Amazon S3 bucket where AWS CloudTrail Trail and AWS Config logs can be stored (e.g., mycloudtrail), if you selected Yes for the EnableLogging parameter.",
             "Default": "",
             "Type": "String"
         },
         "DistributedInstall": {
-            "Description": "Split ASCS and PAS onto 2 different instances",
+            "Description": "Distributed installation: ASCS and PAS on two different instances.",
             "Default": "No",
             "Type": "String",
             "AllowedValues": [
@@ -367,7 +367,7 @@
             ]
         },
         "StandardInstall": {
-            "Description": "ASCS, PAS and DB in one EC2 Instance (System ID <SID> for HANA DB and S/4HANA must be different).",
+            "Description": "Standard installation: ASCS, PAS, and the HANA database on one EC2 instance. The system ID <SID> of the HANA database and S/4HANA must be different.",
             "Default": "No",
             "Type": "String",
             "AllowedValues": [
@@ -376,7 +376,7 @@
             ]
         },
         "EnableLogging": {
-            "Description": "Enable (Yes) or disable (No) logging with AWS CloudTrail and AWS Config",
+            "Description": "Selecting Yes might increase your costs.",
             "Default": "No",
             "Type": "String",
             "AllowedValues": [
@@ -390,7 +390,7 @@
                 "No"
             ],
             "Default": "No",
-            "Description": "Enable (Yes) or disable (No) encryption on EBS volumes.",
+            "Description": "Amazon EBS volume encryption. Selecting Yes might slow performance.",
             "Type": "String"
         },
         "EFSSapmnt": {
@@ -399,19 +399,19 @@
                 "No"
             ],
             "Default": "No",
-            "Description": "Enable (Yes) or disable (No) EFS for /sapmnt.",
+            "Description": "Selecting Yes uses Amazon EFS for /sapmnt. If the default value, No, is retained, NFS is used.",
             "Type": "String"
         },
         "HANAHostCount": {
             "Default": "1",
-            "Description": "Total number of SAP HANA DB nodes you want to deploy in the SAP HANA DB cluster.",
+            "Description": "Total number of SAP HANA database nodes you want to deploy in the SAP HANA database cluster.",
             "MaxValue": "5",
             "MinValue": "1",
             "Type": "Number"
         },
         "HANAInstallMedia": {
             "Default": "s3://   /",
-            "Description": "Name of your S3 bucket for your SAP HANA DB s/w. The s/w will *not* download if the format is not correct (e.g., s3://mysapbucket/HANA-media/).",
+            "Description": "Name of your S3 bucket for your SAP HANA database software. The software will *not* download if the format is not correct (e.g., s3://mysapbucket/HANA-media/).",
             "Type": "String"
         },
         "HANAInstanceType": {
@@ -438,19 +438,19 @@
                 "u-12tb1.metal"
             ],
             "Default": "r4.4xlarge",
-            "Description": "Instance type for SAP HANA DB Server.",
+            "Description": "Instance type for the SAP HANA database server.",
             "Type": "String"
         },
         "HANAMasterPass": {
             "AllowedPattern": "^(?=.*?[a-z])(?=.*?[A-Z])(?=.*[0-9]).*",
             "ConstraintDescription": "This must be at least 8 characters, including uppercase, lowercase, and numeric values.",
-            "Description": "SAP HANA DB and S/4HANA password to use during installations.",
+            "Description": "Password to use during SAP HANA database and S/4HANA installations.",
             "MinLength": "8",
             "NoEcho": "true",
             "Type": "String"
         },
         "HostedZoneName": {
-            "Description": "A R53 privated hosted zone will be created. Use a fully-qualified domain name e.g. mycompany.local",
+            "Description": "A Route 53 privately hosted zone created for all deployed servers. Use a fully-qualified domain name (e.g., mycompany.local).",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "64",
@@ -463,7 +463,7 @@
                 "No"
             ],
             "Default": "Yes",
-            "Description": "Install (Yes) or don't install (No) optional RDP & Bastion instances.",
+            "Description": "Installs the optional RDP and bastion instances.",
             "Type": "String"
         },
         "InstallSAP": {
@@ -472,7 +472,7 @@
                 "No"
             ],
             "Default": "Yes",
-            "Description": "Install (Yes) or don't install (No) S/4HANA App Server. When No, *only* the AWS infrastructure is provisioned.",
+            "Description": "When set to No, only the AWS infrastructure is provisioned.",
             "Type": "String"
         },
         "InstallSAPVersion": {
@@ -489,7 +489,7 @@
                 "No"
             ],
             "Default": "No",
-            "Description": "Install (Yes) or (No) don't install SAP Additional App Servers. When No, *only* the SAP ASCS, DB & PAS are installed.",
+            "Description": "Selecting Yes installs SAP additional application server. If the default value, No, is retained, only SAP ASCS, the HANA database, and PAS are installed.",
             "Type": "String"
         },
         "KeyName": {
@@ -512,7 +512,7 @@
                 "c4.large"
             ],
             "Default": "r4.xlarge",
-            "Description": "Instance type for S/4HANA App Server.",
+            "Description": "Instance type for the S/4HANA PAS.",
             "Type": "String"
         },
         "hanaHA": {
@@ -538,12 +538,12 @@
                 "SuSE-Linux-12-SP3-For-SAP-BYOS-HVM"
             ],
             "Default": "SuSE-Linux-12-SP3-HVM",
-            "Description": "Operating system (SLES only) version for S/4HANA App servers.",
+            "Description": "For SLES only, the operating system version for S/4HANA application servers.",
             "Type": "String"
         },
         "MyOSHANA": {
             "Type": "String",
-            "Description": "Operating system version for HANA DB servers.",
+            "Description": "The version of SLES or RHEL for HANA database servers.",
             "Default": "SuSE-Linux-12-SP3-HVM",
             "AllowedValues": [
                 "Red-Hat-Enterprise-Linux-7.3-For-SAP-HVM",
@@ -561,42 +561,42 @@
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28",
             "Default": "10.0.0.0/19",
-            "Description": "CIDR block for private subnet 1 located in Availability Zone 1",
+            "Description": "CIDR block for private subnet 1 located in Availability Zone 1.",
             "Type": "String"
         },
         "PrivateSubnet2CIDR": {
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28",
             "Default": "10.0.32.0/19",
-            "Description": "CIDR block for private subnet 2 located in Availability Zone 2",
+            "Description": "CIDR block for private subnet 2 located in Availability Zone 2.",
             "Type": "String"
         },
         "PublicSubnet1CIDR": {
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28",
             "Default": "10.0.128.0/20",
-            "Description": "CIDR block for the public (DMZ) subnet 1 located in Availability Zone 1",
+            "Description": "CIDR block for the public (DMZ) subnet 1 located in Availability Zone 1.",
             "Type": "String"
         },
         "PublicSubnet2CIDR": {
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28",
             "Default": "10.0.144.0/20",
-            "Description": "CIDR block for the public (DMZ) subnet 2 located in Availability Zone 2",
+            "Description": "CIDR block for the public (DMZ) subnet 2 located in Availability Zone 2.",
             "Type": "String"
         },
         "QSS3BucketName": {
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
             "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).",
             "Default": "aws-quickstart",
-            "Description": "S3 bucket name for the Quick Start assets. This string can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).",
+            "Description": "S3 bucket name for your copy of the Quick Start assets. This string can include numbers, lowercase letters, uppercase letters, and hyphens (-), but it cannot start or end with a hyphen (-).",
             "Type": "String"
         },
         "QSS3KeyPrefix": {
             "AllowedPattern": "^[0-9a-zA-Z-/]*$",
             "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
             "Default": "quickstart-sap-s4-hana/",
-            "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
+            "Description": "S3 key name prefix used to simulate a folder for your copy of the Quick Start assets. This prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slashes (/).",
             "Type": "String"
         },
         "RDPInstanceType": {
@@ -607,26 +607,26 @@
                 "m4.xlarge"
             ],
             "Default": "m4.large",
-            "Description": "Instance type for Windows RDP instance.",
+            "Description": "Amazon EC2 instance type for the Windows RDP instance.",
             "Type": "String"
         },
         "RemoteAccessCIDR": {
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
             "ConstraintDescription": "This must be a valid CIDR range in the format x.x.x.x/x.",
             "Default": "0.0.0.0/0",
-            "Description": "CIDR block from where you want to access instances in your public subnet(s).",
+            "Description": "CIDR block from where you want to access instances in your public subnets.",
             "MaxLength": "18",
             "MinLength": "9",
             "Type": "String"
         },
         "SAPAASHostname": {
             "Default": "sidapp00",
-            "Description": "Host name *template* to use for SAP AAS Server",
+            "Description": "Host name *template* to use for SAP AAS.",
             "Type": "String"
         },
         "SAPASCSHostname": {
             "Default": "sidasc00",
-            "Description": "Virtual Hostname for SAP ASCS Server",
+            "Description": "Virtual hostname for the SAP ASCS server  (e.g., sidasc00).",
             "Type": "String"
         },
         "StbySAPASCS": {
@@ -635,12 +635,12 @@
                 "No"
             ],
             "Default": "No",
-            "Description": "Enable (Yes) or disable (No) Standby ASCS instance.",
+            "Description": "Selecting Yes deploys a Standby ASCS instance in a different Availability Zone. The failover mechanism is not automatically configured for the deployed Standby ASCS.",
             "Type": "String"
         },
         "SAPHANAHostname": {
             "Default": "siddbmas",
-            "Description": "Host name to use for SAP HANA DB server (SAP App server must be able to access HANA server).",
+            "Description": "Host name to use for the SAP HANA database server.",
             "Type": "String"
         },
         "HANAHostnameSecondary": {
@@ -649,24 +649,24 @@
             "Type": "String"
         },
         "SAPInstallMediaBucket": {
-            "Default": "my-sw-bucket",
-            "Description": "Name of your S3 bucket for your SAP S/4HANA s/w. Do *NOT* include s3:// (use just your bucket name)",
+            "Default": "",
+            "Description": "Name of your Amazon S3 bucket for your SAP S/4HANA software. Do *not* include s3:// (enter only the bucket name; e.g., my-sw-bucket).",
             "Type": "String"
         },
         "SAPInstallMediaKeyPrefix": {
-            "Default": "my/sw/version/",
-            "Description": "Name of your S3 Key Prefix for your SAP S/4HANA s/w. Leave blank if you do not use a Key Prefix",
+            "Default": "",
+            "Description": "Name of your S3 key prefix for your SAP S/4HANA software (e.g., my/sw/version). Leave blank if you do not use a key prefix.",
             "Type": "String"
         },
         "SAPInstanceNum": {
             "AllowedPattern": "([0-9]{1}[0-7]{1})",
             "Default": "00",
-            "Description": "SAP instance number to use for installation and setup, and to open ports for security groups.",
+            "Description": "SAP instance number to use for HANA database and S/4HANA ABAP installation and setup, and to open ports for security groups.",
             "Type": "String"
         },
         "SAPPASHostname": {
             "Default": "sidpas00",
-            "Description": "Host name to use for SAP PAS Server (DNS short name).",
+            "Description": "Host name (DNS short name) to use for the SAP PAS server (e.g., sidpas00).",
             "Type": "String"
         },
         "SAPTZ": {
@@ -678,41 +678,41 @@
             ],
             "ConstraintDescription": "This value must consist of 2 characters.",
             "Default": "UC",
-            "Description": "The TimeZone of your SAP Server (PT, CT, ET, or UTC)",
+            "Description": "The time zone of your SAP server (PT, CT, ET, or UC)",
             "Type": "String"
         },
         "SID": {
             "AllowedPattern": "([A-Z]{1}[0-9A-Z]{2})",
             "ConstraintDescription": "This value must consist of 3 characters.",
             "Default": "HDB",
-            "Description": "HANA Database system ID for installation and setup.",
+            "Description": "HANA database system ID for installation and setup.",
             "Type": "String"
         },
         "SAPSID": {
             "AllowedPattern": "([A-Z]{1}[0-9A-Z]{2})",
             "ConstraintDescription": "This value must consist of 3 characters.",
             "Default": "S4H",
-            "Description": "S/4HANA ABAP system ID for installation and setup (Must be different than the DB SID for Standard installation).",
+            "Description": "S/4HANA ABAP system ID for installation and setup. (For Standard installation, SAPSID must be different from SID.)",
             "Type": "String"
         },
         "SAPSchemaName": {
             "Default": "SAPHANADB",
-            "Description": "SAP ABAP Schema name for HANA database.",
+            "Description": "SAP ABAP schema name for the HANA database.",
             "Type": "String"
         },
         "SIDadmUID": {
             "Default": "1002",
-            "Description": "UID (default is 1002) for the SIDadm user.",
+            "Description": "User ID for the SIDadm user.",
             "Type": "String"
         },
         "SLESBYOSRegCode": {
             "Type": "String",
             "Default": "",
-            "Description": "Registration code for SUSE BYOS (Applicable only if you use BYOS Option)."
+            "Description": "Registration code for SUSE BYOS (if you are using the BYOS option)."
         },
         "VolumeTypeHanaData": {
             "Type": "String",
-            "Description": "EBS volume type for SAP HANA Data: General Purpose SSD (gp2) or Provisioned IOPS SSD (io1).",
+            "Description": "Amazon EBS volume type for the HANA data. Choose General Purpose SSD (gp2) or Provisioned IOPS SSD (io1).",
             "Default": "gp2",
             "AllowedValues": [
                 "gp2",
@@ -721,7 +721,7 @@
         },
         "VolumeTypeHanaLog": {
             "Type": "String",
-            "Description": "EBS volume type for SAP HANA Log: General Purpose SSD (gp2) or Provisioned IOPS SSD (io1).",
+            "Description": "Amazon EBS volume type for SAP HANA log. Choose General Purpose SSD (gp2) or Provisioned IOPS SSD (io1).",
             "Default": "gp2",
             "AllowedValues": [
                 "gp2",
@@ -732,7 +732,7 @@
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28",
             "Default": "10.0.0.0/16",
-            "Description": "CIDR block for the VPC",
+            "Description": "CIDR block for the VPC.",
             "Type": "String"
         }
     },
