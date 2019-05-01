@@ -56,11 +56,11 @@ tests:
       - us-east-1
     template_file: sap-s4hana-new-vpc.template
     parameter_input: us-east1-virginia.json
-  4-Nsplit-Ye-Ya:
-    regions:
-      - ap-southeast-1
-    template_file: sap-s4hana-new-vpc.template
-    parameter_input: ap-se1-singapore.json
+#  4-Nsplit-Ye-Ya:
+#    regions:
+#      - ap-southeast-1
+#    template_file: sap-s4hana-new-vpc.template
+#    parameter_input: ap-se1-singapore.json
 #  8-Nsplit-Ye-Ya:
 #    regions:
 #      - ap-southeast-1
