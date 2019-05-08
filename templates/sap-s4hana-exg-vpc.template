@@ -553,13 +553,8 @@
         "QSS3KeyPrefix": {
             "AllowedPattern": "^[0-9a-zA-Z-/]*$",
             "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
-<<<<<<< Updated upstream
-            "Default": "quickstart-sap-s4hana/",
-            "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
-=======
-            "Default": "quickstart-sap-s4-hana/",
+			"Default": "quickstart-sap-s4-hana/",
             "Description": "S3 key name prefix used to simulate a folder for your copy of the Quick Start assets. This prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slashes (/).",
->>>>>>> Stashed changes
             "Type": "String"
         },
         "RDPInstanceType": {
