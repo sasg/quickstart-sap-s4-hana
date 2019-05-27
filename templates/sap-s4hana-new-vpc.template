@@ -979,6 +979,9 @@
                     "HostedZoneName": {
                         "Ref": "HostedZoneName"
                     },
+                    "InstallRDPInstance": {
+                        "Ref": "InstallRDPAndBastionInstance"
+                    },
                     "InstallSAP": {
                         "Ref": "InstallSAP"
                     },
@@ -1047,6 +1050,9 @@
                     },
                     "QSS3KeyPrefix": {
                         "Ref": "QSS3KeyPrefix"
+                    },
+                    "RDPInstanceType": {
+                        "Ref": "RDPInstanceType"
                     },
                     "SAPASCSHostname": {
                         "Ref": "SAPASCSHostname"
@@ -1114,6 +1120,9 @@
                     "HostedZoneName": {
                         "Ref": "HostedZoneName"
                     },
+                    "InstallRDPInstance": {
+                        "Ref": "InstallRDPAndBastionInstance"
+                    },
                     "InstallSAP": {
                         "Ref": "InstallSAP"
                     },
@@ -1182,6 +1191,9 @@
                     },
                     "QSS3KeyPrefix": {
                         "Ref": "QSS3KeyPrefix"
+                    },
+                    "RDPInstanceType": {
+                        "Ref": "RDPInstanceType"
                     },
                     "SAPASCSHostname": {
                         "Ref": "SAPASCSHostname"

@@ -84,6 +84,18 @@
                 },
                 {
                     "Label": {
+                        "default": "Optional configuration"
+                    },
+                    "Description": {
+                        "default": ""
+                    },
+                    "Parameters": [
+                        "InstallRDPInstance",
+                        "RDPInstanceType"
+                    ]
+                },
+                {
+                    "Label": {
                         "default": "Advanced configuration (Do not modify unless directed by AWS Support)"
                     },
                     "Description": {

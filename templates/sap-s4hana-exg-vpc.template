@@ -1383,7 +1383,7 @@
                         "Ref": "InstallSAP"
                     },
                     "InstallRDPInstance": {
-                        "Ref": "InstallRDPInstance"
+                        "Ref": "InstallRDPAndBastionInstance"
                     },
                     "KeyName": {
                         "Ref": "KeyName"
