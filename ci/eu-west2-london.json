@@ -33,7 +33,7 @@
     },
     {
         "ParameterKey": "hanaHA",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "MyOSHANA",
@@ -89,7 +89,7 @@
     },
     {
         "ParameterKey": "DistributedInstall",
-        "ParameterValue": "No"
+        "ParameterValue": "Yes"
     },
     {
         "ParameterKey": "MyOS",
@@ -125,7 +125,7 @@
     },
     {
         "ParameterKey": "InstallSAP",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "InstallSAPVersion",
@@ -177,7 +177,7 @@
     },
     {
         "ParameterKey": "InstallRDPAndBastionInstance",
-        "ParameterValue": "No"
+        "ParameterValue": "Yes"
     },
     {
         "ParameterKey": "RDPInstanceType",

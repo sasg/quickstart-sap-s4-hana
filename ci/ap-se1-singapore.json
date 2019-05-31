@@ -33,7 +33,7 @@
     },
     {
         "ParameterKey": "hanaHA",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "MyOSHANA",
@@ -45,7 +45,7 @@
     },
     {
         "ParameterKey": "HANAInstanceType",
-        "ParameterValue": "r4.4xlarge"
+        "ParameterValue": "r4.2xlarge"
     },
     {
         "ParameterKey": "HANAHostCount",
@@ -125,7 +125,7 @@
     },
     {
         "ParameterKey": "InstallSAP",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "InstallSAPVersion",
@@ -177,7 +177,7 @@
     },
     {
         "ParameterKey": "InstallRDPAndBastionInstance",
-        "ParameterValue": "No"
+        "ParameterValue": "Yes"
     },
     {
         "ParameterKey": "RDPInstanceType",

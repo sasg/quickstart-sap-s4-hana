@@ -121,7 +121,7 @@
     },
     {
         "ParameterKey": "InstallSAP",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "InstallSAPVersion",
@@ -173,7 +173,7 @@
     },
     {
         "ParameterKey": "InstallRDPAndBastionInstance",
-        "ParameterValue": "No"
+        "ParameterValue": "Yes"
     },
     {
         "ParameterKey": "RDPInstanceType",
