@@ -304,16 +304,28 @@
                 "r4.2xlarge",
                 "r4.xlarge",
                 "r4.large",
+                "r5.4xlarge",
+                "r5.2xlarge",
+                "r5.xlarge",
+                "r5.large",
                 "m4.4xlarge",
                 "m4.2xlarge",
                 "m4.xlarge",
                 "m4.large",
+                "m5.4xlarge",
+                "m5.2xlarge",
+                "m5.xlarge",
+                "m5.large",
                 "c4.4xlarge",
                 "c4.2xlarge",
                 "c4.xlarge",
-                "c4.large"
+                "c4.large",
+                "c5.4xlarge",
+                "c5.2xlarge",
+                "c5.xlarge",
+                "c5.large"
             ],
-            "Default": "r4.xlarge",
+            "Default": "r5.xlarge",
             "Description": "Amazon EC2 instance type for SAP AAS.",
             "Type": "String"
         },
@@ -323,16 +335,28 @@
                 "r4.2xlarge",
                 "r4.xlarge",
                 "r4.large",
+                "r5.4xlarge",
+                "r5.2xlarge",
+                "r5.xlarge",
+                "r5.large",
                 "m4.4xlarge",
                 "m4.2xlarge",
                 "m4.xlarge",
                 "m4.large",
+                "m5.4xlarge",
+                "m5.2xlarge",
+                "m5.xlarge",
+                "m5.large",
                 "c4.4xlarge",
                 "c4.2xlarge",
                 "c4.xlarge",
-                "c4.large"
+                "c4.large",
+                "c5.4xlarge",
+                "c5.2xlarge",
+                "c5.xlarge",
+                "c5.large"
             ],
-            "Default": "r4.large",
+            "Default": "r5.large",
             "Description": "Instance type for the SAP ASCS server.",
             "Type": "String"
         },
@@ -427,6 +451,7 @@
                 "r5.4xlarge",
                 "r5.12xlarge",
                 "r5.24xlarge",
+                "r5.metal",
                 "x1.16xlarge",
                 "x1.32xlarge",
                 "x1e.xlarge",
@@ -437,7 +462,7 @@
                 "u-9tb1.metal",
                 "u-12tb1.metal"
             ],
-            "Default": "r4.4xlarge",
+            "Default": "r5.4xlarge",
             "Description": "Instance type for the SAP HANA database server.",
             "Type": "String"
         },
@@ -502,16 +527,28 @@
                 "r4.2xlarge",
                 "r4.xlarge",
                 "r4.large",
+                "r5.4xlarge",
+                "r5.2xlarge",
+                "r5.xlarge",
+                "r5.large",
                 "m4.4xlarge",
                 "m4.2xlarge",
                 "m4.xlarge",
                 "m4.large",
+                "m5.4xlarge",
+                "m5.2xlarge",
+                "m5.xlarge",
+                "m5.large",
                 "c4.4xlarge",
                 "c4.2xlarge",
                 "c4.xlarge",
-                "c4.large"
+                "c4.large",
+                "c5.4xlarge",
+                "c5.2xlarge",
+                "c5.xlarge",
+                "c5.large"
             ],
-            "Default": "r4.xlarge",
+            "Default": "r5.xlarge",
             "Description": "Instance type for the S/4HANA PAS.",
             "Type": "String"
         },
@@ -526,35 +563,52 @@
         },
         "MyOS": {
             "AllowedValues": [
+                "Red-Hat-Enterprise-Linux-7.5-For-SAP-HVM",
+                "Red-Hat-Enterprise-Linux-7.4-For-SAP-HA-US-HVM",
+                "Red-Hat-Enterprise-Linux-7.5-For-SAP-HA-US-HVM",
+                "Red-Hat-Enterprise-Linux-7.6-For-SAP-HA-US-HVM",
                 "SuSE-Linux-11-SP4-HVM",
                 "SuSE-Linux-12-SP1-HVM",
-                "SuSE-Linux-12-SP2-HVM",
                 "SuSE-Linux-12-SP3-HVM",
-                "SuSE-Linux-12-SP1-For-SAP-HVM",
+                "SuSE-Linux-12-SP4-HVM",
+                "SuSE-Linux-15-HVM",
                 "SuSE-Linux-12-SP2-For-SAP-HVM",
                 "SuSE-Linux-12-SP3-For-SAP-HVM",
+                "SuSE-Linux-12-SP4-For-SAP-HVM",
+                "SuSE-Linux-15-For-SAP-HVM",
                 "SuSE-Linux-12-SP1-For-SAP-BYOS-HVM",
                 "SuSE-Linux-12-SP2-For-SAP-BYOS-HVM",
-                "SuSE-Linux-12-SP3-For-SAP-BYOS-HVM"
+                "SuSE-Linux-12-SP3-For-SAP-BYOS-HVM",
+                "SuSE-Linux-12-SP4-For-SAP-BYOS-HVM",
+                "SuSE-Linux-15-For-SAP-BYOS-HVM"
             ],
-            "Default": "SuSE-Linux-12-SP3-HVM",
-            "Description": "For SLES only, the operating system version for S/4HANA application servers.",
+            "Default": "SuSE-Linux-12-SP4-For-SAP-HVM",
+            "Description": "The operating system version for S/4HANA application servers.",
             "Type": "String"
         },
         "MyOSHANA": {
             "Type": "String",
             "Description": "The version of SLES or RHEL for HANA database servers.",
-            "Default": "SuSE-Linux-12-SP3-HVM",
+            "Default": "SuSE-Linux-12-SP4-For-SAP-HVM",
             "AllowedValues": [
-                "Red-Hat-Enterprise-Linux-7.3-For-SAP-HVM",
+                "Red-Hat-Enterprise-Linux-7.5-For-SAP-HVM",
+                "Red-Hat-Enterprise-Linux-7.4-For-SAP-HA-US-HVM",
+                "Red-Hat-Enterprise-Linux-7.5-For-SAP-HA-US-HVM",
+                "Red-Hat-Enterprise-Linux-7.6-For-SAP-HA-US-HVM",
+                "SuSE-Linux-11-SP4-HVM",
                 "SuSE-Linux-12-SP1-HVM",
                 "SuSE-Linux-12-SP3-HVM",
-                "SuSE-Linux-12-SP1-For-SAP-HVM",
+                "SuSE-Linux-12-SP4-HVM",
+                "SuSE-Linux-15-HVM",
                 "SuSE-Linux-12-SP2-For-SAP-HVM",
                 "SuSE-Linux-12-SP3-For-SAP-HVM",
+                "SuSE-Linux-12-SP4-For-SAP-HVM",
+                "SuSE-Linux-15-For-SAP-HVM",
                 "SuSE-Linux-12-SP1-For-SAP-BYOS-HVM",
                 "SuSE-Linux-12-SP2-For-SAP-BYOS-HVM",
-                "SuSE-Linux-12-SP3-For-SAP-BYOS-HVM"
+                "SuSE-Linux-12-SP3-For-SAP-BYOS-HVM",
+                "SuSE-Linux-12-SP4-For-SAP-BYOS-HVM",
+                "SuSE-Linux-15-For-SAP-BYOS-HVM"
             ]
         },
         "PrivateSubnet1CIDR": {
@@ -992,10 +1046,13 @@
                         "Ref": "KeyName"
                     },
                     "MyInstanceType": {
-                        "Ref": "MyInstanceType"
+                        "Ref": "ASCSMyInstanceType"
                     },
                     "MyOS": {
                         "Ref": "MyOS"
+                    },
+                    "MyOSHANA": {
+                        "Ref": "MyOSHANA"
                     },
                     "ApplicationCIDR": {
                         "Fn::GetAtt": [
@@ -1133,10 +1190,13 @@
                         "Ref": "KeyName"
                     },
                     "MyInstanceType": {
-                        "Ref": "MyInstanceType"
+                        "Ref": "ASCSMyInstanceType"
                     },
                     "MyOS": {
                         "Ref": "MyOS"
+                    },
+                    "MyOSHANA": {
+                        "Ref": "MyOSHANA"
                     },
                     "ApplicationCIDR": {
                         "Fn::GetAtt": [
@@ -2298,7 +2358,7 @@
         "Assertions": [{
             "Assert": {
                 "Fn::Contains": [
-                    ["us-east-1", "us-east-2", "us-west-1", "us-west-2", "eu-west-1", "eu-central-1", "ap-northeast-1", "ap-southeast-1", "ap-southeast-2"], {
+                    ["us-east-1", "us-east-2", "us-west-1", "us-west-2", "eu-west-1", "eu-west-2", "eu-west-3", "eu-central-1", "ap-northeast-1", "ap-southeast-1", "ap-southeast-2"], {
                         "Ref": "AWS::Region"
                     }
                 ]

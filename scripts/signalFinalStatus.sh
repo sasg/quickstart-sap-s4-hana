@@ -32,11 +32,8 @@ set_install_cfn() {
 	tar -xvf aws-cfn-bootstrap-latest.tar
     ln -s /tmp/aws-cfn-bootstrap-1.4 /tmp/aws
     chmod -R 755 /tmp/aws-cfn-bootstrap-1.4
-
 	zypper -n install python-pip
-
 	pip install --upgrade setuptools
-
 }
 
 

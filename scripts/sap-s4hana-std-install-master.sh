@@ -93,7 +93,6 @@ set_noop_scheduler () {
 #          Read all inputs
 # ------------------------------------------------------------------
 
-
 while getopts ":h:s:i:p:n:d:w:l:" o; do
     case "${o}" in
     h) usage && exit 0
@@ -118,6 +117,7 @@ while getopts ":h:s:i:p:n:d:w:l:" o; do
     esac
 done
 
+log `date` "----- Entering sap-s4hana-install-master.sh -----"
 
 if (( $(isSLES12) == 1 )); then
 	if [ -d "/home/ec2-user/media.cache" ]; then
@@ -487,7 +487,9 @@ update_status "PERFORMING_POST_INSTALL_STEPS"
 # ------------------------------------------------------------------
 # Install SAP S/4HANA 1809 
 # ------------------------------------------------------------------
+log `date` "----- Entering sap-s4hana-install-master.sh -----"
 sh ${SCRIPT_DIR}/sap-s4hana-std-install.sh -p $HANAPASSWORD -s $SID -i $INSTANCE -n $MASTER_HOSTNAME -d $DOMAIN > /root/install/sap-s4hana-std-install.log
+log `date` "----- Exiting sap-s4hana-install-master.sh -----"
 touch /root/install/sap-s4hana-std-install-script-ended
 exit 0
 

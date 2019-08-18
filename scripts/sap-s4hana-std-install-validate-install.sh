@@ -20,6 +20,8 @@ EOF
     exit 0
 }
 
+log `date` "Entering validate-install.sh"
+
 source /root/install/config.sh
 
 # ------------------------------------------------------------------
@@ -65,19 +67,18 @@ if (( ${HANAS3BucketLen} < 4 )); then
     exit 0
 fi
 
-
 SAPCONTROL=$(find /usr/sap/ -type f -name sapcontrol | grep host)
 [ ! -f "$SAPCONTROL" ] && failure;
 
-_SAP_UP=$(ps -ef | grep dw.sap${SAP_SID} | grep -v grep | wc -l )
-
-if [ "$_SAP_UP" -eq 0 ]
-then
-	echo "${p}: NOT RUNNING: FAILURE"
-	failure;
-else
-	echo "${p}: RUNNING OKAY"
-fi
+#_SAP_UP=$(ps -ef | grep dw.sap${SAP_SID} | grep -v grep | wc -l )
+#_SAP_UP=0
+#if [ "$_SAP_UP" -eq 0 ]
+#then
+#	echo "${p}: NOT RUNNING: FAILURE"
+#	failure;
+#else
+#	echo "${p}: RUNNING OKAY"
+#fi
 
 log `date` "SAP INSTALLATION VALIDATED"
 success;

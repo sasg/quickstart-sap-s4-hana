@@ -4,10 +4,10 @@
 source /root/install/config.sh
 TZ_LOCAL_FILE="/etc/localtime"
 NTP_CONF_FILE="/etc/ntp.conf"
+OS_VER="/etc/os-release"
 USR_SAP="/usr/sap"
 SAPMNT="/sapmnt"
-USR_SAP_DEVICE="/dev/xvdb"
-SAPMNT_DEVICE="/dev/xvdc"
+USR_SAP_VOLUME="/dev/xvdb"
 SWAP_DEVICE="/dev/xvdd"
 USR_SAP_VOL="xvdb"
 SAPMNT_VOL="xvdc"
@@ -18,6 +18,7 @@ CLOUD_CFG="/etc/cloud/cloud.cfg"
 IP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4/)
 HOSTS_FILE="/etc/hosts"
 HOSTNAME_FILE="/etc/HOSTNAME"
+INSTANCE_TYPE=$(curl http://169.254.169.254/latest/meta-data/instance-type 2> /dev/null)
 NETCONFIG="/etc/sysconfig/network/config"
 ETC_SVCS="/etc/services"
 SAPMNT_SVCS="/sapmnt/SWPM/services"
@@ -72,42 +73,73 @@ set_tz() {
 }
 
 set_oss_configs() {
-
     #This section is from OSS #2205917 - SAP HANA DB: Recommended OS settings for SLES 12 / SLES for SAP Applications 12
-    #and OSS #2292711 - SAP HANA DB: Recommended OS settings for SLES 12 SP1 / SLES for SAP Applications 12 SP1
-
-    zypper remove ulimit > /dev/null
-
-    echo "###################" >> /etc/init.d/boot.local
-    echo "#BEGIN: This section inserted by AWS SAP Quickstart" >> /etc/init.d/boot.local
-
-    #Disable THP
+    #and OSS #2292711 - SAP HANA DB: Recommended OS settings for SLES 12 SP1 / SLES for SAP Applications 12 SP1 
+    # Disable THP
     echo never > /sys/kernel/mm/transparent_hugepage/enabled
     echo "echo never > /sys/kernel/mm/transparent_hugepage/enabled" >> /etc/init.d/boot.local
-
     echo 10 > /proc/sys/vm/swappiness
     echo "echo 10 > /proc/sys/vm/swappiness" >> /etc/init.d/boot.local
-
-    #Disable KSM
+    # Disable KSM
     echo 0 > /sys/kernel/mm/ksm/run
     echo "echo 0 > /sys/kernel/mm/ksm/run" >> /etc/init.d/boot.local
+    # Disable SELINUX
+    sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+    sed -i 's/SELINUX=permissive/SELINUX=disabled/g' /etc/sysconfig/selinux
+    
+    if grep -i suse ${OS_VER} 1> /dev/null
+    then
+        # Install and configure SLES 
+        zypper -n remove ulimit > /dev/null
+        echo "###################" >> /etc/init.d/boot.local
+        echo "#BEGIN: This section inserted by AWS SAP Quickstart" >> /etc/init.d/boot.local
+        #Disable AutoNUMA
+        echo 0 > /proc/sys/kernel/numa_balancing
+        echo "echo 0 > /proc/sys/kernel/numa_balancing" >> /etc/init.d/boot.local
+        zypper -n install gcc > /dev/null
+        zypper -n install libgcc_s1 libstdc++6 > /dev/null
+        echo "#END: This section inserted by AWS SAP HANA Quickstart" >> /etc/init.d/boot.local
+        echo "###################" >> /etc/init.d/boot.local
+        # Install GCC and GC++ compilers. GCC includes package libatomic1 that is required for all GCC 7 compiled apps, see OSS note 2593824. 
+        zypper -n install gcc-c++ > /dev/null
+        zypper -n install systemd > /dev/null
+        zypper -n install nvme-cli > /dev/null
 
-    #NoHZ is not set
-
-    #Disable AutoNUMA
-    echo 0 > /proc/sys/kernel/numa_balancing
-    echo "echo 0 > /proc/sys/kernel/numa_balancing" >> /etc/init.d/boot.local
-
-    #Increase max open files
-    echo 1048576 > /proc/sys/fs/nr_open
-    echo "echo 1048576 > /proc/sys/fs/nr_open" >> /etc/init.d/boot.local
-
-    zypper -n install gcc
-
-    zypper -n install libgcc_s1 libstdc++6
-
-    echo "#END: This section inserted by AWS SAP HANA Quickstart" >> /etc/init.d/boot.local
-    echo "###################" >> /etc/init.d/boot.local
+        if grep -i sap ${OS_VER} 1> /dev/null
+        then
+            # "Optional" - installing GNOME Desktop Environment
+            zypper -n install -t pattern x11 gnome_basic > /dev/null 
+            # --- OSS Note 1275776 -----------------
+            zypper -n install saptune > /dev/null
+            saptune daemon start
+            saptune solution apply HANA
+            saptune solution apply S4HANA-APPSERVER
+            # --------------------------------------
+        else
+            # --- OSS Note 1275776 -----------------
+            zypper -n install sapconf > /dev/null
+            systemctl start sapconf.service > /dev/null
+        fi
+        # ---- Specifics for SLES15 ----
+        if grep 15 ${OS_VER} 1> /dev/null
+        then 
+            zypper -n install unrar_wrapper > /dev/null
+            zypper -n install net-tools-deprecated > /dev/null
+        fi
+        # Update all installed packages to the latest version
+        zypper -n update --auto-agree-with-licenses
+    else
+        # RHEL package install and configuration
+        # --------------------------------------------
+        yum -y install vhostmd > /dev/null
+        yum -y install vm-dump-metrics > /dev/null
+        yum -y install glibc > /dev/null
+        yum -y install gcc > /dev/null
+        yum -y install gcc-c++ > /dev/null
+        yum -y install compat-sap-c++ > /dev/null
+        yum -y install nvme-cli > /dev/null
+        yum -y update > /dev/null
+    fi
 }
 
 set_awsdataprovider() {
@@ -208,23 +240,37 @@ set_cleanup_inifiles() {
     sed -i  "/NW_HDB_getDBInfo.systemDbPassword/ c\NW_HDB_getDBInfo.systemDbPassword = ${MP}" $PAS_INI_FILE
 }
 
-set_ntp() {
-#set ntp in the /etc/ntp.conf file
-	cp "$NTP_CONF_FILE" "$NTP_CONF_FILE.bak"
-	echo "server 0.pool.ntp.org" >> "$NTP_CONF_FILE"
-	echo "server 1.pool.ntp.org" >> "$NTP_CONF_FILE"
-	echo "server 2.pool.ntp.org" >> "$NTP_CONF_FILE"
-	echo "server 3.pool.ntp.org" >> "$NTP_CONF_FILE"
-	systemctl start ntpd
-	echo "systemctl start ntpd" >> /etc/init.d/boot.local
-	_COUNT_NTP=$(grep ntp "$NTP_CONF_FILE" | wc -l)
-	if [ "$_COUNT_NTP" -ge 4 ]
-	then
-		echo 0
-	else
-		echo 1
-	fi
+Implement_Chrony()
+{
+    if grep -i suse ${OS_VER} 1> /dev/null
+    then
+        zypper -n remove 'ntp*' 1>/dev/null
+        zypper -n install chrony 1>/dev/null
+    else
+        yum -y erase 'ntp*' 1>/dev/null
+        yum -y install chrony 1>/dev/null
+    fi
+    echo "server 169.254.169.123 prefer iburst minpoll 4 maxpoll 4" >> /etc/chrony.conf
+    ps -ef | grep '[c]hronyd' && service chronyd stop
+    service chronyd start 1>/dev/null
+    chronyc sources -v | grep '169.254.169.123' && return 0 || return 1
 }
+
+#set_ntp() {
+#set ntp in the /etc/ntp.conf file
+#	cp "$NTP_CONF_FILE" "$NTP_CONF_FILE.bak"
+#	echo "server 0.pool.ntp.org" >> "$NTP_CONF_FILE"
+#	echo "server 1.pool.ntp.org" >> "$NTP_CONF_FILE"
+#	echo "server 2.pool.ntp.org" >> "$NTP_CONF_FILE"
+#	echo "server 3.pool.ntp.org" >> "$NTP_CONF_FILE"
+#	echo "systemctl start ntpd" >> /etc/init.d/boot.local
+#	_COUNT_NTP=$(grep ntp "$NTP_CONF_FILE" | wc -l)
+#	if [ "$_COUNT_NTP" -ge 4 ]
+#	then
+#		echo 0
+#	else
+#	fi
+#}
 
 set_install_jq () {
 #install jq s/w
@@ -238,41 +284,64 @@ set_filesystems() {
 #create /usr/sap filesystem and mount /sapmnt
 
 	#bash /root/install/create-attach-single-volume.sh "50:gp2:$USR_SAP_DEVICE:$USR_SAP" > /dev/null
-	USR_SAP_VOLUME=$(lsblk  | grep $USR_SAP_VOL)
-	if [ -z "$USR_SAP_VOLUME" ]
+    if [ ${INSTANCE_TYPE:1:1} == 5 ]
+    then
+#        for devf in `ls /dev/nvme?n? | grep -v $(df | grep boot | head -c12)`
+        for devf in `ls /dev/nvme?n?`
+        do
+            if nvme id-ctrl -v ${devf} | grep xvdb
+            then
+                USR_SAP_VOLUME=${devf}
+            elif nvme id-ctrl -v ${devf} | grep xvdd
+              then
+                  SWAP_DEVICE=${devf}
+            fi
+        done
+    fi
+    if [ -z "$USR_SAP_VOLUME" -o -z "$SWAP_DEVICE" ]
 	then
-		echo "Exiting, can not create $USR_SAP_DEVICE or $SAPMNT_DEVICE EBS volumes"
+		echo "Exiting, can not create either /usr/sap or SWAP EBS volume"
 	    #signal the waithandler, 1=Failed
-	    /root/install/signalFinalStatus.sh 1 "Exiting, can not create $USR_SAP_DEVICE or $SAPMNT_DEVICE EBS volumes"
+	    /root/install/signalFinalStatus.sh 1 "Exiting, can not create either /usr/sap or SWAP EBS volume"
 	    set_cleanup_ascsinifile
 		exit 1
 	else
 		mkdir $USR_SAP > /dev/null 2>&1
-		mkfs -t xfs $USR_SAP_DEVICE > /dev/null 2>&1
-		echo "$USR_SAP_DEVICE  $USR_SAP xfs nobarrier,noatime,nodiratime,logbsize=256k 0 0" >> $FSTAB_FILE 2>&1
-		mount -a > /dev/null 2>&1
+		mkfs.xfs $USR_SAP_VOLUME -L USR-SAP> /dev/null
+		echo "/dev/disk/by-label/USR-SAP  $USR_SAP xfs nobarrier,noatime,nodiratime,logbsize=256k 0 0" >> $FSTAB_FILE 2>&1
 		mkswap -L SWAP $SWAP_DEVICE > /dev/null 2>&1
 		swapon $SWAP_DEVICE > /dev/null 2>&1
 		echo "/dev/disk/by-label/SWAP	swap swap defaults 0 0" >> $FSTAB_FILE 2>&1
+    	cnt=1
+        while ! df | grep /usr/sap 2>/dev/null
+        do
+            mount $USR_SAP > /dev/null 2>&1
+            [[ cnt -lt 6 ]] && { (( cnt++ )) && sleep 15; } || break
+        done
 	fi
 }
 
 set_dhcp() {
-	sed -i '/DHCLIENT_SET_HOSTNAME/ c\DHCLIENT_SET_HOSTNAME="no"' $DHCP
-	service network restart
-	_DHCP=$(grep DHCLIENT_SET_HOSTNAME $DHCP | grep no)
-	if [ -n "$_DHCP" ]
-	then
-		echo 0
-	else
-		echo 1
-	fi
+	if grep -i rhel ${OS_VER} 1> /dev/null
+    then
+        sed -i '/HOSTNAME/ c\HOSTNAME='$(hostname) /etc/sysconfig/network
+        echo 0
+    else
+        sed -i '/DHCLIENT_SET_HOSTNAME/ c\DHCLIENT_SET_HOSTNAME="no"' $DHCP
+	    service network restart
+	    _DHCP=$(grep DHCLIENT_SET_HOSTNAME $DHCP | grep no)
+	    if [ -n "$_DHCP" ]
+	    then
+		    echo 0
+	    else
+		    echo 1
+	    fi
+    fi
 }
 
 set_DB_hostname() {
 	#add DB hostname
 	echo "$DBIP  $DBHOSTNAME" >> $HOSTS_FILE
-
 	#add own hostname
 	MY_IP=$( ip a | grep inet | grep eth0 | awk -F"/" '{ print $1 }' | awk '{ print $2 }')
 	echo "${MY_IP}"    "${HOSTNAME}" >> /etc/hosts  
@@ -281,20 +350,19 @@ set_DB_hostname() {
 
 set_net() {
 #set and preserve the hostname
-
-
-	#update DNS search order with our DNS Domain name
-	sed -i "/NETCONFIG_DNS_STATIC_SEARCHLIST=""/ c\NETCONFIG_DNS_STATIC_SEARCHLIST="${HOSTED_ZONE}"" $NETCONFIG
-
-	#update the /etc/resolv.conf file
-	netconfig update -f > /dev/null
-
+    if grep -i suse ${OS_VER} 1> /dev/null
+    then
+	    #update DNS search order with our DNS Domain name
+	    sed -i "/NETCONFIG_DNS_STATIC_SEARCHLIST=""/ c\NETCONFIG_DNS_STATIC_SEARCHLIST="${HOSTED_ZONE}"" $NETCONFIG
+	    #update the /etc/resolv.conf file
+	    netconfig update -f > /dev/null
+    else
+        echo "search ${HOSTED_ZONE}" >> /etc/resolv.conf
+        hostnamectl set-hostname -–static ${HOSTNAME}
+    fi
 	sed -i '/preserve_hostname/ c\preserve_hostname: true' $CLOUD_CFG
-
 	#disable dhcp
 	_DISABLE_DHCP=$(set_dhcp)
-
-
 	if [ "$HOSTNAME" == $(hostname) ]
 	then
 		echo 0
@@ -311,25 +379,19 @@ set_services_file() {
 
 set_sapmnt() {
 #setup /sapmnt from the ASCS or from EFS
-
 	mkdir  $SAPMNT > /dev/null
     mkdir $SW > /dev/null
-
     #Check if EFS is in use, if EFS is in use then we mount up from the EFS share
 	if [ "$EFS" == "Yes" ]
 	then
 		#mount up EFS
         echo "Mounting up EFS from this EFS location: "
-        
         #construct the EFS DNS name
         EFS_MP=""$EFS_MT".efs."$REGION".amazonaws.com:/ "
-
         echo ""$EFS_MP"  "$SAPMNT"  nfs nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport 0 0"  >> $FSTAB_FILE
-        
         #try to mount /sapmnt 3 times 
         mount /sapmnt > /dev/null
         sleep 5
-
        #validate /sapmnt filesystems were created and mounted
         FS_SAPMNT=$(df -h | grep "$SAPMNT" | awk '{ print $NF }')
 
@@ -353,16 +415,12 @@ set_sapmnt() {
         #The /sapmnt filesystem is tied to the ASCS server (use a bigger ASCS instance/EBS vol. type if you need more throughput or IOPs for /sapmnt) 
 
         #Mount /sapmnt from the ASCS server
-
         echo ""$ASCS_NAME:$SAPMNT"  "$SAPMNT"  nfs rw,soft,bg,timeo=3,intr 0 0"  >> $FSTAB_FILE
-
         #try to mount /sapmnt 3 times 
         mount /sapmnt > /dev/null
         sleep 5
-
-       #validate /sapmnt filesystems were created and mounted
+        #validate /sapmnt filesystems were created and mounted
         FS_SAPMNT=$(df -h | grep "$SAPMNT" | awk '{ print $NF }')
-
         if [ -z "$FS_SAPMNT" ]
         then
             mount /sapmnt > /dev/null
@@ -394,13 +452,15 @@ set_sapmnt() {
 
 set_uuidd() {
 #Install the uuidd daemon per SAP Note 1391070
-
-	zypper -n install uuidd > /dev/null 2>&1
-	chkconfig uuidd on > /dev/null 2>&1
-	service uuidd start > /dev/null 2>&1
-
+    if grep -i suse ${OS_VER} 1>/dev/null
+    then
+        zypper -n install uuidd 1> /dev/null
+    else
+        yum -y install uuidd 1> /dev/null
+    fi
+    systemctl enable uuidd
+    systemctl start uuidd
     _UUIDD_RUNNING=$(ps -ef | grep uuidd | grep -v grep)
-
 	if [ -n "$_UUIDD_RUNNING" ]
 	then
 		echo 0
@@ -411,12 +471,12 @@ set_uuidd() {
 
 set_update_cli() {
 #update the aws cli
-    zypper -n install python-pip > /dev/null 2>&1
-
-	pip install --upgrade --user awscli > /dev/null 2>&1
-
+#    zypper -n install python-pip > /dev/null 2>&1
+#	pip install --upgrade --user awscli > /dev/null 2>&1
+    curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "/tmp/awscli-bundle.zip" 1> /dev/null
+    unzip /tmp/awscli-bundle.zip -d /tmp 1> /dev/null
+    /tmp/awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws 1> /dev/null
 	_AWS_CLI=$(aws --version 2>&1)
-
 	if [ -n "$_AWS_CLI" ]
 	then
 		echo 0
@@ -426,22 +486,15 @@ set_update_cli() {
 }
 
 set_install_ssm() {
-
 	cd /tmp
-
 	wget https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm > /dev/null 2>&1
-
 	rpm -ivh /tmp/amazon-ssm-agent.rpm > /dev/null 2>&1
-
 	echo '#!/usr/bin/sh' > /etc/init.d/ssm
 	echo "service amazon-ssm-agent start" >> /etc/init.d/ssm
-
 	chmod 755 /etc/init.d/ssm
-
-	chkconfig ssm on > /dev/null 2>&1
-
+    systemctl enable amazon-ssm-agent
+    systemctl start amazon-ssm-agent
 	_SSM_RUNNING=$(ps -ef | grep ssm | grep -v grep)
-
 	if [ -n "$_SSM_RUNNING" ]
 	then
 		echo 0
@@ -481,6 +534,23 @@ then
     exit 0
 fi
 
+echo "----- Entering sap-s4hana-pas-inst.sh -----"
+
+# -------------------------------------------------------------------------- #
+# Temporary fix for the issue of unable to access SuSE repo issue - 07/06/19
+# -------------------------------------------------------------------------- #
+if grep -i suse ${OS_VER} 1> /dev/null
+then
+    if ls -l /etc/products.d/baseproduct | grep -v "SLES_SAP.prod" 1> /dev/null
+    then
+        cd /etc/products.d 2>&1
+        unlink baseproduct 2>&1
+        ln -s SLES_SAP.prod baseproduct 2>&1
+        registercloudguest --force-new 2>&1
+    fi
+fi
+# -------------------------------------------------------------------------- #
+
 #Check to see if this is a BYOS system and register it if it is
 if [[ "$MyOS" =~ BYOS ]];
 then
@@ -512,17 +582,17 @@ else
 	exit 1
 fi
 
+#the cli needs to be updated for SuSE in order to call ssm correctly
 _SET_AWSCLI=$(set_update_cli)
-
 if [ "$_SET_AWSCLI" == 0 ]
 then
-	echo "Successfully installed AWS CLI"
+    echo "Successfully installed AWS CLI"
 else
-	echo "FAILED to install AWS CLI...exiting"
-	#signal the waithandler, 1=Failed
+    echo "FAILED to install AWS CLI...exiting"
+    #signal the waithandler, 1=Failed
     /root/install/signalFinalStatus.sh 1 "FAILED to install AWS CLI...exiting"
-	set_cleanup_ascsinifile
-	exit 1
+    set_cleanup_ascsinifile
+    exit 1
 fi
 
 set_oss_configs
@@ -562,18 +632,26 @@ else
 	exit 1
 fi
 
-_SET_NTP=$(set_ntp)
-
-if [ "$_SET_NTP" == 0 ]
+if Implement_Chrony
 then
-	echo "Successfully updated NTP"
+    echo "Successfully implemented Chrony!!"
 else
-	echo "FAILED to update NTP...exiting"
-	#signal the waithandler, 1=Failed
-    /root/install/signalFinalStatus.sh 1 "FAILED to update NTP...exiting"
-	set_cleanup_ascsinifile
-	exit 1
+    echo "FAILED: Chrony NOT implmented!!"
+    /root/install/signalFinalStatus.sh 1 "FAILED: Chrony NOT implemented!!"
+    exit
 fi
+
+#_SET_NTP=$(set_ntp)
+#if [ "$_SET_NTP" == 0 ]
+#then
+#	echo "Successfully updated NTP"
+#else
+#	echo "FAILED to update NTP...exiting"
+#	#signal the waithandler, 1=Failed
+#   /root/install/signalFinalStatus.sh 1 "FAILED to update NTP...exiting"
+#	set_cleanup_ascsinifile
+#	exit 1
+#fi
 
 set_install_jq
 
@@ -606,9 +684,7 @@ else
 fi
 
 _SET_SAPMNT=$(set_sapmnt)
-
 _SAPMNT=$(df -h $SAPMNT | awk '{ print $NF }' | tail -1)
-
 if [ "$_SAPMNT" == "$SAPMNT"  ]
 then
 	echo "Successfully setup /sapmnt"
@@ -681,8 +757,6 @@ DB_DONE=$(su - "$SIDADM" -c "R3trans -d" | grep "R3trans finished (0000)")
 
 sleep 10
 
-echo "This is the value of DB_DONE: $DB_DONE"
-
 if [[ "$DB_DONE" =~ finished ]];
 then
 	echo "Successfully installed DB instance"
@@ -738,7 +812,6 @@ else
         /root/install/signalFinalStatus.sh 0 "Successfully installed SAP PAS. SAP_UP value is: $_SAP_UP"
         exit 0
     else
-	    #Orig
         echo "SAP installed FAILED."
 	    set_cleanup_ascsinifile
 	    #signal the waithandler, 0=Success

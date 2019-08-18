@@ -37,7 +37,7 @@
     },
     {
         "ParameterKey": "MyOSHANA",
-        "ParameterValue": "SuSE-Linux-12-SP3-For-SAP-HVM"
+        "ParameterValue": "SuSE-Linux-15-For-SAP-HVM"
     },
     {
         "ParameterKey": "SAPHANAHostname",
@@ -93,7 +93,7 @@
     },
     {
         "ParameterKey": "MyOS",
-        "ParameterValue": "SuSE-Linux-12-SP3-For-SAP-HVM"
+        "ParameterValue": "SuSE-Linux-15-For-SAP-HVM"
     },
     {
         "ParameterKey": "EFSSapmnt",
@@ -105,7 +105,7 @@
     },
     {
         "ParameterKey": "StbySAPASCS",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "SAPPASHostname",
@@ -177,7 +177,7 @@
     },
     {
         "ParameterKey": "InstallRDPAndBastionInstance",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "RDPInstanceType",
