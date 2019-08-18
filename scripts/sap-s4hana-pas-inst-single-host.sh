@@ -355,6 +355,7 @@ set_filesystems() {
     fi
     mkfs.xfs $USR_SAP_VOLUME -L USR-SAP> /dev/null
     mkfs.xfs $SAPMNT_VOLUME -L SAPMNT > /dev/null
+    cd /dev/disk/by-label; ln -s ${SAPMNT_VOLUME} SAPMNT > /dev/null
     mkswap -L SWAP $SWAP_DEVICE > /dev/null 2>&1
     swapon $SWAP_DEVICE > /dev/null 2>&1
   

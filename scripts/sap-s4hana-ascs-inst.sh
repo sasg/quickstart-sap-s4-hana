@@ -291,6 +291,7 @@ set_filesystems() {
 	    mkfs.xfs $USR_SAP_VOLUME -L USR-SAP > /dev/null
 		echo "/dev/disk/by-label/USR-SAP  $USR_SAP xfs nobarrier,noatime,nodiratime,logbsize=256k 0 0" >> $FSTAB_FILE 2>&1
 	    [[ ${EFS} == "No" ]] && { mkfs.xfs $SAPMNT_VOLUME -L SAPMNT > /dev/null && mkdir $SAPMNT > /dev/null; }
+        cd /dev/disk/by-label; ln -s ${SAPMNT_VOLUME} SAPMNT > /dev/null
         mkswap -L SWAP $SWAP_DEVICE > /dev/null 2>&1
 	    swapon $SWAP_DEVICE > /dev/null 2>&1
 	    echo "/dev/disk/by-label/SWAP	swap swap defaults 0 0" >> $FSTAB_FILE 2>&1
