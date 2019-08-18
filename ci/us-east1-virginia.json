@@ -37,7 +37,7 @@
     },
     {
         "ParameterKey": "MyOSHANA",
-        "ParameterValue": "SuSE-Linux-15-For-SAP-HVM"
+        "ParameterValue": "SuSE-Linux-12-SP2-For-SAP-HVM"
     },
     {
         "ParameterKey": "SAPHANAHostname",
@@ -93,11 +93,11 @@
     },
     {
         "ParameterKey": "MyOS",
-        "ParameterValue": "SuSE-Linux-15-For-SAP-HVM"
+        "ParameterValue": "SuSE-Linux-12-SP2-For-SAP-HVM"
     },
     {
         "ParameterKey": "EFSSapmnt",
-        "ParameterValue": "Yes"
+        "ParameterValue": "No"
     },
     {
         "ParameterKey": "SAPASCSHostname",
