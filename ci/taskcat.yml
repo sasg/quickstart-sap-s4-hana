@@ -41,16 +41,16 @@ tests:
 #      - us-west-1
 #    template_file: sap-s4hana-new-vpc.template
 #    parameter_input: us-west1-california-2.json
-  1-Nsplit-Ne-Na:
-    regions:
-      - ap-northeast-1
-    template_file: sap-s4hana-new-vpc.template
-    parameter_input: ap-ne1-tokyo.json
-  2-Nsplit-Ne-Ya:
-    regions:
-      - us-west-1
-    template_file: sap-s4hana-new-vpc.template
-    parameter_input: us-west1-california.json
+#  1-Nsplit-Ne-Na:
+#    regions:
+#      - ap-northeast-1
+#    template_file: sap-s4hana-new-vpc.template
+#    parameter_input: ap-ne1-tokyo.json
+#  2-Nsplit-Ne-Ya:
+#    regions:
+#      - us-west-1
+#    template_file: sap-s4hana-new-vpc.template
+#    parameter_input: us-west1-california.json
   3-Nsplit-Ye-Na:
     regions:
       - us-east-1

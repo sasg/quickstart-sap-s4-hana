@@ -9,23 +9,23 @@
     },
     {
         "ParameterKey": "VPCCIDR",
-        "ParameterValue": "10.90.0.0/16"
+        "ParameterValue": "10.60.0.0/16"
     },
     {
         "ParameterKey": "PrivateSubnet1CIDR",
-        "ParameterValue": "10.90.0.0/19"
+        "ParameterValue": "10.60.0.0/19"
     },
     {
         "ParameterKey": "PrivateSubnet2CIDR",
-        "ParameterValue": "10.90.32.0/19"
+        "ParameterValue": "10.60.32.0/19"
     },
     {
         "ParameterKey": "PublicSubnet1CIDR",
-        "ParameterValue": "10.90.128.0/20"
+        "ParameterValue": "10.60.128.0/20"
     },
     {
         "ParameterKey": "PublicSubnet2CIDR",
-        "ParameterValue": "10.90.144.0/20"
+        "ParameterValue": "10.60.144.0/20"
     },
     {
         "ParameterKey": "RemoteAccessCIDR",
@@ -73,11 +73,11 @@
     },
     {
         "ParameterKey": "KeyName",
-        "ParameterValue": "s4-tc"
+        "ParameterValue": "test-tc"
     },
     {
         "ParameterKey": "HANAInstallMedia",
-        "ParameterValue": "s3://howard-s4-sw/hana20-s03-r33/"
+        "ParameterValue": "s3://howard-s4-swr/hana20-s03-r33/"
     },
     {
         "ParameterKey": "HostedZoneName",
@@ -153,7 +153,7 @@
     },
     {
         "ParameterKey": "SAPInstallMediaBucket",
-        "ParameterValue": "howard-s4-sw"
+        "ParameterValue": "howard-s4-swr"
     },
     {
         "ParameterKey": "SAPInstallMediaKeyPrefix",
