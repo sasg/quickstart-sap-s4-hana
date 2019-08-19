@@ -37,7 +37,7 @@
     },
     {
         "ParameterKey": "MyOSHANA",
-        "ParameterValue": "Red-Hat-Enterprise-Linux-7.6-For-SAP-HA-US-HVM"
+        "ParameterValue": "SuSE-Linux-12-SP2-For-SAP-HVM"
     },
     {
         "ParameterKey": "SAPHANAHostname",
@@ -93,7 +93,7 @@
     },
     {
         "ParameterKey": "MyOS",
-        "ParameterValue": "Red-Hat-Enterprise-Linux-7.6-For-SAP-HA-US-HVM"
+        "ParameterValue": "SuSE-Linux-12-SP2-For-SAP-HVM"
     },
     {
         "ParameterKey": "EFSSapmnt",
