@@ -9,23 +9,23 @@
     },
     {
         "ParameterKey": "VPCCIDR",
-        "ParameterValue": "10.60.0.0/16"
+        "ParameterValue": "10.90.0.0/16"
     },
     {
         "ParameterKey": "PrivateSubnet1CIDR",
-        "ParameterValue": "10.60.0.0/19"
+        "ParameterValue": "10.90.0.0/19"
     },
     {
         "ParameterKey": "PrivateSubnet2CIDR",
-        "ParameterValue": "10.60.32.0/19"
+        "ParameterValue": "10.90.32.0/19"
     },
     {
         "ParameterKey": "PublicSubnet1CIDR",
-        "ParameterValue": "10.60.128.0/20"
+        "ParameterValue": "10.90.128.0/20"
     },
     {
         "ParameterKey": "PublicSubnet2CIDR",
-        "ParameterValue": "10.60.144.0/20"
+        "ParameterValue": "10.90.144.0/20"
     },
     {
         "ParameterKey": "RemoteAccessCIDR",
@@ -37,7 +37,7 @@
     },
     {
         "ParameterKey": "MyOSHANA",
-        "ParameterValue": "SuSE-Linux-12-SP2-For-SAP-HVM"
+        "ParameterValue": "Red-Hat-Enterprise-Linux-7.6-For-SAP-HA-US-HVM"
     },
     {
         "ParameterKey": "SAPHANAHostname",
@@ -93,7 +93,7 @@
     },
     {
         "ParameterKey": "MyOS",
-        "ParameterValue": "SuSE-Linux-12-SP2-For-SAP-HVM"
+        "ParameterValue": "Red-Hat-Enterprise-Linux-7.6-For-SAP-HA-US-HVM"
     },
     {
         "ParameterKey": "EFSSapmnt",
