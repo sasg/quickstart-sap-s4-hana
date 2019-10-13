@@ -1073,7 +1073,7 @@
                 "SLES15HVM": "ami-00e34a7624e5a7107",
                 "SLES15SAPHVM": "ami-0ba91cdd03fe27cbf",
                 "SLES15SAPBYOSHVM": "ami-0f2f3c3d27f559437",
-                "WS2012R2": "ami-05c71b3ca4af2fbee"
+                "WS2012R2": "ami-05cd4c9c42e255074"
             },
             "us-west-2": {
                 "RHEL75SAPHVM": "ami-07894ab0a4a5e8612",
